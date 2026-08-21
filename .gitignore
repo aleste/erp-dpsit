@@ -1,0 +1,44 @@
+# ==============================================================================
+# Git Ignore - ERP DPSIT
+# ==============================================================================
+
+# Environment files
+.env
+.env.backup
+.env.production
+.env.local
+
+# Backend / Laravel
+backend/vendor/
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/framework/testing/*
+backend/bootstrap/cache/*.php
+!backend/bootstrap/cache/.gitkeep
+backend/.phpunit.result.cache
+backend/.env
+
+# Frontend / Nuxt 3 & Node
+frontend/node_modules/
+frontend/.nuxt/
+frontend/.output/
+frontend/dist/
+frontend/.nitro/
+frontend/.cache/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace

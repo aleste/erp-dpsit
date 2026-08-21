@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # 1. BASE DE DATOS: PostgreSQL 16
+  # -------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: erp_dpsit_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-erp_dpsit}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret_dpsit_2026}
+      TZ: ${APP_TIMEZONE:-America/Argentina/Buenos_Aires}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - erp_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_DATABASE:-erp_dpsit}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # -------------------------------------------------------------
+  # 2. BACKEND: Laravel 11 (PHP 8.3 FPM)
+  # -------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: erp_dpsit_backend
+    restart: unless-stopped
+    working_dir: /var/www/backend
+    environment:
+      APP_NAME: ${APP_NAME:-ERP DPSIT}
+      APP_ENV: ${APP_ENV:-local}
+      APP_DEBUG: ${APP_DEBUG:-true}
+      APP_KEY: ${APP_KEY:-base64:7K5Z8sKqY5w+0Hk3Q4X9l0gN6m1pB3rT8vU2wX5yZ0A=}
+      APP_TIMEZONE: ${APP_TIMEZONE:-America/Argentina/Buenos_Aires}
+      APP_URL: http://localhost:${BACKEND_PORT:-8000}
+      FRONTEND_URL: http://localhost:${FRONTEND_PORT:-3000}
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-erp_dpsit}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-secret_dpsit_2026}
+      FILESYSTEM_DISK: ${FILESYSTEM_DISK:-local}
+      AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial Rectora de Tecnología}
+      AGENCY_SHORT_NAME: ${AGENCY_SHORT_NAME:-DPSIT}
+      AGENCY_ACRONYM: ${AGENCY_ACRONYM:-DP}
+      AGENCY_GOVERNMENT: ${AGENCY_GOVERNMENT:-Poder Ejecutivo Provincial}
+      AGENCY_TAGLINE: ${AGENCY_TAGLINE:-Gobernanza TI Provincial}
+    volumes:
+      - ./backend:/var/www/backend
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - erp_network
+
+  # -------------------------------------------------------------
+  # 3. WEBSERVER: Nginx para Backend API
+  # -------------------------------------------------------------
+  webserver:
+    image: nginx:alpine
+    container_name: erp_dpsit_nginx
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8000}:80"
+    volumes:
+      - ./backend:/var/www/backend
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - erp_network
+
+  # -------------------------------------------------------------
+  # 4. FRONTEND: Nuxt 3 (Node.js 20 LTS)
+  # -------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    container_name: erp_dpsit_frontend
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      NUXT_PUBLIC_API_BASE: http://localhost:${BACKEND_PORT:-8000}/api
+      NUXT_PUBLIC_AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial Rectora de Tecnología}
+      NUXT_PUBLIC_AGENCY_SHORT_NAME: ${AGENCY_SHORT_NAME:-DPSIT}
+      NUXT_PUBLIC_AGENCY_ACRONYM: ${AGENCY_ACRONYM:-DP}
+      NUXT_PUBLIC_AGENCY_GOVERNMENT: ${AGENCY_GOVERNMENT:-Poder Ejecutivo Provincial}
+      NUXT_PUBLIC_AGENCY_TAGLINE: ${AGENCY_TAGLINE:-Gobernanza TI Provincial}
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.nuxt
+    depends_on:
+      - backend
+    networks:
+      - erp_network
+
+networks:
+  erp_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

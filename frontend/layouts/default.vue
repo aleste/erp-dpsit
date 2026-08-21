@@ -6,7 +6,7 @@
         <!-- Logotipo Institucional -->
         <div class="h-20 flex items-center px-6 bg-slate-950 border-b border-slate-800/80 gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-sky-500/20">
-            {{ agency.acronym }}
+          <!--  {{ agency.acronym }} --> 
           </div>
           <div class="truncate">
             <h1 class="font-extrabold text-sm tracking-wider uppercase text-white truncate">ERP {{ agency.shortName }}</h1>

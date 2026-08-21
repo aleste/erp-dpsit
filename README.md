@@ -1,4 +1,4 @@
-# ERP DPSIT - Dirección Provincial Rectora de Tecnología
+# ERP DPSIT - Dirección Provincial de Sistemas de Información y Tecnología
 
 Sistema ERP Integral para la gobernanza, rectoría y gestión transversal de tecnologías de la información a nivel provincial.
 

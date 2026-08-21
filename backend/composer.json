@@ -1,7 +1,7 @@
 {
     "name": "dpsit/erp-backend",
     "type": "project",
-    "description": "API REST ERP DPSIT - Dirección Provincial Rectora de Tecnología",
+    "description": "API REST ERP DPSIT - Dirección Provincial de Sistemas de Información y Tecnología",
     "keywords": ["framework", "laravel", "erp", "governance", "dpsit"],
     "license": "proprietary",
     "require": {

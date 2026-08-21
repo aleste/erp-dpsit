@@ -53,7 +53,7 @@ services:
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-secret_dpsit_2026}
       FILESYSTEM_DISK: ${FILESYSTEM_DISK:-local}
-      AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial Rectora de Tecnología}
+      AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial de Sistemas de Información y Tecnología}
       AGENCY_SHORT_NAME: ${AGENCY_SHORT_NAME:-DPSIT}
       AGENCY_ACRONYM: ${AGENCY_ACRONYM:-DP}
       AGENCY_GOVERNMENT: ${AGENCY_GOVERNMENT:-Poder Ejecutivo Provincial}
@@ -97,7 +97,7 @@ services:
     environment:
       NODE_ENV: development
       NUXT_PUBLIC_API_BASE: http://localhost:${BACKEND_PORT:-8000}/api
-      NUXT_PUBLIC_AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial Rectora de Tecnología}
+      NUXT_PUBLIC_AGENCY_NAME: ${AGENCY_NAME:-Dirección Provincial de Sistemas de Información y Tecnología}
       NUXT_PUBLIC_AGENCY_SHORT_NAME: ${AGENCY_SHORT_NAME:-DPSIT}
       NUXT_PUBLIC_AGENCY_ACRONYM: ${AGENCY_ACRONYM:-DP}
       NUXT_PUBLIC_AGENCY_GOVERNMENT: ${AGENCY_GOVERNMENT:-Poder Ejecutivo Provincial}

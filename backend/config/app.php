@@ -19,7 +19,7 @@ return [
 
     // Denominación Institucional de la Dirección Rectora
     'agency' => [
-        'name' => env('AGENCY_NAME', 'Dirección Provincial Rectora de Tecnología'),
+        'name' => env('AGENCY_NAME', 'Dirección Provincial de Sistemas de Información y Tecnología'),
         'short_name' => env('AGENCY_SHORT_NAME', 'DPSIT'),
         'acronym' => env('AGENCY_ACRONYM', 'DP'),
         'government' => env('AGENCY_GOVERNMENT', 'Poder Ejecutivo Provincial'),

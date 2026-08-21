@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 # Script de Inicialización y Despliegue en Linux (Ubuntu / Debian / Docker)
-# ERP DPSIT - Dirección Provincial Rectora de Tecnología
+# ERP DPSIT - Dirección Provincial de Sistemas de Información y Tecnología
 # ==============================================================================
 
 set -e

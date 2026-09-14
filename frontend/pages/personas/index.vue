@@ -672,16 +672,10 @@
         <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
-            <select
+            <PersonaSearchSelect
               v-model="formAsig.persona_id"
-              required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="" disabled>Seleccione Persona...</option>
-              <option v-for="p in personasList" :key="p.id" :value="p.id">
-                {{ p.apellido }}, {{ p.nombre }} (CUIL: {{ p.cuil_cuit }})
-              </option>
-            </select>
+              placeholder="Buscar agente por apellido, nombre o CUIL..."
+            />
           </div>
 
           <div>
@@ -1061,7 +1055,7 @@ const finalizarVigenciaDesdeFicha = async (asig) => {
 const openNewAsignacionModalDirect = async () => {
   await fetchAuxiliares()
   Object.assign(formAsig, {
-    persona_id: personasList.value[0]?.id || '',
+    persona_id: '',
     area_ti_id: areasList.value[0]?.id || '',
     tipo_rol_id: tiposRol.value[0]?.id || '',
     fecha_inicio: new Date().toISOString().split('T')[0],
@@ -1087,6 +1081,10 @@ const openAsignarModalParaPersona = async (p) => {
 }
 
 const saveAsignacion = async () => {
+  if (!formAsig.persona_id) {
+    toast.warning('Por favor seleccione un agente del padrón.')
+    return
+  }
   savingAsignacion.value = true
   try {
     const res = await post('/asignaciones-rol', formAsig)

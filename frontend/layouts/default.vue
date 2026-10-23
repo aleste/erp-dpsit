@@ -194,6 +194,30 @@
             </div>
           </div>
 
+          <!-- 6b. Firma Digital (Tokens) -->
+          <div class="relative group/item">
+            <NuxtLink
+              to="/firma-digital"
+              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              :class="[
+                route.path.startsWith('/firma-digital') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
+              ]"
+            >
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+              </svg>
+              <span v-show="!isCollapsed" class="truncate">Firma Digital (Tokens)</span>
+            </NuxtLink>
+
+            <div
+              v-if="isCollapsed"
+              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
+            >
+              <span>Firma Digital (Tokens)</span>
+            </div>
+          </div>
+
           <!-- SECCIÓN: Comunicaciones y Datos -->
           <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
             Comunicaciones y Datos

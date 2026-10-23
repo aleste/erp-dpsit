@@ -205,7 +205,7 @@
                       <button @click="openHistoryModal(p.id)" class="font-extrabold text-slate-900 hover:text-sky-600 transition text-left text-xs">
                         {{ p.apellido }}, {{ p.nombre }}
                       </button>
-                      <p class="text-[11px] text-slate-400 font-mono">CUIL: {{ p.cuil_cuit }}</p>
+                      <p class="text-[11px] text-slate-400 font-mono">{{ identificacion(p) }}</p>
                       <p v-if="p.titulo_profesional" class="text-[10px] text-indigo-600 font-bold">
                         🎓 {{ p.titulo_profesional }}
                       </p>
@@ -215,15 +215,16 @@
 
                 <!-- Contacto -->
                 <td class="py-3.5 px-4 space-y-0.5">
-                  <div class="flex items-center gap-1.5 text-slate-800">
+                  <div v-if="p.email_principal" class="flex items-center gap-1.5 text-slate-800">
                     <span class="text-slate-400 text-[10px]">✉️</span>
                     <a :href="`mailto:${p.email_principal}`" class="hover:text-sky-600 font-medium">{{ p.email_principal }}</a>
                   </div>
+                  <div v-else-if="!p.email_alternativo" class="text-[11px] text-orange-600">Sin email registrado</div>
                   <div v-if="p.email_alternativo" class="flex items-center gap-1.5 text-slate-400 text-[11px]">
                     <span class="text-slate-400 text-[10px]">↳</span>
                     <span>{{ p.email_alternativo }}</span>
                   </div>
-                  <div class="flex items-center gap-1.5 text-slate-600 text-[11px]">
+                  <div v-if="p.telefono_principal" class="flex items-center gap-1.5 text-slate-600 text-[11px]">
                     <span class="text-slate-400 text-[10px]">📞</span>
                     <span>{{ p.telefono_principal }}</span>
                   </div>
@@ -395,11 +396,10 @@
         <form @submit.prevent="savePersona" class="p-6 space-y-4 text-xs">
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">CUIL / CUIT *</label>
+              <label class="block font-bold text-slate-700 mb-1">CUIL / CUIT</label>
               <input
                 v-model="formPersona.cuil_cuit"
                 type="text"
-                required
                 placeholder="20-12345678-9"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
@@ -411,6 +411,29 @@
                 type="text"
                 placeholder="Ej: Lic. en Sistemas, Ing. TI"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Tipo de Documento</label>
+              <select
+                v-model="formPersona.tipo_documento"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              >
+                <option value="">Sin documento</option>
+                <option v-for="t in tiposDocumento" :key="t" :value="t">{{ t }}</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Número de Documento</label>
+              <input
+                v-model="formPersona.numero_documento"
+                type="text"
+                :required="!!formPersona.tipo_documento"
+                placeholder="Ej: 30123456"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
           </div>
@@ -440,11 +463,10 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Email Principal *</label>
+              <label class="block font-bold text-slate-700 mb-1">Email Principal</label>
               <input
                 v-model="formPersona.email_principal"
                 type="email"
-                required
                 placeholder="jperez@organismo.gob.ar"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
@@ -462,11 +484,10 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Teléfono Principal *</label>
+              <label class="block font-bold text-slate-700 mb-1">Teléfono Principal</label>
               <input
                 v-model="formPersona.telefono_principal"
                 type="text"
-                required
                 placeholder="0221-429-0000"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
@@ -526,7 +547,7 @@
             <div>
               <span class="text-[10px] uppercase font-bold text-sky-400 tracking-wider">Ficha Integral de Capital Humano</span>
               <h2 class="text-xl font-bold mt-0.5">{{ selectedPersona.apellido }}, {{ selectedPersona.nombre }}</h2>
-              <p class="text-xs text-slate-300">CUIL: {{ selectedPersona.cuil_cuit }} | {{ selectedPersona.titulo_profesional || 'Profesional TI' }}</p>
+              <p class="text-xs text-slate-300">{{ identificacion(selectedPersona) }} | {{ selectedPersona.titulo_profesional || 'Profesional TI' }}</p>
             </div>
           </div>
           <button @click="selectedPersona = null" class="p-2 text-slate-400 hover:text-white rounded-lg">✕</button>
@@ -538,12 +559,12 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
             <div>
               <p class="text-slate-400 font-bold uppercase text-[10px]">Correos Electrónicos</p>
-              <p class="font-semibold text-slate-800 mt-0.5">✉️ {{ selectedPersona.email_principal }} (Principal)</p>
+              <p class="font-semibold text-slate-800 mt-0.5">✉️ {{ selectedPersona.email_principal || 'Sin email registrado' }} (Principal)</p>
               <p v-if="selectedPersona.email_alternativo" class="text-slate-600 mt-0.5">↳ {{ selectedPersona.email_alternativo }} (Alternativo)</p>
             </div>
             <div>
               <p class="text-slate-400 font-bold uppercase text-[10px]">Teléfonos de Contacto</p>
-              <p class="font-semibold text-slate-800 mt-0.5">📞 {{ selectedPersona.telefono_principal }} (Principal)</p>
+              <p class="font-semibold text-slate-800 mt-0.5">📞 {{ selectedPersona.telefono_principal || 'Sin teléfono registrado' }} (Principal)</p>
               <p v-if="selectedPersona.telefono_alternativo" class="text-slate-600 mt-0.5">↳ {{ selectedPersona.telefono_alternativo }} (Alternativo)</p>
             </div>
           </div>
@@ -811,9 +832,20 @@ const selectedPersona = ref(null)
 const showCreateModal = ref(false)
 const isEditing = ref(false)
 
+const tiposDocumento = ['DNI', 'PASAPORTE', 'CI', 'LC', 'LE', 'OTRO']
+
+// CUIL o, si no tiene, documento de identidad (personas externas al ERP)
+const identificacion = (p) => {
+  if (p?.cuil_cuit) return `CUIL: ${p.cuil_cuit}`
+  if (p?.numero_documento) return `${p.tipo_documento}: ${p.numero_documento}`
+  return 'Sin CUIL / documento'
+}
+
 const formPersona = reactive({
   id: null,
   cuil_cuit: '',
+  tipo_documento: '',
+  numero_documento: '',
   apellido: '',
   nombre: '',
   email_principal: '',
@@ -927,6 +959,8 @@ const openCreateModal = () => {
   Object.assign(formPersona, {
     id: null,
     cuil_cuit: '',
+    tipo_documento: '',
+    numero_documento: '',
     apellido: '',
     nombre: '',
     email_principal: '',
@@ -944,12 +978,14 @@ const openEditModal = (p) => {
   isEditing.value = true
   Object.assign(formPersona, {
     id: p.id,
-    cuil_cuit: p.cuil_cuit,
+    cuil_cuit: p.cuil_cuit || '',
+    tipo_documento: p.tipo_documento || '',
+    numero_documento: p.numero_documento || '',
     apellido: p.apellido,
     nombre: p.nombre,
-    email_principal: p.email_principal,
+    email_principal: p.email_principal || '',
     email_alternativo: p.email_alternativo || '',
-    telefono_principal: p.telefono_principal,
+    telefono_principal: p.telefono_principal || '',
     telefono_alternativo: p.telefono_alternativo || '',
     titulo_profesional: p.titulo_profesional || '',
     observaciones: p.observaciones || '',
@@ -986,7 +1022,7 @@ const savePersona = async () => {
 const confirmDeletePersona = async (p) => {
   const confirmed = await confirmDialog({
     title: 'Eliminar Persona del Padrón',
-    message: `¿Está seguro de eliminar a ${p.apellido}, ${p.nombre} (${p.cuil_cuit}) del padrón provincial?`,
+    message: `¿Está seguro de eliminar a ${p.apellido}, ${p.nombre} (${identificacion(p)}) del padrón provincial?`,
     confirmText: 'Sí, eliminar',
     cancelText: 'Cancelar',
     type: 'danger',

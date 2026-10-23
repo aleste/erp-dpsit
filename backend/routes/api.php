@@ -4,8 +4,11 @@ use App\Http\Controllers\Api\AreaTiController;
 use App\Http\Controllers\Api\AsignacionRolController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogoServicioController;
+use App\Http\Controllers\Api\CertificadoFirmaController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\DispositivoFirmaController;
 use App\Http\Controllers\Api\DocumentoAdjuntoController;
+use App\Http\Controllers\Api\EntregaTokenController;
 use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\MinisterioController;
 use App\Http\Controllers\Api\PersonaController;
@@ -63,6 +66,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/servicios-areas', [ServicioAreaController::class, 'index']);
     Route::get('/servicios-areas/{id}', [ServicioAreaController::class, 'show']);
 
+    // Firma digital: entregas de tokens, dispositivos y seguimiento de certificados
+    Route::get('/firma-digital/parametros', [CertificadoFirmaController::class, 'parametros']);
+    Route::get('/firma-digital/entregas', [EntregaTokenController::class, 'index']);
+    Route::get('/firma-digital/entregas/{id}', [EntregaTokenController::class, 'show']);
+    Route::get('/firma-digital/certificados', [CertificadoFirmaController::class, 'index']);
+    Route::get('/firma-digital/dispositivos', [DispositivoFirmaController::class, 'index']);
+    Route::get('/firma-digital/dispositivos/{id}', [DispositivoFirmaController::class, 'show']);
+
     // =========================================================================
     // OPERACIONES DE ESCRITURA / MODIFICACIÓN (Editor, Administrador)
     // =========================================================================
@@ -98,6 +109,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Documentos Adjuntos
         Route::post('/documentos/upload', [DocumentoAdjuntoController::class, 'upload']);
+
+        // Firma digital
+        Route::post('/firma-digital/entregas', [EntregaTokenController::class, 'store']);
+        Route::put('/firma-digital/entregas/{id}', [EntregaTokenController::class, 'update']);
+        Route::post('/firma-digital/entregas/{id}/finalizar', [EntregaTokenController::class, 'finalizar']);
+        Route::post('/firma-digital/entregas/{id}/certificados', [CertificadoFirmaController::class, 'store']);
+        Route::put('/firma-digital/certificados/{id}', [CertificadoFirmaController::class, 'update']);
+        Route::post('/firma-digital/certificados/{id}/reprogramar-recordatorio', [CertificadoFirmaController::class, 'reprogramarRecordatorio']);
+        Route::post('/firma-digital/dispositivos', [DispositivoFirmaController::class, 'store']);
+        Route::put('/firma-digital/dispositivos/{id}', [DispositivoFirmaController::class, 'update']);
     });
 
     // =========================================================================
@@ -114,5 +135,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/catalogo-servicios/{id}', [CatalogoServicioController::class, 'destroy']);
         Route::delete('/servicios-areas/{id}', [ServicioAreaController::class, 'destroy']);
         Route::delete('/documentos/{id}', [DocumentoAdjuntoController::class, 'destroy']);
+        Route::delete('/firma-digital/entregas/{id}', [EntregaTokenController::class, 'destroy']);
+        Route::delete('/firma-digital/dispositivos/{id}', [DispositivoFirmaController::class, 'destroy']);
     });
 });

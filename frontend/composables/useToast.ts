@@ -26,6 +26,14 @@ const fieldLabels: Record<string, string> = {
   tipo_documento: 'tipo de documento',
   archivo: 'archivo adjunto',
   observaciones: 'observaciones',
+  numero_documento: 'número de documento',
+  organismo_externo: 'organismo externo',
+  cargo_funcion: 'cargo o función',
+  fecha_entrega: 'fecha de entrega',
+  fecha_vencimiento: 'fecha de vencimiento',
+  fecha_recordatorio: 'fecha del recordatorio',
+  numero_serie: 'número de serie',
+  dispositivo_firma_id: 'dispositivo',
 }
 
 // Diccionario de traducciones exactas de mensajes frecuentes de Laravel

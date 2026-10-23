@@ -7,6 +7,7 @@ use App\Models\Persona;
 use App\Services\AuditService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PersonaController extends Controller
 {
@@ -22,11 +23,12 @@ class PersonaController extends Controller
             $term = trim($request->q);
             $query->where(function ($q) use ($term) {
                 $q->where('apellido', 'ILIKE', "%{$term}%")
-                  ->orWhere('nombre', 'ILIKE', "%{$term}%")
-                  ->orWhere('cuil_cuit', 'LIKE', "%{$term}%")
-                  ->orWhere('email_principal', 'ILIKE', "%{$term}%")
-                  ->orWhere('email_alternativo', 'ILIKE', "%{$term}%")
-                  ->orWhere('titulo_profesional', 'ILIKE', "%{$term}%");
+                    ->orWhere('nombre', 'ILIKE', "%{$term}%")
+                    ->orWhere('cuil_cuit', 'LIKE', "%{$term}%")
+                    ->orWhere('numero_documento', 'ILIKE', "%{$term}%")
+                    ->orWhere('email_principal', 'ILIKE', "%{$term}%")
+                    ->orWhere('email_alternativo', 'ILIKE', "%{$term}%")
+                    ->orWhere('titulo_profesional', 'ILIKE', "%{$term}%");
             });
         }
 
@@ -97,11 +99,14 @@ class PersonaController extends Controller
         $persona = Persona::with([
             'asignaciones' => function ($q) {
                 $q->with(['areaTi.ministerio', 'tipoRol', 'documentos'])
-                  ->orderByDesc('fecha_inicio');
+                    ->orderByDesc('fecha_inicio');
             },
             'serviciosComoReferente.servicioArea.catalogoServicio',
             'serviciosComoReferente.servicioArea.areaTi.ministerio',
             'documentos',
+            'entregasToken' => function ($q) {
+                $q->with(['dispositivo', 'ministerio', 'certificadoActual'])->orderByDesc('fecha_entrega');
+            },
         ])->findOrFail($id);
 
         return response()->json([
@@ -113,12 +118,17 @@ class PersonaController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'cuil_cuit' => 'required|string|max:13|unique:personas,cuil_cuit',
+            'cuil_cuit' => 'nullable|string|max:13|unique:personas,cuil_cuit',
+            'tipo_documento' => 'nullable|required_with:numero_documento|in:'.implode(',', Persona::TIPOS_DOCUMENTO),
+            'numero_documento' => [
+                'nullable', 'required_with:tipo_documento', 'string', 'max:30',
+                Rule::unique('personas', 'numero_documento')->where('tipo_documento', $request->tipo_documento),
+            ],
             'apellido' => 'required|string|max:100',
             'nombre' => 'required|string|max:100',
-            'email_principal' => 'required|email|max:255|unique:personas,email_principal',
+            'email_principal' => 'nullable|email|max:255|unique:personas,email_principal',
             'email_alternativo' => 'nullable|email|max:255',
-            'telefono_principal' => 'required|string|max:50',
+            'telefono_principal' => 'nullable|string|max:50',
             'telefono_alternativo' => 'nullable|string|max:50',
             'titulo_profesional' => 'nullable|string|max:150',
             'observaciones' => 'nullable|string',
@@ -141,12 +151,17 @@ class PersonaController extends Controller
         $anterior = $persona->toArray();
 
         $validated = $request->validate([
-            'cuil_cuit' => "required|string|max:13|unique:personas,cuil_cuit,{$id}",
+            'cuil_cuit' => "nullable|string|max:13|unique:personas,cuil_cuit,{$id}",
+            'tipo_documento' => 'nullable|required_with:numero_documento|in:'.implode(',', Persona::TIPOS_DOCUMENTO),
+            'numero_documento' => [
+                'nullable', 'required_with:tipo_documento', 'string', 'max:30',
+                Rule::unique('personas', 'numero_documento')->where('tipo_documento', $request->tipo_documento)->ignore($id),
+            ],
             'apellido' => 'required|string|max:100',
             'nombre' => 'required|string|max:100',
-            'email_principal' => "required|email|max:255|unique:personas,email_principal,{$id}",
+            'email_principal' => "nullable|email|max:255|unique:personas,email_principal,{$id}",
             'email_alternativo' => 'nullable|email|max:255',
-            'telefono_principal' => 'required|string|max:50',
+            'telefono_principal' => 'nullable|string|max:50',
             'telefono_alternativo' => 'nullable|string|max:50',
             'titulo_profesional' => 'nullable|string|max:150',
             'observaciones' => 'nullable|string',

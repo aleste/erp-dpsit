@@ -80,7 +80,8 @@ sleep 5
 
 echo "📦 Instalando Composer y corriendo migraciones..."
 wslc exec erp_backend composer install --no-interaction --prefer-dist --optimize-autoloader
-wslc exec erp_backend php artisan migrate:fresh --seed --force
+# Conserva los datos: solo migraciones pendientes (para recrear la base usar wslc-setup.ps1 -Reset)
+wslc exec erp_backend php artisan migrate --force
 
 echo "=========================================================="
 echo " ✅ Sistema ERP DPSIT operativo con WSLC!"

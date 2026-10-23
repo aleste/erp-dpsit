@@ -58,12 +58,59 @@ services:
       AGENCY_ACRONYM: ${AGENCY_ACRONYM:-DP}
       AGENCY_GOVERNMENT: ${AGENCY_GOVERNMENT:-Poder Ejecutivo Provincial}
       AGENCY_TAGLINE: ${AGENCY_TAGLINE:-Gobernanza TI Provincial}
+      MAIL_MAILER: ${MAIL_MAILER:-smtp}
+      MAIL_HOST: ${MAIL_HOST:-mailpit}
+      MAIL_PORT: ${MAIL_PORT:-1025}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:-no-responder@dpsit.local}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-ERP DPSIT}
+      FIRMA_VIGENCIA_MESES: ${FIRMA_VIGENCIA_MESES:-12}
+      FIRMA_RECORDATORIO_DIAS: ${FIRMA_RECORDATORIO_DIAS:-30}
+      FIRMA_RECORDATORIO_HORA: ${FIRMA_RECORDATORIO_HORA:-08:00}
+      FIRMA_RECORDATORIO_MAX_INTENTOS: ${FIRMA_RECORDATORIO_MAX_INTENTOS:-3}
     volumes:
       - ./backend:/var/www/backend
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - erp_network
+
+  # -------------------------------------------------------------
+  # 2b. SCHEDULER: tareas programadas de Laravel (recordatorios de firma digital)
+  # -------------------------------------------------------------
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: erp_dpsit_scheduler
+    restart: unless-stopped
+    working_dir: /var/www/backend
+    command: ["php", "artisan", "schedule:work"]
+    # Mismas variables que el backend, tomadas del .env de la raíz
+    env_file:
+      - .env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+    volumes:
+      - ./backend:/var/www/backend
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - backend
+      - mailpit
+    networks:
+      - erp_network
+
+  # -------------------------------------------------------------
+  # 2c. MAILPIT: correo de desarrollo (captura todo, NO reenvía). Buzón: http://localhost:8025
+  # -------------------------------------------------------------
+  mailpit:
+    image: axllent/mailpit:v1.31.2
+    container_name: erp_dpsit_mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025"
     networks:
       - erp_network
 

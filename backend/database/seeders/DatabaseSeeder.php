@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CatalogoServicioSeeder::class,
             ServicioAreaSeeder::class,
             UserSeeder::class,
+            FirmaDigitalSeeder::class,
+            ExpedientesCatalogoSeeder::class,
         ]);
     }
 }

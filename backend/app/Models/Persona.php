@@ -15,8 +15,12 @@ class Persona extends Model
 
     protected $table = 'personas';
 
+    public const TIPOS_DOCUMENTO = ['DNI', 'PASAPORTE', 'CI', 'LC', 'LE', 'OTRO'];
+
     protected $fillable = [
         'cuil_cuit',
+        'tipo_documento',
+        'numero_documento',
         'apellido',
         'nombre',
         'email_principal',
@@ -62,6 +66,11 @@ class Persona extends Model
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'persona_id');
+    }
+
+    public function entregasToken(): HasMany
+    {
+        return $this->hasMany(EntregaToken::class, 'persona_id');
     }
 
     public function documentos(): MorphMany

@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\CheckModuloAcceso;
 use App\Http\Middleware\CheckPerfilAcceso;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'perfil' => CheckPerfilAcceso::class,
+            'modulo' => CheckModuloAcceso::class,
         ]);
 
         $middleware->api(prepend: [

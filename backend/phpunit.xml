@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <!--
+            force="true" (en <env> y en <server>) es obligatorio: los contenedores reciben DB_DATABASE como variable de entorno
+            real y, sin forzar, los tests correrían (y RefreshDatabase borraría) sobre la base de desarrollo.
+            Tests\TestCase además aborta si la base no termina en "_test".
+        -->
+        <env name="APP_ENV" value="testing" force="true"/>
+        <env name="DB_CONNECTION" value="pgsql" force="true"/>
+        <env name="DB_DATABASE" value="erp_dpsit_test" force="true"/>
+        <env name="CACHE_STORE" value="array" force="true"/>
+        <env name="SESSION_DRIVER" value="array" force="true"/>
+        <env name="MAIL_MAILER" value="array" force="true"/>
+        <env name="QUEUE_CONNECTION" value="sync" force="true"/>
+        <env name="BCRYPT_ROUNDS" value="4" force="true"/>
+        <env name="FIRMA_VIGENCIA_MESES" value="12" force="true"/>
+        <env name="FIRMA_RECORDATORIO_DIAS" value="30" force="true"/>
+        <env name="FIRMA_RECORDATORIO_MAX_INTENTOS" value="3" force="true"/>
+        <!-- Las variables reales del contenedor viven en $_SERVER, que Laravel lee primero -->
+        <server name="APP_ENV" value="testing" force="true"/>
+        <server name="DB_CONNECTION" value="pgsql" force="true"/>
+        <server name="DB_DATABASE" value="erp_dpsit_test" force="true"/>
+        <server name="CACHE_STORE" value="array" force="true"/>
+        <server name="SESSION_DRIVER" value="array" force="true"/>
+        <server name="MAIL_MAILER" value="array" force="true"/>
+        <server name="QUEUE_CONNECTION" value="sync" force="true"/>
+        <server name="BCRYPT_ROUNDS" value="4" force="true"/>
+        <server name="FIRMA_VIGENCIA_MESES" value="12" force="true"/>
+        <server name="FIRMA_RECORDATORIO_DIAS" value="30" force="true"/>
+        <server name="FIRMA_RECORDATORIO_MAX_INTENTOS" value="3" force="true"/>
+    </php>
+</phpunit>

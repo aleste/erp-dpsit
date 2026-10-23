@@ -6,6 +6,13 @@ interface User {
   email: string
   perfil_acceso: 'ADMINISTRADOR' | 'EDITOR' | 'LECTOR'
   persona_id?: number | null
+  // Rol efectivo por módulo (D-26), p. ej. { EXPEDIENTES: 'OPERADOR' }
+  modulos?: Record<string, string>
+}
+
+// Roles de cada módulo, de menor a mayor (igual que UserModulo::ROLES en el backend)
+const ROLES_MODULO: Record<string, string[]> = {
+  EXPEDIENTES: ['CONSULTA', 'OPERADOR', 'SUPERVISOR'],
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -24,6 +31,13 @@ export const useAuthStore = defineStore('auth', {
     isAdmin: (state) => state.user?.perfil_acceso === 'ADMINISTRADOR',
     isEditor: (state) => state.user?.perfil_acceso === 'ADMINISTRADOR' || state.user?.perfil_acceso === 'EDITOR',
     isLector: (state) => !!state.user,
+    rolModulo: (state) => (modulo: string): string | null => state.user?.modulos?.[modulo] ?? null,
+    // Solo para mostrar u ocultar opciones: la autorización real la aplica el backend
+    puedeModulo: (state) => (modulo: string, rolMinimo: string): boolean => {
+      const roles = ROLES_MODULO[modulo] || []
+      const actual = roles.indexOf(state.user?.modulos?.[modulo] ?? '')
+      return actual >= 0 && actual >= roles.indexOf(rolMinimo)
+    },
     userProfileLabel: (state) => {
       switch (state.user?.perfil_acceso) {
         case 'ADMINISTRADOR': return 'Administrador Provincial'
@@ -41,6 +55,23 @@ export const useAuthStore = defineStore('auth', {
       if (typeof window !== 'undefined') {
         localStorage.setItem('dpsit_user', JSON.stringify(user))
         localStorage.setItem('dpsit_token', token)
+      }
+    },
+
+    // Actualiza los datos del usuario (p. ej. roles por módulo asignados después del login)
+    async refrescarUsuario() {
+      if (!this.token) return
+      const config = useRuntimeConfig()
+      try {
+        const res: any = await $fetch(`${config.public.apiBase}/auth/user`, {
+          headers: { Authorization: `Bearer ${this.token}`, Accept: 'application/json' },
+        })
+        if (res?.success && res.user) {
+          const { id, name, email, perfil_acceso, persona_id, modulos } = res.user
+          this.setAuth({ id, name, email, perfil_acceso, persona_id, modulos: Array.isArray(modulos) ? {} : modulos }, this.token)
+        }
+      } catch (e: any) {
+        if (e?.status === 401) this.logout()
       }
     },
 

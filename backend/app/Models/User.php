@@ -45,6 +45,39 @@ class User extends Authenticatable
         return $this->hasMany(AuditLog::class, 'user_id');
     }
 
+    public function modulos(): HasMany
+    {
+        return $this->hasMany(UserModulo::class, 'user_id');
+    }
+
+    /**
+     * Rol del usuario en un módulo (null si no tiene acceso). El ADMINISTRADOR global tiene el rol máximo.
+     */
+    public function rolEnModulo(string $modulo): ?string
+    {
+        if ($this->esAdmin()) {
+            return last(UserModulo::ROLES[$modulo] ?? [null]);
+        }
+
+        return $this->modulos->firstWhere('modulo', $modulo)?->rol;
+    }
+
+    /**
+     * Mapa módulo => rol efectivo (solo los módulos a los que tiene acceso), para la interfaz
+     */
+    public function modulosAcceso(): array
+    {
+        return collect(array_keys(UserModulo::ROLES))
+            ->mapWithKeys(fn ($m) => [$m => $this->rolEnModulo($m)])
+            ->filter()
+            ->all();
+    }
+
+    public function puedeEnModulo(string $modulo, string $rolMinimo): bool
+    {
+        return $this->activo && UserModulo::alcanza($modulo, $this->rolEnModulo($modulo), $rolMinimo);
+    }
+
     public function esAdmin(): bool
     {
         return $this->perfil_acceso === 'ADMINISTRADOR';

@@ -50,6 +50,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'perfil_acceso' => $user->perfil_acceso,
                 'persona_id' => $user->persona_id,
+                'modulos' => $user->modulosAcceso(),
             ],
         ]);
     }
@@ -59,7 +60,7 @@ class AuthController extends Controller
         $user = $request->user()->load('persona');
         return response()->json([
             'success' => true,
-            'user' => $user,
+            'user' => array_merge($user->toArray(), ['modulos' => $user->modulosAcceso()]),
         ]);
     }
 

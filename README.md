@@ -2,6 +2,11 @@
 
 Sistema ERP Integral para la gobernanza, rectoría y gestión transversal de tecnologías de la información a nivel provincial.
 
+> 📚 **Documentación técnica y estado del proyecto:** ver [`docs/README.md`](docs/README.md).
+> Instrucciones para agentes de IA y colaboradores: [`AGENTS.md`](AGENTS.md).
+> `wslc-setup.ps1` y `setup.sh` conservan los datos; solo `-Reset` / `--reset` recrean la base.
+> Correo de desarrollo: Mailpit en http://localhost:8025 (captura todo, no envía a internet).
+
 ---
 
 ## 🏛️ Arquitectura del Sistema
@@ -78,8 +83,11 @@ Podés usar los scripts directos o el `Makefile`:
 En la máquina con Windows, podés continuar trabajando utilizando PowerShell:
 
 ```powershell
-# Levantar el stack completo con WSLC:
+# Levantar el stack completo con WSLC (conserva los datos):
 .\wslc-setup.ps1
+
+# Recrear la base con datos demo (borra todo, pide confirmación):
+.\wslc-setup.ps1 -Reset
 
 # Detener los contenedores:
 .\wslc-down.ps1
@@ -105,9 +113,10 @@ git push origin main
 ```bash
 git pull origin main
 
-# Si hubo cambios en migraciones o base de datos:
-make fresh          # En Linux
-# o: wslc exec erp_backend php artisan migrate:fresh --seed --force  # En Windows
+# Si hubo cambios en migraciones (conserva los datos):
+make migrate        # En Linux
+# o: wslc exec erp_backend php artisan migrate --force  # En Windows
+# (make fresh / wslc-setup.ps1 -Reset BORRAN la base: solo si se aceptan perder los datos locales)
 
 # Si cambiaste variables de entorno:
 ./sync-env.sh       # En Linux
@@ -122,6 +131,7 @@ make fresh          # En Linux
 | :--- | :--- | :--- |
 | **Frontend Nuxt 3** | [http://localhost:3000](http://localhost:3000) | Interfaz de Usuario y Gestión Integral |
 | **Backend API** | [http://localhost:8000/api](http://localhost:8000/api) | API RESTful protegida con Laravel Sanctum |
+| **Mailpit (correo de desarrollo)** | [http://localhost:8025](http://localhost:8025) | Buzón donde quedan capturados los correos (no se envían a internet) |
 | **PostgreSQL** | `localhost:5432` | DB: `erp_dpsit` / User: `postgres` / Pass: `secret_dpsit_2026` |
 
 ---

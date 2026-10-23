@@ -6,6 +6,18 @@
 
 set -e
 
+# Uso: ./setup.sh            conserva los datos de la base
+#      ./setup.sh --reset    BORRA y recrea la base con datos demo (pide confirmación)
+RESET=0
+if [ "$1" = "--reset" ]; then
+    read -r -p "⚠️  --reset BORRARÁ TODOS LOS DATOS de la base. Escriba BORRAR para continuar: " CONFIRMA
+    if [ "$CONFIRMA" != "BORRAR" ]; then
+        echo "Operación cancelada. No se modificó nada."
+        exit 1
+    fi
+    RESET=1
+fi
+
 # Colores para salida de terminal
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -74,7 +86,20 @@ echo -e "${YELLOW}🔑 Verificando clave de aplicación y ejecutando migraciones
 $DOCKER_COMPOSE exec -T backend php artisan package:discover
 $DOCKER_COMPOSE exec -T backend php artisan key:generate --force
 $DOCKER_COMPOSE exec -T backend php artisan storage:link 2>/dev/null || true
-$DOCKER_COMPOSE exec -T backend php artisan migrate:fresh --seed --force
+if [ "$RESET" = "1" ]; then
+    echo -e "${RED}⚠️  --reset: recreando la base de datos con datos demo (se pierden los datos)...${NC}"
+    $DOCKER_COMPOSE exec -T backend php artisan migrate:fresh --seed --force
+else
+    # Por defecto se conservan los datos: migraciones pendientes y seed solo si la base está vacía
+    $DOCKER_COMPOSE exec -T backend php artisan migrate --force
+    USUARIOS=$($DOCKER_COMPOSE exec -T backend php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null | tail -n 1 | tr -d '[:space:]')
+    if [ "$USUARIOS" = "0" ]; then
+        echo -e "${YELLOW}🌱 Base de datos vacía: cargando datos demo...${NC}"
+        $DOCKER_COMPOSE exec -T backend php artisan db:seed --force
+    else
+        echo -e "${GREEN}✓ La base ya contiene datos; no se ejecutan seeders.${NC}"
+    fi
+fi
 
 # 8. Limpieza de caché
 $DOCKER_COMPOSE exec -T backend php artisan optimize:clear
@@ -87,6 +112,7 @@ echo ""
 echo -e " 🌐 ${BLUE}Frontend Nuxt 3:${NC}  http://localhost:3000"
 echo -e " 🔌 ${BLUE}Backend API:${NC}      http://localhost:8000/api"
 echo -e " 🗄️  ${BLUE}PostgreSQL:${NC}       localhost:5432 (DB: erp_dpsit)"
+echo -e " 📬 ${BLUE}Mailpit:${NC}          http://localhost:8025"
 echo ""
 echo -e " 🔑 ${YELLOW}Credenciales de Acceso Inicial:${NC}"
 echo -e "    • ${GREEN}Administrador:${NC} admin@dpsit.gob.ar  | password: admin123"

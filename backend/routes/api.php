@@ -9,11 +9,15 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DispositivoFirmaController;
 use App\Http\Controllers\Api\DocumentoAdjuntoController;
 use App\Http\Controllers\Api\EntregaTokenController;
+use App\Http\Controllers\Api\ExpedienteCatalogoController;
+use App\Http\Controllers\Api\ExpedienteController;
+use App\Http\Controllers\Api\ExpedienteIntervencionController;
 use App\Http\Controllers\Api\ExportController;
 use App\Http\Controllers\Api\MinisterioController;
 use App\Http\Controllers\Api\PersonaController;
 use App\Http\Controllers\Api\ServicioAreaController;
 use App\Http\Controllers\Api\TipoRolController;
+use App\Http\Controllers\Api\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +77,42 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/firma-digital/certificados', [CertificadoFirmaController::class, 'index']);
     Route::get('/firma-digital/dispositivos', [DispositivoFirmaController::class, 'index']);
     Route::get('/firma-digital/dispositivos/{id}', [DispositivoFirmaController::class, 'show']);
+
+    // =========================================================================
+    // EXPEDIENTES: permiso por módulo (D-26), independiente del perfil global
+    // =========================================================================
+    Route::prefix('expedientes')->group(function () {
+        Route::middleware('modulo:EXPEDIENTES,CONSULTA')->group(function () {
+            Route::get('/', [ExpedienteController::class, 'index']);
+            Route::get('/tablero', [ExpedienteController::class, 'tablero']);
+            Route::get('/opciones', [ExpedienteController::class, 'opciones']);
+            Route::get('/buscar-numero', [ExpedienteController::class, 'buscarNumero']);
+            Route::get('/exportar', [ExpedienteController::class, 'exportar']);
+            Route::get('/{id}', [ExpedienteController::class, 'show'])->whereNumber('id');
+        });
+
+        Route::middleware('modulo:EXPEDIENTES,OPERADOR')->group(function () {
+            Route::post('/', [ExpedienteController::class, 'store']);
+            Route::put('/intervenciones/{id}', [ExpedienteIntervencionController::class, 'update']);
+            Route::post('/intervenciones/{id}/asignar', [ExpedienteIntervencionController::class, 'asignar']);
+            Route::post('/intervenciones/{id}/estado', [ExpedienteIntervencionController::class, 'cambiarEstado']);
+            Route::post('/intervenciones/{id}/revision', [ExpedienteIntervencionController::class, 'enviarRevision']);
+            Route::post('/intervenciones/{id}/firma', [ExpedienteIntervencionController::class, 'firma']);
+            Route::post('/intervenciones/{id}/egreso', [ExpedienteIntervencionController::class, 'egresar']);
+            Route::post('/intervenciones/{id}/notas', [ExpedienteIntervencionController::class, 'nota']);
+        });
+
+        Route::middleware('modulo:EXPEDIENTES,SUPERVISOR')->group(function () {
+            Route::post('/intervenciones/{id}/reabrir', [ExpedienteIntervencionController::class, 'reabrir']);
+            Route::post('/intervenciones/{id}/corregir-fechas', [ExpedienteIntervencionController::class, 'corregirFechas']);
+        });
+
+        Route::middleware('perfil:ADMINISTRADOR')->group(function () {
+            Route::post('/catalogos/{catalogo}', [ExpedienteCatalogoController::class, 'store']);
+            Route::put('/catalogos/{catalogo}/{id}', [ExpedienteCatalogoController::class, 'update']);
+            Route::delete('/{id}', [ExpedienteController::class, 'destroy'])->whereNumber('id');
+        });
+    });
 
     // =========================================================================
     // OPERACIONES DE ESCRITURA / MODIFICACIÓN (Editor, Administrador)
@@ -137,5 +177,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/documentos/{id}', [DocumentoAdjuntoController::class, 'destroy']);
         Route::delete('/firma-digital/entregas/{id}', [EntregaTokenController::class, 'destroy']);
         Route::delete('/firma-digital/dispositivos/{id}', [DispositivoFirmaController::class, 'destroy']);
+
+        // Administración de usuarios (D-27)
+        Route::get('/usuarios', [UsuarioController::class, 'index']);
+        Route::post('/usuarios', [UsuarioController::class, 'store']);
+        Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
     });
 });

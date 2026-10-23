@@ -218,6 +218,37 @@
             </div>
           </div>
 
+          <!-- SECCIÓN: Gestión Administrativa (permiso por módulo) -->
+          <template v-if="authStore.puedeModulo('EXPEDIENTES', 'CONSULTA')">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              Gestión Administrativa
+            </div>
+            <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+
+          <div v-if="true" class="relative group/item">
+            <NuxtLink
+              to="/expedientes"
+              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              :class="[
+                route.path.startsWith('/expedientes') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
+              ]"
+            >
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span v-show="!isCollapsed" class="truncate">Seguimiento de Expedientes</span>
+            </NuxtLink>
+
+            <div
+              v-if="isCollapsed"
+              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
+            >
+              <span>Seguimiento de Expedientes</span>
+            </div>
+          </div>
+          </template>
+
           <!-- SECCIÓN: Comunicaciones y Datos -->
           <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
             Comunicaciones y Datos
@@ -247,6 +278,37 @@
               <span>Exportador de Contactos</span>
             </div>
           </div>
+
+          <!-- SECCIÓN: Administración (solo ADMINISTRADOR) -->
+          <template v-if="authStore.isAdmin">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              Administración
+            </div>
+            <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+
+          <div v-if="true" class="relative group/item">
+            <NuxtLink
+              to="/usuarios"
+              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              :class="[
+                route.path.startsWith('/usuarios') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
+              ]"
+            >
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+              <span v-show="!isCollapsed" class="truncate">Usuarios y Permisos</span>
+            </NuxtLink>
+
+            <div
+              v-if="isCollapsed"
+              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
+            >
+              <span>Usuarios y Permisos</span>
+            </div>
+          </div>
+          </template>
         </nav>
       </div>
 
@@ -391,5 +453,8 @@ onMounted(() => {
   if (!authStore.isAuthenticated && route.path !== '/login') {
     navigateTo('/login')
   }
+
+  // Trae roles por módulo actualizados (las sesiones iniciadas antes de un cambio de permisos no los tienen)
+  authStore.refrescarUsuario()
 })
 </script>

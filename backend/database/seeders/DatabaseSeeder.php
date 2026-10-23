@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ServicioAreaSeeder::class,
             UserSeeder::class,
             FirmaDigitalSeeder::class,
+            ExpedientesCatalogoSeeder::class,
         ]);
     }
 }

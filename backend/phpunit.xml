@@ -31,6 +31,7 @@
         <env name="FIRMA_VIGENCIA_MESES" value="12" force="true"/>
         <env name="FIRMA_RECORDATORIO_DIAS" value="30" force="true"/>
         <env name="FIRMA_RECORDATORIO_MAX_INTENTOS" value="3" force="true"/>
+        <env name="FIRMA_RECORDATORIO_CC" value="" force="true"/>
         <!-- Las variables reales del contenedor viven en $_SERVER, que Laravel lee primero -->
         <server name="APP_ENV" value="testing" force="true"/>
         <server name="DB_CONNECTION" value="pgsql" force="true"/>
@@ -43,5 +44,6 @@
         <server name="FIRMA_VIGENCIA_MESES" value="12" force="true"/>
         <server name="FIRMA_RECORDATORIO_DIAS" value="30" force="true"/>
         <server name="FIRMA_RECORDATORIO_MAX_INTENTOS" value="3" force="true"/>
+        <server name="FIRMA_RECORDATORIO_CC" value="" force="true"/>
     </php>
 </phpunit>

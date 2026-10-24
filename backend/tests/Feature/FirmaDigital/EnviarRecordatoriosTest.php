@@ -71,6 +71,29 @@ class EnviarRecordatoriosTest extends TestCase
         Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->hasTo('alternativo@test.local'));
     }
 
+    public function test_envia_copia_al_buzon_del_area_si_esta_configurado(): void
+    {
+        Mail::fake();
+        config(['firma_digital.recordatorio_cc' => ['tokens@test.local', 'soporte@test.local']]);
+        $this->crearEntregaConCertificado($this->crearPersona(['email_principal' => 'titular@test.local']), '2026-11-20', '2026-10-21');
+
+        $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
+
+        Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->hasTo('titular@test.local')
+            && $mail->hasCc('tokens@test.local')
+            && $mail->hasCc('soporte@test.local'));
+    }
+
+    public function test_sin_buzon_configurado_no_envia_copia(): void
+    {
+        Mail::fake();
+        $this->crearEntregaConCertificado($this->crearPersona(['email_principal' => 'titular@test.local']), '2026-11-20', '2026-10-21');
+
+        $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
+
+        Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->cc === []);
+    }
+
     public function test_cancela_el_recordatorio_de_un_certificado_ya_vencido(): void
     {
         Mail::fake();

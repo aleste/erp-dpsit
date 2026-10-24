@@ -27,7 +27,7 @@ y `frontend/.env`: editá solo el de la raíz y después ejecutá `sync-env.ps1`
 | `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` | Correo. En desarrollo `smtp` a `mailpit:1025` (Mailpit captura y **no reenvía**). Nunca apuntar a un SMTP real en desarrollo |
 | `MAILPIT_UI_PORT` | Puerto del buzón web de Mailpit en Compose (8025) |
 | `FIRMA_VIGENCIA_MESES`, `FIRMA_RECORDATORIO_DIAS`, `FIRMA_RECORDATORIO_HORA`, `FIRMA_RECORDATORIO_MAX_INTENTOS` | Módulo de firma digital: 12 meses, 30 días, `08:00` y 3 intentos por defecto (`config/firma_digital.php`). Cambiarlos afecta solo a los registros nuevos o editados |
-| `FIRMA_RECORDATORIO_CC` | Buzón del área de gestión de tokens que recibe copia de cada recordatorio; varias direcciones separadas por coma, las inválidas se ignoran. Vacío = sin copia. Tras cambiarlo, recrear `erp_backend` y `erp_scheduler` (el scheduler es el que envía) |
+| `FIRMA_RECORDATORIO_CC` | Buzón del área de gestión de tokens: recibe un aviso propio (`AvisoVencimientoArea`) por cada recordatorio enviado y por cada titular sin email. El nombre de la variable se conserva por compatibilidad. Varias direcciones separadas por coma, las inválidas se ignoran. Vacío = sin aviso. Tras cambiarlo, recrear `erp_backend` y `erp_scheduler` (el scheduler es el que envía) |
 | `EXPEDIENTES_UMBRAL_DIAS` | Días en el área a partir de los cuales un expediente se marca como demorado (30) |
 | `NUXT_PUBLIC_API_BASE` | URL de la API para la SPA. Compose y WSLC la fijan en `http://localhost:8000/api` |
 

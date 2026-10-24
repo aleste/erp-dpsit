@@ -38,7 +38,8 @@ planilla Excel (relevamiento y diseño en `docs/proposals/modulo-expedientes.md`
 Requisito agregado el 2026-10-23: **módulo de dispositivos de firma digital**. Incluye personas con
 organismo opcional (también externas al ERP), entregas de tokens con historial, vigencia del certificado
 (un año por defecto, editable), recordatorios por email configurables (30 días por defecto) enviados
-automáticamente al titular, con copia opcional al buzón del área (`FIRMA_RECORDATORIO_CC`), sin duplicados y tolerando personas sin email. Diseño en
+automáticamente al titular, con un aviso aparte al buzón del área (`FIRMA_RECORDATORIO_CC`), que también avisa
+de los titulares sin email, sin duplicados y tolerando personas sin email. Diseño en
 `docs/proposals/modulo-firma-digital.md`; decisiones D-19 a D-22.
 
 ## Inventario de módulos

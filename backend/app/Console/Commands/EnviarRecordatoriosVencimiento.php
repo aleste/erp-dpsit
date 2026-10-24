@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\AvisoVencimientoArea;
 use App\Mail\RecordatorioVencimientoCertificado;
 use App\Models\CertificadoFirma;
 use App\Models\EntregaToken;
@@ -27,7 +28,7 @@ class EnviarRecordatoriosVencimiento extends Command
         $dryRun = (bool) $this->option('dry-run');
         $hoy = now()->toDateString();
         $maxIntentos = (int) config('firma_digital.recordatorio_max_intentos', 3);
-        $copia = (array) config('firma_digital.recordatorio_cc', []);
+        $buzonArea = (array) config('firma_digital.aviso_area_emails', []);
 
         $candidatos = CertificadoFirma::with(['entrega.persona', 'entrega.dispositivo'])
             ->actuales()
@@ -43,7 +44,7 @@ class EnviarRecordatoriosVencimiento extends Command
             ->orderBy('fecha_recordatorio')
             ->get();
 
-        $resumen = ['enviados' => 0, 'errores' => 0, 'sin_email' => 0, 'cancelados' => 0];
+        $resumen = ['enviados' => 0, 'errores' => 0, 'sin_email' => 0, 'cancelados' => 0, 'avisos_area' => 0];
 
         $this->info(($dryRun ? '[SIMULACIÓN] ' : '')."Certificados a procesar: {$candidatos->count()}");
 
@@ -69,14 +70,16 @@ class EnviarRecordatoriosVencimiento extends Command
                 if (! $dryRun) {
                     $this->actualizar($certificado, CertificadoFirma::RECORDATORIO_SIN_EMAIL, 'La persona no tiene un email válido');
                 }
+                $resumen['avisos_area'] += $this->avisarArea($certificado, null, $buzonArea, $dryRun);
                 $resumen['sin_email']++;
 
                 continue;
             }
 
             if ($dryRun) {
-                $this->line("  {$etiqueta}: se enviaría a {$email}".($copia ? ' (CC: '.implode(', ', $copia).')' : ''));
+                $this->line("  {$etiqueta}: se enviaría a {$email}");
                 $resumen['enviados']++;
+                $resumen['avisos_area'] += $this->avisarArea($certificado, $email, $buzonArea, $dryRun);
 
                 continue;
             }
@@ -96,7 +99,7 @@ class EnviarRecordatoriosVencimiento extends Command
                 ->syncOriginalAttribute('recordatorio_estado');
 
             try {
-                Mail::to($email)->cc($copia)->send(new RecordatorioVencimientoCertificado($certificado));
+                Mail::to($email)->send(new RecordatorioVencimientoCertificado($certificado));
 
                 $certificado->forceFill([
                     'recordatorio_estado' => CertificadoFirma::RECORDATORIO_ENVIADO,
@@ -109,11 +112,11 @@ class EnviarRecordatoriosVencimiento extends Command
                 AuditService::log('RECORDATORIO_ENVIADO', 'FIRMA_DIGITAL', $certificado->entrega_token_id, null, [
                     'certificado_id' => $certificado->id,
                     'email' => $email,
-                    'cc' => $copia,
                 ], 'Recordatorio de vencimiento enviado');
 
                 $this->line("  {$etiqueta}: enviado a {$email}");
                 $resumen['enviados']++;
+                $resumen['avisos_area'] += $this->avisarArea($certificado, $email, $buzonArea, $dryRun);
             } catch (Throwable $e) {
                 $certificado->forceFill([
                     'recordatorio_estado' => CertificadoFirma::RECORDATORIO_ERROR,
@@ -132,11 +135,46 @@ class EnviarRecordatoriosVencimiento extends Command
         }
 
         $this->info(sprintf(
-            'Enviados: %d · Errores: %d · Sin email: %d · Cancelados: %d',
-            $resumen['enviados'], $resumen['errores'], $resumen['sin_email'], $resumen['cancelados']
+            'Enviados: %d · Errores: %d · Sin email: %d · Cancelados: %d · Avisos al área: %d',
+            $resumen['enviados'], $resumen['errores'], $resumen['sin_email'], $resumen['cancelados'], $resumen['avisos_area']
         ));
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Aviso al buzón del área. No se reintenta: un error queda en la bitácora y no afecta el
+     * estado del recordatorio al titular, que ya se resolvió. Devuelve 1 si se envió (o se enviaría).
+     */
+    private function avisarArea(CertificadoFirma $certificado, ?string $emailTitular, array $buzonArea, bool $dryRun): int
+    {
+        if (! $buzonArea) {
+            return 0;
+        }
+
+        if ($dryRun) {
+            $this->line('    aviso al área: se enviaría a '.implode(', ', $buzonArea));
+
+            return 1;
+        }
+
+        try {
+            Mail::to($buzonArea)->send(new AvisoVencimientoArea($certificado, $emailTitular));
+            AuditService::log('AVISO_AREA_ENVIADO', 'FIRMA_DIGITAL', $certificado->entrega_token_id, null, [
+                'certificado_id' => $certificado->id,
+                'emails' => $buzonArea,
+            ], 'Aviso de vencimiento enviado al área'.($emailTitular ? '' : ' (titular sin email)'));
+            $this->line('    aviso al área: enviado a '.implode(', ', $buzonArea));
+
+            return 1;
+        } catch (Throwable $e) {
+            AuditService::log('AVISO_AREA_ERROR', 'FIRMA_DIGITAL', $certificado->entrega_token_id, null, [
+                'certificado_id' => $certificado->id,
+            ], 'Error al enviar el aviso al área: '.mb_substr($e->getMessage(), 0, 300));
+            $this->error("    aviso al área: error al enviar ({$e->getMessage()})");
+
+            return 0;
+        }
     }
 
     /**

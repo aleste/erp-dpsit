@@ -21,9 +21,10 @@ return [
     // Cantidad máxima de intentos ante errores de envío
     'recordatorio_max_intentos' => (int) env('FIRMA_RECORDATORIO_MAX_INTENTOS', 3),
 
-    // Buzón del área que gestiona los tokens: recibe copia (CC) de cada recordatorio. Admite varias
-    // direcciones separadas por coma; vacío = sin copia
-    'recordatorio_cc' => array_values(array_filter(
+    // Buzón del área que gestiona los tokens: recibe un aviso propio por cada recordatorio enviado al
+    // titular y por cada titular sin email. Admite varias direcciones separadas por coma; vacío = sin
+    // aviso. La variable conserva el nombre FIRMA_RECORDATORIO_CC por compatibilidad con los .env
+    'aviso_area_emails' => array_values(array_filter(
         array_map('trim', explode(',', (string) env('FIRMA_RECORDATORIO_CC', ''))),
         fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL)
     )),

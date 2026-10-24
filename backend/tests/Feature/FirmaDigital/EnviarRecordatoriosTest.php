@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\FirmaDigital;
 
+use App\Mail\AvisoVencimientoArea;
 use App\Mail\RecordatorioVencimientoCertificado;
 use App\Models\CertificadoFirma;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,27 +72,58 @@ class EnviarRecordatoriosTest extends TestCase
         Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->hasTo('alternativo@test.local'));
     }
 
-    public function test_envia_copia_al_buzon_del_area_si_esta_configurado(): void
+    public function test_envia_un_aviso_separado_al_area_ademas_del_recordatorio(): void
     {
         Mail::fake();
-        config(['firma_digital.recordatorio_cc' => ['tokens@test.local', 'soporte@test.local']]);
+        config(['firma_digital.aviso_area_emails' => ['tokens@test.local', 'soporte@test.local']]);
         $this->crearEntregaConCertificado($this->crearPersona(['email_principal' => 'titular@test.local']), '2026-11-20', '2026-10-21');
 
         $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
+        $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
 
-        Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->hasTo('titular@test.local')
-            && $mail->hasCc('tokens@test.local')
-            && $mail->hasCc('soporte@test.local'));
+        Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->hasTo('titular@test.local') && $mail->cc === []);
+        Mail::assertSent(AvisoVencimientoArea::class, 1);
+        Mail::assertSent(AvisoVencimientoArea::class, fn ($mail) => $mail->hasTo('tokens@test.local')
+            && $mail->hasTo('soporte@test.local')
+            && ! $mail->hasTo('titular@test.local')
+            && $mail->emailTitular === 'titular@test.local');
     }
 
-    public function test_sin_buzon_configurado_no_envia_copia(): void
+    public function test_avisa_al_area_si_el_titular_no_tiene_email(): void
+    {
+        Mail::fake();
+        config(['firma_digital.aviso_area_emails' => ['tokens@test.local']]);
+        $certificado = $this->crearEntregaConCertificado($this->crearPersona(['email_principal' => null]), '2026-11-20', '2026-10-21');
+
+        $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
+
+        Mail::assertNotSent(RecordatorioVencimientoCertificado::class);
+        Mail::assertSent(AvisoVencimientoArea::class, fn ($mail) => $mail->hasTo('tokens@test.local') && $mail->emailTitular === null);
+        $this->assertSame(CertificadoFirma::RECORDATORIO_SIN_EMAIL, $certificado->fresh()->recordatorio_estado);
+    }
+
+    public function test_sin_buzon_configurado_no_avisa_al_area(): void
     {
         Mail::fake();
         $this->crearEntregaConCertificado($this->crearPersona(['email_principal' => 'titular@test.local']), '2026-11-20', '2026-10-21');
 
         $this->artisan('firma-digital:enviar-recordatorios')->assertSuccessful();
 
-        Mail::assertSent(RecordatorioVencimientoCertificado::class, fn ($mail) => $mail->cc === []);
+        Mail::assertSent(RecordatorioVencimientoCertificado::class, 1);
+        Mail::assertNotSent(AvisoVencimientoArea::class);
+    }
+
+    public function test_el_aviso_al_area_incluye_los_datos_de_gestion(): void
+    {
+        $persona = $this->crearPersona(['apellido' => 'Titular', 'nombre' => 'Ana', 'email_principal' => null, 'telefono_principal' => '0221-555-0000']);
+        $certificado = $this->crearEntregaConCertificado($persona, '2026-11-20', '2026-10-21');
+
+        $html = (new AvisoVencimientoArea($certificado->load('entrega.persona', 'entrega.dispositivo'), null))->render();
+
+        $this->assertStringContainsString('Titular, Ana', $html);
+        $this->assertStringContainsString('0221-555-0000', $html);
+        $this->assertStringContainsString('20/11/2026', $html);
+        $this->assertStringContainsString('No se pudo notificar al titular', $html);
     }
 
     public function test_cancela_el_recordatorio_de_un_certificado_ya_vencido(): void

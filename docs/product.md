@@ -92,7 +92,9 @@ Por eso ningún módulo alcanza «IV».
 
 `DatabaseSeeder` carga:
 
-- 6 ministerios, 6 áreas TI, 8 tipos de rol y 8 personas;
+- 25 organismos reales con su máxima autoridad vigente (`MinisterioSeeder`, D-32; idempotente, se puede
+  ejecutar sobre una base con datos con `db:seed --class=MinisterioSeeder`), 6 áreas TI demo, 8 tipos de
+  rol y 8 personas demo;
 - 8 asignaciones, 4 servicios de catálogo y 3 instancias con referentes;
 - 3 usuarios demo (uno por perfil);
 - `FirmaDigitalSeeder`: 1 persona externa sin email, 5 dispositivos y 5 entregas en todos los estados

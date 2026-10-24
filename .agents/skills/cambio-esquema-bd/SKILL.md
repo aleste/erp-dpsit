@@ -54,4 +54,5 @@ el registro de qué comandos se ejecutaron sobre la base.
 
 - Nunca `migrate:fresh`, `db:wipe` ni `migrate:reset` sin autorización explícita.
 - No ejecutar nada contra bases que no sean la local de desarrollo.
-- No incluir datos personales reales en seeders.
+- No incluir datos personales reales en seeders. Excepción autorizada: las máximas autoridades de los
+  organismos en `MinisterioSeeder` (`docs/decisions.md` D-32).

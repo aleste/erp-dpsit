@@ -74,7 +74,10 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - erp_network
+      erp_network:
+        # docker/nginx/default.conf apunta a erp_backend:9000 (nombre del contenedor en WSLC)
+        aliases:
+          - erp_backend
 
   # -------------------------------------------------------------
   # 2b. SCHEDULER: tareas programadas de Laravel (recordatorios de firma digital)

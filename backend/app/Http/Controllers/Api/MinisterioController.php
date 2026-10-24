@@ -12,14 +12,14 @@ class MinisterioController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = Ministerio::withCount('areasTi');
+        $query = Ministerio::withCount('areasTi')->with('autoridadVigente.persona');
 
         if ($request->filled('q')) {
             $term = $request->q;
             $query->where(function ($q) use ($term) {
                 $q->where('nombre', 'ILIKE', "%{$term}%")
-                  ->orWhere('sigla', 'ILIKE', "%{$term}%")
-                  ->orWhere('codigo', 'ILIKE', "%{$term}%");
+                    ->orWhere('sigla', 'ILIKE', "%{$term}%")
+                    ->orWhere('codigo', 'ILIKE', "%{$term}%");
             });
         }
 
@@ -37,9 +37,13 @@ class MinisterioController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $ministerio = Ministerio::with(['areasTi' => function ($q) {
-            $q->with(['maximaAutoridadVigente.persona', 'maximaAutoridadVigente.tipoRol']);
-        }])->findOrFail($id);
+        $ministerio = Ministerio::with([
+            'areasTi' => function ($q) {
+                $q->with(['maximaAutoridadVigente.persona', 'maximaAutoridadVigente.tipoRol']);
+            },
+            'autoridadVigente.persona',
+            'autoridades' => fn ($q) => $q->with('persona')->orderByDesc('fecha_inicio')->orderByDesc('id'),
+        ])->findOrFail($id);
 
         return response()->json([
             'success' => true,

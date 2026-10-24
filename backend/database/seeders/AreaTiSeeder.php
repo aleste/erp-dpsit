@@ -10,10 +10,10 @@ class AreaTiSeeder extends Seeder
 {
     public function run(): void
     {
-        $ms = Ministerio::where('codigo', 'MS')->first();
-        $me = Ministerio::where('codigo', 'ME')->first();
-        $meyf = Ministerio::where('codigo', 'MEYF')->first();
-        $mys = Ministerio::where('codigo', 'MYS')->first();
+        $ms = Ministerio::where('codigo', 'MSAL')->first();
+        $me = Ministerio::where('codigo', 'DGCYE')->first();
+        $meyf = Ministerio::where('codigo', 'MECO')->first();
+        $mys = Ministerio::where('codigo', 'MSEG')->first();
         $misp = Ministerio::where('codigo', 'MISP')->first();
 
         $areas = [

@@ -73,6 +73,11 @@ class Persona extends Model
         return $this->hasMany(EntregaToken::class, 'persona_id');
     }
 
+    public function autoridadesOrganismo(): HasMany
+    {
+        return $this->hasMany(AutoridadOrganismo::class, 'persona_id');
+    }
+
     public function documentos(): MorphMany
     {
         return $this->morphMany(DocumentoAdjunto::class, 'documentable');

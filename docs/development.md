@@ -80,9 +80,9 @@ wslc exec erp_postgres psql -U postgres -d erp_dpsit
 make up | down | restart | logs | sync-env | migrate | seed | fresh | shell-backend | shell-frontend | shell-db
 ```
 
-> ⚠ **No verificado.** `docker/nginx/default.conf` usa `fastcgi_pass erp_backend:9000`. Ese nombre
-> existe en WSLC, pero en Compose el servicio se llama `backend` y el contenedor, `erp_dpsit_backend`.
-> Es probable que la API no responda en Linux hasta resolverlo (DEF-01). `make test` ejecuta los tests: requiere
+> `docker/nginx/default.conf` usa `fastcgi_pass erp_backend:9000` (nombre del contenedor en WSLC). En
+> Compose el servicio `backend` declara el alias de red `erp_backend` para que nginx lo resuelva (DEF-01,
+> resuelto). `make test` ejecuta los tests: requiere
 > crear antes la base `erp_dpsit_test` (ver «Tests»).
 
 ## Importar la planilla de expedientes

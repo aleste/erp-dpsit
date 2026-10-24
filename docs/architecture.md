@@ -99,6 +99,8 @@ sequenceDiagram
 ```mermaid
 erDiagram
   ministerios ||--o{ areas_ti : "ministerio_id (restrict)"
+  ministerios ||--o{ autoridades_organismo : "ministerio_id (restrict)"
+  personas ||--o{ autoridades_organismo : "persona_id (restrict)"
   areas_ti ||--o{ asignaciones_rol : "area_ti_id (cascade)"
   personas ||--o{ asignaciones_rol : "persona_id (cascade)"
   tipos_rol ||--o{ asignaciones_rol : "tipo_rol_id (restrict)"
@@ -118,6 +120,7 @@ erDiagram
 | Tabla | Claves y restricciones relevantes | Soft delete |
 | :--- | :--- | :--- |
 | `ministerios` | `codigo` único, `orden_prioridad` | sí |
+| `autoridades_organismo` | máxima autoridad del organismo (D-32): ministerio + persona, `cargo` libre, `fecha_inicio` nula = desconocida, `fecha_fin` nula = vigente. `AutoridadOrganismoService::designar` cierra toda autoridad abierta o con cese futuro (no reproduce DEF-09) | sí |
 | `areas_ti` | `codigo` único, `es_homologada`, `nivel_jerarquico` (texto libre, default `DIRECCION_PROVINCIAL`) | sí |
 | `personas` | `cuil_cuit` (13) y `email_principal` únicos y **opcionales** desde D-19; `tipo_documento` + `numero_documento` opcionales, únicos en par | sí |
 | `tipos_rol` | `codigo` único, `nivel_responsabilidad` ∈ EJECUTIVO/TACTICO/OPERATIVO, `es_maxima_autoridad_default` | no |

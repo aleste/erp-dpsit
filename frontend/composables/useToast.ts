@@ -29,6 +29,7 @@ const fieldLabels: Record<string, string> = {
   numero_documento: 'número de documento',
   organismo_externo: 'organismo externo',
   cargo_funcion: 'cargo o función',
+  cargo: 'cargo',
   fecha_entrega: 'fecha de entrega',
   fecha_vencimiento: 'fecha de vencimiento',
   fecha_recordatorio: 'fecha del recordatorio',

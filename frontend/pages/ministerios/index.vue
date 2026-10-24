@@ -64,7 +64,7 @@
             v-model="filters.q"
             @input="debounceSearch"
             type="text"
-            placeholder="Buscar por nombre, código o sigla (ej. Salud, MS, MEYF)..."
+            placeholder="Buscar por nombre, código o sigla (ej. Salud, MSAL, HTC)..."
             class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
           />
         </div>
@@ -145,6 +145,55 @@
           </div>
         </div>
 
+        <!-- Máxima autoridad del organismo -->
+        <div class="px-6 py-3 bg-amber-50/60 border-b border-amber-100 text-xs space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div v-if="m.autoridad_vigente" class="text-slate-700">
+              <span class="text-amber-500 font-bold">⭐</span>
+              <span class="font-bold uppercase tracking-wider text-[10px] text-amber-700 mr-1">Máxima autoridad:</span>
+              <strong>{{ m.autoridad_vigente.persona?.apellido }}, {{ m.autoridad_vigente.persona?.nombre }}</strong>
+              <span v-if="m.autoridad_vigente.cargo" class="text-slate-500"> ({{ m.autoridad_vigente.cargo }})</span>
+              <span v-if="m.autoridad_vigente.fecha_inicio" class="text-slate-400"> · desde {{ formatFecha(m.autoridad_vigente.fecha_inicio) }}</span>
+            </div>
+            <div v-else class="text-slate-400 italic">Sin máxima autoridad designada.</div>
+
+            <div class="flex items-center gap-2">
+              <button
+                v-if="(m.autoridades?.length || 0) > 1"
+                @click="historialAbierto[m.id] = !historialAbierto[m.id]"
+                class="text-[11px] font-bold text-slate-500 hover:text-slate-800"
+              >
+                {{ historialAbierto[m.id] ? 'Ocultar historial' : `Historial (${m.autoridades.length})` }}
+              </button>
+              <button
+                v-if="authStore.isEditor && m.autoridad_vigente"
+                @click="openModalAutoridad(m, m.autoridad_vigente)"
+                class="px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200"
+              >
+                ✏️ Editar datos
+              </button>
+              <button
+                v-if="authStore.isEditor"
+                @click="openModalAutoridad(m)"
+                class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-white rounded-lg text-[11px] font-bold"
+              >
+                {{ m.autoridad_vigente ? 'Designar reemplazo' : 'Designar autoridad' }}
+              </button>
+            </div>
+          </div>
+
+          <ul v-if="historialAbierto[m.id]" class="pl-5 space-y-1 text-[11px] text-slate-600">
+            <li v-for="a in m.autoridades" :key="a.id">
+              <strong>{{ a.persona?.apellido }}, {{ a.persona?.nombre }}</strong>
+              <span v-if="a.cargo"> ({{ a.cargo }})</span>
+              <span class="text-slate-400">
+                · {{ a.fecha_inicio ? formatFecha(a.fecha_inicio) : 's/f' }} → {{ a.fecha_fin ? formatFecha(a.fecha_fin) : 'vigente' }}
+              </span>
+              <span v-if="a.acto_administrativo" class="text-slate-400"> · {{ a.acto_administrativo }}</span>
+            </li>
+          </ul>
+        </div>
+
         <!-- Áreas TI dependientes del Ministerio -->
         <div class="p-6">
           <div class="flex items-center justify-between mb-3">
@@ -217,7 +266,7 @@
                 v-model="form.codigo"
                 type="text"
                 required
-                placeholder="Ej: MS, ME, MEYF"
+                placeholder="Ej: MSAL, DGCYE, HTC"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
@@ -285,6 +334,97 @@
         </form>
       </div>
     </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL: DESIGNAR / EDITAR MÁXIMA AUTORIDAD                             -->
+    <!-- ===================================================================== -->
+    <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+        <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold">
+              {{ formAutoridad.id ? 'Editar datos de la máxima autoridad' : 'Designar máxima autoridad' }}
+            </h2>
+            <p class="text-xs text-slate-400">{{ formAutoridad.organismo }}</p>
+          </div>
+          <button @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
+        </div>
+
+        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-xs">
+          <div v-if="!formAutoridad.id">
+            <label class="block font-bold text-slate-700 mb-1">Persona *</label>
+            <PersonaSearchSelect
+              v-model="formAutoridad.persona_id"
+              placeholder="Buscar por apellido, nombre o CUIL..."
+            />
+            <p class="text-[11px] text-slate-400 mt-1">
+              Si no está en el padrón, cargala antes en <NuxtLink to="/personas" class="text-sky-600 font-bold">Personas</NuxtLink>.
+              La autoridad vigente cesa el día anterior a la fecha de inicio.
+            </p>
+          </div>
+          <div v-else class="p-3 bg-slate-50 rounded-xl border border-slate-100 font-bold text-slate-800">
+            {{ formAutoridad.persona }}
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Cargo</label>
+              <input
+                v-model="formAutoridad.cargo"
+                type="text"
+                maxlength="150"
+                placeholder="Ej: Ministra, Presidente"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Fecha de inicio</label>
+              <input
+                v-model="formAutoridad.fecha_inicio"
+                type="date"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Acto administrativo / decreto</label>
+            <input
+              v-model="formAutoridad.acto_administrativo"
+              type="text"
+              maxlength="150"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea
+              v-model="formAutoridad.observaciones"
+              rows="2"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+            <button
+              type="button"
+              @click="showModalAutoridad = false"
+              class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              :disabled="saving || (!formAutoridad.id && !formAutoridad.persona_id)"
+              class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-white rounded-xl font-bold disabled:opacity-50"
+            >
+              {{ saving ? 'Guardando...' : (formAutoridad.id ? 'Guardar cambios' : 'Designar') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -293,6 +433,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useApi } from '~/composables/useApi'
 import { useAuthStore } from '~/stores/auth'
 import { useToast } from '~/composables/useToast'
+import { formatFecha } from '~/composables/useFechas'
 
 const { get, post, put, delete: del } = useApi()
 const authStore = useAuthStore()
@@ -406,6 +547,60 @@ const saveMinisterio = async () => {
         showModal.value = false
         await fetchMinisterios()
       }
+    }
+  } catch (err) {
+    toast.error(err)
+  } finally {
+    saving.value = false
+  }
+}
+
+// Máxima autoridad del organismo
+const showModalAutoridad = ref(false)
+const historialAbierto = reactive({})
+const formAutoridad = reactive({
+  id: null,
+  ministerio_id: null,
+  organismo: '',
+  persona: '',
+  persona_id: null,
+  cargo: '',
+  fecha_inicio: '',
+  acto_administrativo: '',
+  observaciones: '',
+})
+
+const openModalAutoridad = (m, autoridad = null) => {
+  Object.assign(formAutoridad, {
+    id: autoridad?.id ?? null,
+    ministerio_id: m.id,
+    organismo: m.nombre,
+    persona: autoridad ? `${autoridad.persona?.apellido}, ${autoridad.persona?.nombre}` : '',
+    persona_id: null,
+    cargo: autoridad?.cargo || '',
+    fecha_inicio: autoridad?.fecha_inicio || '',
+    acto_administrativo: autoridad?.acto_administrativo || '',
+    observaciones: autoridad?.observaciones || '',
+  })
+  showModalAutoridad.value = true
+}
+
+const saveAutoridad = async () => {
+  saving.value = true
+  const payload = {
+    cargo: formAutoridad.cargo || null,
+    fecha_inicio: formAutoridad.fecha_inicio || null,
+    acto_administrativo: formAutoridad.acto_administrativo || null,
+    observaciones: formAutoridad.observaciones || null,
+  }
+  try {
+    const res = formAutoridad.id
+      ? await put(`/autoridades-organismo/${formAutoridad.id}`, payload)
+      : await post(`/ministerios/${formAutoridad.ministerio_id}/autoridad`, { ...payload, persona_id: formAutoridad.persona_id })
+    if (res.success) {
+      toast.success(res.message)
+      showModalAutoridad.value = false
+      await fetchMinisterios()
     }
   } catch (err) {
     toast.error(err)

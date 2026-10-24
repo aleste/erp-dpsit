@@ -189,6 +189,13 @@ class PersonaController extends Controller
             ], 422);
         }
 
+        if ($persona->autoridadesOrganismo()->vigente()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No es posible eliminar la persona porque es la máxima autoridad vigente de un organismo. Designe a quien la reemplace previamente.',
+            ], 422);
+        }
+
         $anterior = $persona->toArray();
         $persona->delete();
         AuditService::log('DELETE', 'PERSONAS', $id, $anterior, null);

@@ -27,10 +27,13 @@ Leyenda de perfil: **Pública** = sin `auth:sanctum` · **Auth** = cualquier per
 | GET | `/documentos/{id}/descargar` | **Pública** | DocumentoAdjunto@download | archivo binario | sí (`<a href>`) |
 | POST | `/documentos/upload` | E | DocumentoAdjunto@upload | multipart: `documentable_type` ∈ area_ti/servicio_area/asignacion_rol/persona, `documentable_id`, `tipo_documento`, `titulo`, `archivo` (≤20 MB), `observaciones` | sí (solo área TI) |
 | DELETE | `/documentos/{id}` | A | DocumentoAdjunto@destroy | soft delete; el archivo físico queda | no |
-| GET | `/ministerios` | Auth | Ministerio@index | `q`, `activo` | sí |
-| GET | `/ministerios/{id}` | Auth | Ministerio@show | con áreas y autoridad vigente | sí |
+| GET | `/ministerios` | Auth | Ministerio@index | `q`, `activo`; incluye `autoridad_vigente.persona` | sí |
+| GET | `/ministerios/{id}` | Auth | Ministerio@show | con áreas (y su autoridad vigente), `autoridad_vigente` y el historial `autoridades` del organismo | sí |
 | POST/PUT | `/ministerios[/{id}]` | E | Ministerio@store/update | `codigo`, `nombre`, `sigla`, `orden_prioridad`, `activo` | sí |
 | DELETE | `/ministerios/{id}` | A | Ministerio@destroy | 422 si tiene áreas | sí |
+| POST | `/ministerios/{id}/autoridad` | E | AutoridadOrganismo@designar | `persona_id`, `cargo?`, `fecha_inicio?`, `acto_administrativo?`, `observaciones?`; cierra la vigente el día anterior; 422 si es la misma persona (D-32) | sí |
+| PUT | `/autoridades-organismo/{id}` | E | AutoridadOrganismo@update | corrige `cargo`, fechas, acto y observaciones (no la persona) | sí |
+| DELETE | `/autoridades-organismo/{id}` | A | AutoridadOrganismo@destroy | baja lógica de una designación errónea | sí |
 | GET | `/areas-ti` | Auth | AreaTi@index | `ministerio_id`, `es_homologada`, `nivel_jerarquico`, `q`; devuelve `stats` | sí |
 | GET | `/areas-ti/{id}` | Auth | AreaTi@show | expediente: asignaciones, servicios, referentes, documentos | sí |
 | POST/PUT | `/areas-ti[/{id}]` | E | AreaTi@store/update | — | sí |

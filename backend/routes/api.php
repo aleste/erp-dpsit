@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AreaTiController;
 use App\Http\Controllers\Api\AsignacionRolController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AutoridadOrganismoController;
 use App\Http\Controllers\Api\CatalogoServicioController;
 use App\Http\Controllers\Api\CertificadoFirmaController;
 use App\Http\Controllers\Api\DashboardController;
@@ -122,6 +123,8 @@ Route::middleware('auth:sanctum')->group(function () {
         // Ministerios
         Route::post('/ministerios', [MinisterioController::class, 'store']);
         Route::put('/ministerios/{id}', [MinisterioController::class, 'update']);
+        Route::post('/ministerios/{id}/autoridad', [AutoridadOrganismoController::class, 'designar']);
+        Route::put('/autoridades-organismo/{id}', [AutoridadOrganismoController::class, 'update']);
 
         // Áreas TI
         Route::post('/areas-ti', [AreaTiController::class, 'store']);
@@ -166,6 +169,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // =========================================================================
     Route::middleware('perfil:ADMINISTRADOR')->group(function () {
         Route::delete('/ministerios/{id}', [MinisterioController::class, 'destroy']);
+        Route::delete('/autoridades-organismo/{id}', [AutoridadOrganismoController::class, 'destroy']);
         Route::delete('/areas-ti/{id}', [AreaTiController::class, 'destroy']);
         Route::delete('/personas/{id}', [PersonaController::class, 'destroy']);
         Route::post('/tipos-rol', [TipoRolController::class, 'store']);

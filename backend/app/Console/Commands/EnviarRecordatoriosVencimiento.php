@@ -27,6 +27,7 @@ class EnviarRecordatoriosVencimiento extends Command
         $dryRun = (bool) $this->option('dry-run');
         $hoy = now()->toDateString();
         $maxIntentos = (int) config('firma_digital.recordatorio_max_intentos', 3);
+        $copia = (array) config('firma_digital.recordatorio_cc', []);
 
         $candidatos = CertificadoFirma::with(['entrega.persona', 'entrega.dispositivo'])
             ->actuales()
@@ -74,7 +75,7 @@ class EnviarRecordatoriosVencimiento extends Command
             }
 
             if ($dryRun) {
-                $this->line("  {$etiqueta}: se enviaría a {$email}");
+                $this->line("  {$etiqueta}: se enviaría a {$email}".($copia ? ' (CC: '.implode(', ', $copia).')' : ''));
                 $resumen['enviados']++;
 
                 continue;
@@ -95,7 +96,7 @@ class EnviarRecordatoriosVencimiento extends Command
                 ->syncOriginalAttribute('recordatorio_estado');
 
             try {
-                Mail::to($email)->send(new RecordatorioVencimientoCertificado($certificado));
+                Mail::to($email)->cc($copia)->send(new RecordatorioVencimientoCertificado($certificado));
 
                 $certificado->forceFill([
                     'recordatorio_estado' => CertificadoFirma::RECORDATORIO_ENVIADO,
@@ -108,6 +109,7 @@ class EnviarRecordatoriosVencimiento extends Command
                 AuditService::log('RECORDATORIO_ENVIADO', 'FIRMA_DIGITAL', $certificado->entrega_token_id, null, [
                     'certificado_id' => $certificado->id,
                     'email' => $email,
+                    'cc' => $copia,
                 ], 'Recordatorio de vencimiento enviado');
 
                 $this->line("  {$etiqueta}: enviado a {$email}");

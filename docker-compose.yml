@@ -67,6 +67,7 @@ services:
       FIRMA_RECORDATORIO_DIAS: ${FIRMA_RECORDATORIO_DIAS:-30}
       FIRMA_RECORDATORIO_HORA: ${FIRMA_RECORDATORIO_HORA:-08:00}
       FIRMA_RECORDATORIO_MAX_INTENTOS: ${FIRMA_RECORDATORIO_MAX_INTENTOS:-3}
+      FIRMA_RECORDATORIO_CC: ${FIRMA_RECORDATORIO_CC:-}
     volumes:
       - ./backend:/var/www/backend
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini

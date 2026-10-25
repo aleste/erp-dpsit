@@ -629,7 +629,7 @@
                       @click="finalizarVigenciaDesdeFicha(asig)"
                       class="text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline"
                     >
-                      🛑 Finalizar Vigencia / Registrar Cese
+                      Finalizar vigencia
                     </button>
                   </div>
                 </div>
@@ -676,6 +676,14 @@
         </div>
       </div>
     </div>
+
+    <FinalizarVigenciaModal
+      v-if="asignacionAFinalizar"
+      :asignacion="asignacionAFinalizar"
+      :persona="selectedPersona"
+      @close="asignacionAFinalizar = null"
+      @saved="alFinalizarVigencia"
+    />
 
     <!-- ===================================================================== -->
     <!-- MODAL: ASIGNAR CARGO / ROL                                            -->
@@ -787,6 +795,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useApi } from '~/composables/useApi'
 import { useAuthStore } from '~/stores/auth'
 import { useToast } from '~/composables/useToast'
+import { hoyISO } from '~/composables/useFechas'
 
 const { get, post, put, delete: del } = useApi()
 const authStore = useAuthStore()
@@ -858,11 +867,12 @@ const formPersona = reactive({
 })
 
 const showModalAsignar = ref(false)
+const asignacionAFinalizar = ref(null)
 const formAsig = reactive({
   persona_id: '',
   area_ti_id: '',
   tipo_rol_id: '',
-  fecha_inicio: new Date().toISOString().split('T')[0],
+  fecha_inicio: hoyISO(),
   acto_administrativo: '',
   es_maxima_autoridad: false,
   observaciones: '',
@@ -1052,32 +1062,15 @@ const openHistoryModal = async (personaId) => {
   }
 }
 
-const finalizarVigenciaDesdeFicha = async (asig) => {
-  const confirmed = await confirmDialog({
-    title: 'Finalizar Vigencia del Cargo',
-    message: `¿Desea registrar el cese o baja del cargo "${asig.tipo_rol?.nombre}" en ${asig.area_ti?.nombre}?`,
-    confirmText: 'Sí, finalizar',
-    cancelText: 'Cancelar',
-    type: 'warning',
-  })
+const finalizarVigenciaDesdeFicha = (asig) => {
+  asignacionAFinalizar.value = asig
+}
 
-  if (confirmed) {
-    try {
-      const today = new Date().toISOString().split('T')[0]
-      const res = await post(`/asignaciones-rol/${asig.id}/finalizar-vigencia`, {
-        fecha_fin: today,
-        motivo: 'Baja formal registrada desde la ficha de la persona',
-      })
-      if (res.success) {
-        toast.success('Vigencia finalizada correctamente.')
-        await fetchPersonas()
-        if (selectedPersona.value) {
-          await openHistoryModal(selectedPersona.value.id)
-        }
-      }
-    } catch (err) {
-      toast.error(err)
-    }
+const alFinalizarVigencia = async () => {
+  asignacionAFinalizar.value = null
+  await fetchPersonas()
+  if (selectedPersona.value) {
+    await openHistoryModal(selectedPersona.value.id)
   }
 }
 
@@ -1090,7 +1083,7 @@ const openNewAsignacionModalDirect = async () => {
     persona_id: '',
     area_ti_id: areasList.value[0]?.id || '',
     tipo_rol_id: tiposRol.value[0]?.id || '',
-    fecha_inicio: new Date().toISOString().split('T')[0],
+    fecha_inicio: hoyISO(),
     acto_administrativo: '',
     es_maxima_autoridad: false,
     observaciones: '',
@@ -1104,7 +1097,7 @@ const openAsignarModalParaPersona = async (p) => {
     persona_id: p.id,
     area_ti_id: areasList.value[0]?.id || '',
     tipo_rol_id: tiposRol.value[0]?.id || '',
-    fecha_inicio: new Date().toISOString().split('T')[0],
+    fecha_inicio: hoyISO(),
     acto_administrativo: '',
     es_maxima_autoridad: false,
     observaciones: '',

@@ -549,6 +549,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useApi } from '~/composables/useApi'
 import { useAuthStore } from '~/stores/auth'
 import { useToast } from '~/composables/useToast'
+import { hoyISO } from '~/composables/useFechas'
 
 const { get, post, put, delete: del } = useApi()
 const authStore = useAuthStore()
@@ -598,7 +599,7 @@ const formAprovisionar = reactive({
   codigo_instancia: '',
   sla_nivel: '99.9% Disponibilidad 24x7',
   estado_servicio: 'ACTIVO',
-  fecha_alta: new Date().toISOString().split('T')[0],
+  fecha_alta: hoyISO(),
   observaciones: '',
 })
 
@@ -752,7 +753,7 @@ const openModalAprovisionar = () => {
   formAprovisionar.catalogo_servicio_id = catalogo.value[0]?.id || ''
   formAprovisionar.codigo_instancia = ''
   formAprovisionar.sla_nivel = '99.9% Disponibilidad 24x7'
-  formAprovisionar.fecha_alta = new Date().toISOString().split('T')[0]
+  formAprovisionar.fecha_alta = hoyISO()
   formAprovisionar.observaciones = ''
   onTipoServicioChange()
   showModalAprovisionar.value = true
@@ -764,7 +765,7 @@ const openModalAprovisionarConTipo = (item) => {
   formAprovisionar.catalogo_servicio_id = item.id
   formAprovisionar.codigo_instancia = `${item.codigo.replace('SRV_', '').replace('SRV-', '')}-INST-${Math.floor(100 + Math.random() * 900)}`
   formAprovisionar.sla_nivel = '99.9% Disponibilidad 24x7'
-  formAprovisionar.fecha_alta = new Date().toISOString().split('T')[0]
+  formAprovisionar.fecha_alta = hoyISO()
   formAprovisionar.observaciones = ''
   showModalAprovisionar.value = true
 }

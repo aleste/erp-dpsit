@@ -162,7 +162,7 @@
                   class="p-1.5 inline-block text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-sm font-semibold"
                   title="Finalizar vigencia / Dar de baja"
                 >
-                  ⏱️ Finalizar
+                  Finalizar vigencia
                 </button>
               </td>
             </tr>
@@ -170,6 +170,13 @@
         </table>
       </div>
     </div>
+
+    <FinalizarVigenciaModal
+      v-if="asignacionAFinalizar"
+      :asignacion="asignacionAFinalizar"
+      @close="asignacionAFinalizar = null"
+      @saved="alFinalizarVigencia"
+    />
 
     <!-- MODAL: ASIGNAR NUEVO CARGO / ROL -->
     <div v-if="showModalAsignar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -276,10 +283,11 @@ import { ref, reactive, onMounted } from 'vue'
 import { useApi } from '~/composables/useApi'
 import { useAuthStore } from '~/stores/auth'
 import { useToast } from '~/composables/useToast'
+import { hoyISO } from '~/composables/useFechas'
 
 const { get, post } = useApi()
 const authStore = useAuthStore()
-const { toast, confirmDialog } = useToast()
+const { toast } = useToast()
 
 const asignaciones = ref([])
 const tiposRol = ref([])
@@ -289,6 +297,7 @@ const loading = ref(false)
 const saving = ref(false)
 
 const showModalAsignar = ref(false)
+const asignacionAFinalizar = ref(null)
 
 const filters = reactive({
   tipo_rol_id: '',
@@ -301,7 +310,7 @@ const formAsig = reactive({
   persona_id: '',
   area_ti_id: '',
   tipo_rol_id: '',
-  fecha_inicio: new Date().toISOString().split('T')[0],
+  fecha_inicio: hoyISO(),
   acto_administrativo: '',
   es_maxima_autoridad: false,
   observaciones: '',
@@ -344,7 +353,7 @@ const openNewAsignacionModal = async () => {
       persona_id: '',
       area_ti_id: areasList.value[0]?.id || '',
       tipo_rol_id: tiposRol.value[0]?.id || '',
-      fecha_inicio: new Date().toISOString().split('T')[0],
+      fecha_inicio: hoyISO(),
       acto_administrativo: '',
       es_maxima_autoridad: false,
       observaciones: '',
@@ -376,32 +385,13 @@ const saveAsignacion = async () => {
   }
 }
 
-const finalizarVigenciaModal = async (asig) => {
-  const personaNombre = `${asig.persona?.apellido}, ${asig.persona?.nombre}`
-  const rolNombre = asig.tipo_rol?.nombre
-  const confirmed = await confirmDialog({
-    title: 'Finalizar Vigencia del Cargo',
-    message: `¿Desea registrar el cese o baja del cargo "${rolNombre}" para ${personaNombre}? La asignación pasará al historial de la persona y del área.`,
-    confirmText: 'Sí, finalizar vigencia',
-    cancelText: 'Cancelar',
-    type: 'warning',
-  })
+const finalizarVigenciaModal = (asig) => {
+  asignacionAFinalizar.value = asig
+}
 
-  if (confirmed) {
-    try {
-      const today = new Date().toISOString().split('T')[0]
-      const res = await post(`/asignaciones-rol/${asig.id}/finalizar-vigencia`, {
-        fecha_fin: today,
-        motivo: 'Baja formal registrada desde el portal',
-      })
-      if (res.success) {
-        toast.success('Vigencia finalizada correctamente. El registro ahora figura como histórico.')
-        await fetchAsignaciones()
-      }
-    } catch (err) {
-      toast.error(err)
-    }
-  }
+const alFinalizarVigencia = async () => {
+  asignacionAFinalizar.value = null
+  await fetchAsignaciones()
 }
 
 onMounted(() => {

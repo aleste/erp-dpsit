@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AreaTi;
-use App\Models\AsignacionRol;
-use App\Models\TipoRol;
 use App\Services\AuditService;
+use App\Services\AutoridadAreaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AreaTiController extends Controller
 {
@@ -37,9 +35,9 @@ class AreaTiController extends Controller
             $term = trim($request->q);
             $query->where(function ($q) use ($term) {
                 $q->where('nombre', 'ILIKE', "%{$term}%")
-                  ->orWhere('codigo', 'ILIKE', "%{$term}%")
-                  ->orWhere('resolucion_homologacion', 'ILIKE', "%{$term}%")
-                  ->orWhere('email_institucional', 'ILIKE', "%{$term}%");
+                    ->orWhere('codigo', 'ILIKE', "%{$term}%")
+                    ->orWhere('resolucion_homologacion', 'ILIKE', "%{$term}%")
+                    ->orWhere('email_institucional', 'ILIKE', "%{$term}%");
             });
         }
 
@@ -57,7 +55,7 @@ class AreaTiController extends Controller
                 'total' => $totalAreas,
                 'homologadas' => $totalHomologadas,
                 'en_tramite' => $totalEnTramite,
-            ]
+            ],
         ]);
     }
 
@@ -137,7 +135,7 @@ class AreaTiController extends Controller
     /**
      * Designar o reasignar la Máxima Autoridad del Área TI
      */
-    public function designarAutoridad(Request $request, int $id): JsonResponse
+    public function designarAutoridad(Request $request, int $id, AutoridadAreaService $autoridades): JsonResponse
     {
         $validated = $request->validate([
             'persona_id' => 'required|exists:personas,id',
@@ -149,31 +147,19 @@ class AreaTiController extends Controller
 
         $area = AreaTi::findOrFail($id);
 
-        $asignacion = DB::transaction(function () use ($area, $validated) {
-            // Finalizar vigencia de cualquier máxima autoridad previa en esta área
-            AsignacionRol::where('area_ti_id', $area->id)
-                ->where('es_maxima_autoridad', true)
-                ->whereNull('fecha_fin')
-                ->update([
-                    'fecha_fin' => now()->toDateString(),
-                    'observaciones' => DB::raw("CONCAT(COALESCE(observaciones, ''), '\nCese por nueva designación de autoridad')")
-                ]);
+        // Cierra las autoridades previas (también las de cese futuro) y crea la nueva (D-32, DEF-09)
+        $asignacion = $autoridades->designar([
+            'persona_id' => $validated['persona_id'],
+            'area_ti_id' => $area->id,
+            'tipo_rol_id' => $validated['tipo_rol_id'],
+            'fecha_inicio' => $validated['fecha_inicio'],
+            'fecha_fin' => null,
+            'acto_administrativo' => $validated['acto_administrativo'] ?? null,
+            'observaciones' => $validated['observaciones'] ?? 'Designación de Máxima Autoridad del Área',
+            'activo' => true,
+        ]);
 
-            // Crear la nueva asignación de máxima autoridad
-            return AsignacionRol::create([
-                'persona_id' => $validated['persona_id'],
-                'area_ti_id' => $area->id,
-                'tipo_rol_id' => $validated['tipo_rol_id'],
-                'fecha_inicio' => $validated['fecha_inicio'],
-                'fecha_fin' => null,
-                'es_maxima_autoridad' => true,
-                'acto_administrativo' => $validated['acto_administrativo'] ?? null,
-                'observaciones' => $validated['observaciones'] ?? 'Designación de Máxima Autoridad del Área',
-                'activo' => true,
-            ]);
-        });
-
-        AuditService::log('UPDATE', 'AREAS_TI', $area->id, null, null, "Nueva máxima autoridad designada");
+        AuditService::log('UPDATE', 'AREAS_TI', $area->id, null, null, 'Nueva máxima autoridad designada');
 
         return response()->json([
             'success' => true,

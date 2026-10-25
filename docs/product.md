@@ -67,7 +67,7 @@ Por eso ningún módulo alcanza «IV».
 | Login / sesión | `AuthController`, `pages/login.vue`, `stores/auth.ts` | INV | 401 sin token comprobado; flujo de login no ejecutado | tokens sin expiración, sin límite de intentos (SEC-04) |
 | Panel de control | `DashboardController`, `pages/index.vue` | INV | código | — |
 | Ministerios (ABM) | `MinisterioController`, `pages/ministerios/index.vue` | INV | código; el usuario reportó un bug de refresco el 2026-08-19, luego corregido según el agente anterior | — |
-| Áreas TI (ABM, expediente, máxima autoridad) | `AreaTiController`, `pages/areas-ti/index.vue`, `pages/areas-ti/[id].vue` | INV | código | DEF-04 (vigencias futuras), DEF-09 (doble autoridad) |
+| Áreas TI (ABM, expediente, máxima autoridad) | `AreaTiController`, `pages/areas-ti/index.vue`, `pages/areas-ti/[id].vue` | INV | código; designación de máxima autoridad con 8 tests de API (D-33) | DEF-04 (vigencias futuras) |
 | Personas (padrón, historial) | `PersonaController`, `pages/personas/index.vue` | INV | código | DEF-10 (no se puede re-registrar un CUIL/email dado de baja) |
 | Asignación de roles y vigencias | `AsignacionRolController`, `pages/roles/index.vue`, `pages/areas-ti/[id].vue` | INV | código | DEF-04 |
 | Tipos de rol (tabla de referencia) | `TipoRolController` | PARCIAL | API completa (solo Admin); **sin pantalla de ABM**; los datos vienen del seeder | ¿se requiere UI? |

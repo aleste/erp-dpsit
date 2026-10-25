@@ -37,7 +37,7 @@ Leyenda de perfil: **Pública** = sin `auth:sanctum` · **Auth** = cualquier per
 | GET | `/areas-ti` | Auth | AreaTi@index | `ministerio_id`, `es_homologada`, `nivel_jerarquico`, `q`; devuelve `stats` | sí |
 | GET | `/areas-ti/{id}` | Auth | AreaTi@show | expediente: asignaciones, servicios, referentes, documentos | sí |
 | POST/PUT | `/areas-ti[/{id}]` | E | AreaTi@store/update | — | sí |
-| POST | `/areas-ti/{id}/maxima-autoridad` | E | AreaTi@designarAutoridad | cierra autoridad previa (con `fecha_fin` nula) y crea nueva, en transacción | sí |
+| POST | `/areas-ti/{id}/maxima-autoridad` | E | AreaTi@designarAutoridad | `AutoridadAreaService` (D-33): cierra las autoridades abiertas o con cese futuro con cese el día anterior a `fecha_inicio`; 422 en `persona_id` si ya es la autoridad vigente y en `fecha_inicio` si no es posterior al inicio de la vigente | sí |
 | DELETE | `/areas-ti/{id}` | A | AreaTi@destroy | 422 si tiene servicios | sí |
 | GET | `/personas` | Auth | Persona@index | `q` (apellido/nombre/CUIL/emails/título), `ministerio_id`, `area_ti_id`, `tipo_rol_id`, `solo_autoridades`, `estado_cargo` ∈ VIGENTE/SIN_CARGO, `per_page` (20); `stats` | sí |
 | GET | `/personas/{id}` | Auth | Persona@show | historial completo de cargos y referencias | sí |
@@ -48,7 +48,7 @@ Leyenda de perfil: **Pública** = sin `auth:sanctum` · **Auth** = cualquier per
 | POST/PUT/DELETE | `/tipos-rol[/{id}]` | A | TipoRol@store/update/destroy | borrar: 422 si tiene asignaciones | **no** |
 | GET | `/asignaciones-rol` | Auth | AsignacionRol@index | `tipo_rol_id`, `ministerio_id`, `area_ti_id`, `persona_id`, `estado` ∈ VIGENTE/HISTORICO, `solo_maximas_autoridades`, `q`, `per_page` (25) | sí |
 | GET | `/asignaciones-rol/{id}` | Auth | AsignacionRol@show | — | no |
-| POST/PUT | `/asignaciones-rol[/{id}]` | E | AsignacionRol@store/update | `es_maxima_autoridad` por defecto según el tipo de rol | sí |
+| POST/PUT | `/asignaciones-rol[/{id}]` | E | AsignacionRol@store/update | `es_maxima_autoridad` por defecto según el tipo de rol; si es máxima autoridad y no tiene `fecha_fin`, aplica las reglas de D-33 (mismo cierre y mismos 422 que `/areas-ti/{id}/maxima-autoridad`) | sí |
 | POST | `/asignaciones-rol/{id}/finalizar-vigencia` | E | AsignacionRol@finalizarVigencia | `fecha_fin`, `motivo` (se agrega a observaciones) | sí |
 | DELETE | `/asignaciones-rol/{id}` | A | AsignacionRol@destroy | para cargas erróneas | sí |
 | GET | `/catalogo-servicios` | Auth | CatalogoServicio@index | `activo`, `categoria` | sí |

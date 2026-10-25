@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\AsignacionRol;
 use App\Models\TipoRol;
 use App\Services\AuditService;
+use App\Services\AutoridadAreaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AsignacionRolController extends Controller
 {
@@ -62,8 +64,8 @@ class AsignacionRolController extends Controller
             $term = trim($request->q);
             $query->whereHas('persona', function ($q) use ($term) {
                 $q->where('apellido', 'ILIKE', "%{$term}%")
-                  ->orWhere('nombre', 'ILIKE', "%{$term}%")
-                  ->orWhere('cuil_cuit', 'LIKE', "%{$term}%");
+                    ->orWhere('nombre', 'ILIKE', "%{$term}%")
+                    ->orWhere('cuil_cuit', 'LIKE', "%{$term}%");
             });
         }
 
@@ -90,7 +92,7 @@ class AsignacionRolController extends Controller
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, AutoridadAreaService $autoridades): JsonResponse
     {
         $validated = $request->validate([
             'persona_id' => 'required|exists:personas,id',
@@ -105,13 +107,18 @@ class AsignacionRolController extends Controller
         ]);
 
         // Si se marca como máxima autoridad y no se especificó explícitamente, o si el rol lo tiene por defecto
-        if (!isset($validated['es_maxima_autoridad'])) {
+        if (! isset($validated['es_maxima_autoridad'])) {
             $tipoRol = TipoRol::find($validated['tipo_rol_id']);
             $validated['es_maxima_autoridad'] = $tipoRol?->es_maxima_autoridad_default ?? false;
         }
 
-        $asignacion = AsignacionRol::create($validated);
-        AuditService::log('CREATE', 'ASIGNACIONES_ROL', $asignacion->id, null, $asignacion->toArray());
+        if ($validated['es_maxima_autoridad']) {
+            // Nunca dos máximas autoridades vigentes en el área (D-32)
+            $asignacion = $autoridades->designar($validated);
+        } else {
+            $asignacion = AsignacionRol::create($validated);
+            AuditService::log('CREATE', 'ASIGNACIONES_ROL', $asignacion->id, null, $asignacion->toArray());
+        }
 
         return response()->json([
             'success' => true,
@@ -120,7 +127,7 @@ class AsignacionRolController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, AutoridadAreaService $autoridades): JsonResponse
     {
         $asignacion = AsignacionRol::findOrFail($id);
         $anterior = $asignacion->toArray();
@@ -137,7 +144,12 @@ class AsignacionRolController extends Controller
             'activo' => 'boolean',
         ]);
 
-        $asignacion->update($validated);
+        DB::transaction(function () use ($asignacion, $validated, $autoridades) {
+            if (! empty($validated['es_maxima_autoridad'])) {
+                $autoridades->cerrarPrevias($validated, $asignacion->id);
+            }
+            $asignacion->update($validated);
+        });
         AuditService::log('UPDATE', 'ASIGNACIONES_ROL', $asignacion->id, $anterior, $asignacion->toArray());
 
         return response()->json([
@@ -162,7 +174,7 @@ class AsignacionRolController extends Controller
 
         $asignacion->update([
             'fecha_fin' => $request->fecha_fin,
-            'observaciones' => trim(($asignacion->observaciones ?? '') . "\nBaja de cargo: " . $request->motivo),
+            'observaciones' => trim(($asignacion->observaciones ?? '')."\nBaja de cargo: ".$request->motivo),
         ]);
 
         AuditService::log('UPDATE', 'ASIGNACIONES_ROL', $asignacion->id, $anterior, $asignacion->toArray(), 'Finalización formal de vigencia');

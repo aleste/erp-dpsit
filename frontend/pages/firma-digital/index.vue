@@ -11,7 +11,7 @@
       <button
         v-if="authStore.isEditor"
         @click="abrirAlta()"
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
       >
         <span>+</span> Registrar Entrega
       </button>
@@ -23,7 +23,7 @@
         v-for="card in tarjetas"
         :key="card.key"
         @click="card.accion()"
-        class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-sky-300 transition"
+        class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-primary-300 transition"
       >
         <p class="text-xs font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
         <h3 class="text-2xl font-extrabold mt-0.5" :class="card.color">{{ card.valor }}</h3>
@@ -35,14 +35,14 @@
       <button
         @click="cambiarTab('entregas')"
         class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
-        :class="activeTab === 'entregas' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+        :class="activeTab === 'entregas' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
       >
         <span>🔑</span> Entregas y Certificados
       </button>
       <button
         @click="cambiarTab('recordatorios')"
         class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
-        :class="activeTab === 'recordatorios' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+        :class="activeTab === 'recordatorios' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
       >
         <span>📬</span> Recordatorios de Vencimiento
       </button>
@@ -106,7 +106,7 @@
             </select>
           </label>
         </div>
-        <button v-if="hayFiltros" @click="limpiarFiltros" class="text-sm font-bold text-sky-600 hover:text-sky-800 hover:underline">
+        <button v-if="hayFiltros" @click="limpiarFiltros" class="text-sm font-bold text-primary-700 hover:text-primary-800 hover:underline">
           Limpiar Filtros
         </button>
       </div>
@@ -136,7 +136,7 @@
           <tbody class="divide-y divide-slate-100 text-slate-700">
             <tr v-for="e in filas" :key="e.id" class="hover:bg-slate-50/80 transition">
               <td class="py-3.5 px-4">
-                <button @click="detalleId = e.id" class="font-extrabold text-slate-900 hover:text-sky-600 text-left">
+                <button @click="detalleId = e.id" class="font-extrabold text-slate-900 hover:text-primary-700 text-left">
                   {{ e.persona?.apellido }}, {{ e.persona?.nombre }}
                 </button>
                 <p class="text-xs text-slate-500">{{ e.persona?.email_principal || e.persona?.email_alternativo || 'Sin email' }}</p>
@@ -207,7 +207,7 @@
               <td class="py-3.5 px-4"><FirmaDigitalEstadoBadge tipo="recordatorio" :estado="c.recordatorio_estado" /></td>
               <td class="py-3.5 px-4 text-xs">
                 <span v-if="c.recordatorio_enviado_at" class="text-emerald-700">Enviado el {{ formatFecha(c.recordatorio_enviado_at) }}</span>
-                <span v-else-if="c.recordatorio_ultimo_error" class="text-rose-600 break-all">{{ c.recordatorio_ultimo_error }}</span>
+                <span v-else-if="c.recordatorio_ultimo_error" class="text-rose-700 break-all">{{ c.recordatorio_ultimo_error }}</span>
                 <span v-else class="text-slate-500">—</span>
                 <p v-if="c.recordatorio_intentos > 0" class="text-xs text-slate-500">Intentos: {{ c.recordatorio_intentos }}</p>
               </td>
@@ -231,7 +231,7 @@
       </div>
     </div>
 
-    <p class="text-xs text-slate-500">
+    <p class="text-xs text-slate-600">
       Los recordatorios se envían automáticamente todos los días a las {{ parametros.recordatorio_hora }},
       {{ parametros.recordatorio_dias_anticipacion }} días antes del vencimiento (valor configurable). Si la persona no tiene un email válido,
       el recordatorio queda como «Sin email» y puede reprogramarse luego de completar el dato en el padrón.
@@ -304,11 +304,11 @@ const filtrarPor = (tab, cambios) => {
 }
 const tarjetas = computed(() => [
   { key: 'asignados', label: 'Tokens asignados', valor: stats.asignados, color: 'text-slate-800', accion: () => filtrarPor('entregas', { estado_entrega: 'ASIGNADA' }) },
-  { key: 'proximos', label: 'Próximos a vencer', valor: stats.proximos_a_vencer, color: 'text-amber-600', accion: () => filtrarPor('entregas', { estado_certificado: 'PROXIMO_A_VENCER' }) },
-  { key: 'vencidos', label: 'Vencidos', valor: stats.vencidos, color: 'text-rose-600', accion: () => filtrarPor('entregas', { estado_certificado: 'VENCIDO' }) },
-  { key: 'pendientes', label: 'Recordatorios pendientes', valor: stats.recordatorios.pendientes, color: 'text-sky-600', accion: () => filtrarPor('recordatorios', { recordatorio_estado: 'PENDIENTE' }) },
-  { key: 'enviados', label: 'Recordatorios enviados', valor: stats.recordatorios.enviados, color: 'text-emerald-600', accion: () => filtrarPor('recordatorios', { recordatorio_estado: 'ENVIADO' }) },
-  { key: 'problemas', label: 'Con error / sin email', valor: stats.recordatorios.con_error + stats.recordatorios.sin_email, color: 'text-orange-600', accion: () => filtrarPor('recordatorios', { recordatorio_estado: stats.recordatorios.con_error ? 'ERROR' : 'SIN_EMAIL' }) },
+  { key: 'proximos', label: 'Próximos a vencer', valor: stats.proximos_a_vencer, color: 'text-amber-700', accion: () => filtrarPor('entregas', { estado_certificado: 'PROXIMO_A_VENCER' }) },
+  { key: 'vencidos', label: 'Vencidos', valor: stats.vencidos, color: 'text-rose-700', accion: () => filtrarPor('entregas', { estado_certificado: 'VENCIDO' }) },
+  { key: 'pendientes', label: 'Recordatorios pendientes', valor: stats.recordatorios.pendientes, color: 'text-primary-700', accion: () => filtrarPor('recordatorios', { recordatorio_estado: 'PENDIENTE' }) },
+  { key: 'enviados', label: 'Recordatorios enviados', valor: stats.recordatorios.enviados, color: 'text-emerald-700', accion: () => filtrarPor('recordatorios', { recordatorio_estado: 'ENVIADO' }) },
+  { key: 'problemas', label: 'Con error / sin email', valor: stats.recordatorios.con_error + stats.recordatorios.sin_email, color: 'text-orange-700', accion: () => filtrarPor('recordatorios', { recordatorio_estado: stats.recordatorios.con_error ? 'ERROR' : 'SIN_EMAIL' }) },
 ])
 
 const parametrosConsulta = () => {
@@ -420,7 +420,7 @@ onMounted(async () => {
 
 <style scoped>
 .filtro {
-  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
+  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition;
 }
 .filtro-label {
   @apply block text-sm font-bold text-slate-500 mb-1;

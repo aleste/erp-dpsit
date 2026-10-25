@@ -33,12 +33,12 @@
           </td>
           <td class="py-3 px-4">
             <span v-if="i.responsable">{{ i.responsable.name }}</span>
-            <span v-else class="text-amber-600 font-semibold">Sin asignar</span>
+            <span v-else class="text-amber-700 font-semibold">Sin asignar</span>
             <p v-if="i.colaboradores?.length" class="text-xs text-slate-500">+ {{ i.colaboradores.map(c => c.name).join(', ') }}</p>
           </td>
           <td class="py-3 px-4 space-y-1">
             <ExpedientesEstadoChip :estado="i.estado" />
-            <p v-if="i.fecha_proxima_accion && i.en_area" class="text-xs" :class="i.fecha_proxima_accion < hoy ? 'text-rose-600 font-bold' : 'text-slate-500'">
+            <p v-if="i.fecha_proxima_accion && i.en_area" class="text-xs" :class="i.fecha_proxima_accion < hoy ? 'text-rose-700 font-bold' : 'text-slate-500'">
               Próx.: {{ formatFecha(i.fecha_proxima_accion) }}
             </p>
           </td>
@@ -50,7 +50,7 @@
             </template>
             <span v-else class="text-slate-500">En el área</span>
           </td>
-          <td class="py-3 px-4 text-right font-bold" :class="i.en_area && i.dias_en_area > umbral ? 'text-orange-600' : 'text-slate-600'">
+          <td class="py-3 px-4 text-right font-bold" :class="i.en_area && i.dias_en_area > umbral ? 'text-orange-700' : 'text-slate-600'">
             {{ i.dias_en_area ?? '—' }}
           </td>
         </tr>

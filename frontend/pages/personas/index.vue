@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openCreateModal"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
           <span>+</span> Nueva Persona
         </button>
@@ -21,7 +21,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openNewAsignacionModalDirect"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold shadow-md shadow-indigo-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-700 hover:bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md shadow-indigo-700/20 transition"
         >
           <span>⭐+</span> Asignar Cargo / Rol
         </button>
@@ -35,37 +35,37 @@
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total en Padrón</p>
           <h3 class="text-2xl font-extrabold text-slate-800 mt-0.5">{{ stats.total }}</h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center font-bold text-base">
           👥
         </div>
       </div>
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Con Cargo Vigente</p>
-          <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">{{ stats.con_cargo_vigente }}</h3>
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-700">Con Cargo Vigente</p>
+          <h3 class="text-2xl font-extrabold text-emerald-700 mt-0.5">{{ stats.con_cargo_vigente }}</h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-base">
           💼
         </div>
       </div>
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-amber-600">Máximas Autoridades</p>
-          <h3 class="text-2xl font-extrabold text-amber-600 mt-0.5">{{ stats.maximas_autoridades }}</h3>
+          <p class="text-xs font-bold uppercase tracking-wider text-amber-700">Máximas Autoridades</p>
+          <h3 class="text-2xl font-extrabold text-amber-700 mt-0.5">{{ stats.maximas_autoridades }}</h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-base">
           ⭐
         </div>
       </div>
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-indigo-600">Referentes Servicios</p>
-          <h3 class="text-2xl font-extrabold text-indigo-600 mt-0.5">{{ stats.referentes_servicios }}</h3>
+          <p class="text-xs font-bold uppercase tracking-wider text-indigo-700">Referentes Servicios</p>
+          <h3 class="text-2xl font-extrabold text-indigo-700 mt-0.5">{{ stats.referentes_servicios }}</h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-base">
           ⚡
         </div>
       </div>
@@ -76,7 +76,7 @@
       <button
         @click="activeTab = 'padron'"
         class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
-        :class="activeTab === 'padron' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+        :class="activeTab === 'padron' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
       >
         <span>👤</span> Padrón General de Personas
       </button>
@@ -84,7 +84,7 @@
       <button
         @click="activeTab = 'roles'"
         class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
-        :class="activeTab === 'roles' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+        :class="activeTab === 'roles' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
       >
         <span>🏷️</span> Mapa por Perfiles y Roles TI
       </button>
@@ -105,7 +105,7 @@
               @input="debounceSearch"
               type="text"
               placeholder="Buscar por Nombre, Apellido, CUIL, Email o Título..."
-              class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+              class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white transition"
             />
           </div>
 
@@ -115,7 +115,7 @@
             <select id="personas-filters-ministerio-id"
               v-model="filters.ministerio_id"
               @change="fetchPersonas"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
             >
               <option value="">Todos los Ministerios</option>
               <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -128,7 +128,7 @@
             <select id="personas-filters-tipo-rol-id"
               v-model="filters.tipo_rol_id"
               @change="fetchPersonas"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
             >
               <option value="">Todos los Roles</option>
               <option v-for="r in tiposRol" :key="r.id" :value="r.id">{{ r.nombre }}</option>
@@ -141,7 +141,7 @@
             <select id="personas-filters-estado-cargo"
               v-model="filters.estado_cargo"
               @change="fetchPersonas"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
             >
               <option value="">Todos los Estados</option>
               <option value="VIGENTE">Con Cargo Vigente</option>
@@ -157,7 +157,7 @@
               v-model="filters.solo_autoridades"
               @change="fetchPersonas"
               type="checkbox"
-              class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+              class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
             />
             <span>⭐ Solo Máximas Autoridades TI Vigentes</span>
           </label>
@@ -165,7 +165,7 @@
           <button
             v-if="hasActiveFilters"
             @click="resetFilters"
-            class="text-sm font-bold text-sky-600 hover:text-sky-800 hover:underline"
+            class="text-sm font-bold text-primary-700 hover:text-primary-800 hover:underline"
           >
             Limpiar Filtros
           </button>
@@ -198,15 +198,15 @@
                 <!-- Datos de la Persona -->
                 <td class="py-3.5 px-4">
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 text-sky-800 font-extrabold flex items-center justify-center text-sm flex-shrink-0 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800 font-extrabold flex items-center justify-center text-sm flex-shrink-0 shadow-sm">
                       {{ p.apellido.charAt(0) }}{{ p.nombre.charAt(0) }}
                     </div>
                     <div>
-                      <button @click="openHistoryModal(p.id)" class="font-extrabold text-slate-900 hover:text-sky-600 transition text-left text-sm">
+                      <button @click="openHistoryModal(p.id)" class="font-extrabold text-slate-900 hover:text-primary-700 transition text-left text-sm">
                         {{ p.apellido }}, {{ p.nombre }}
                       </button>
                       <p class="text-xs text-slate-500 font-mono">{{ identificacion(p) }}</p>
-                      <p v-if="p.titulo_profesional" class="text-xs text-indigo-600 font-bold">
+                      <p v-if="p.titulo_profesional" class="text-xs text-indigo-700 font-bold">
                         🎓 {{ p.titulo_profesional }}
                       </p>
                     </div>
@@ -217,9 +217,9 @@
                 <td class="py-3.5 px-4 space-y-0.5">
                   <div v-if="p.email_principal" class="flex items-center gap-1.5 text-slate-800">
                     <span class="text-slate-500 text-xs">✉️</span>
-                    <a :href="`mailto:${p.email_principal}`" class="hover:text-sky-600 font-medium">{{ p.email_principal }}</a>
+                    <a :href="`mailto:${p.email_principal}`" class="hover:text-primary-700 font-medium">{{ p.email_principal }}</a>
                   </div>
-                  <div v-else-if="!p.email_alternativo" class="text-xs text-orange-600">Sin email registrado</div>
+                  <div v-else-if="!p.email_alternativo" class="text-xs text-orange-700">Sin email registrado</div>
                   <div v-if="p.email_alternativo" class="flex items-center gap-1.5 text-slate-500 text-xs">
                     <span class="text-slate-500 text-xs">↳</span>
                     <span>{{ p.email_alternativo }}</span>
@@ -239,7 +239,7 @@
                       class="inline-flex flex-col bg-slate-50 px-2.5 py-1.5 rounded-xl border border-slate-200/80 mr-1.5 mb-1 shadow-2xs"
                     >
                       <div class="flex items-center gap-1.5">
-                        <span class="font-bold text-sky-900">{{ asig.tipo_rol?.nombre }}</span>
+                        <span class="font-bold text-primary-900">{{ asig.tipo_rol?.nombre }}</span>
                         <span v-if="asig.es_maxima_autoridad" class="text-amber-500 text-xs" title="Máxima Autoridad TI">⭐</span>
                       </div>
                       <span class="text-xs text-slate-500 font-medium">
@@ -268,7 +268,7 @@
                   <div class="flex items-center justify-end gap-1.5">
                     <button
                       @click="openHistoryModal(p.id)"
-                      class="px-2.5 py-1.5 bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 rounded-lg text-sm font-bold whitespace-nowrap transition flex items-center gap-1"
+                      class="px-2.5 py-1.5 bg-slate-100 hover:bg-primary-50 text-slate-700 hover:text-primary-800 rounded-lg text-sm font-bold whitespace-nowrap transition flex items-center gap-1"
                       title="Ver expediente y trayectoria completa"
                     >
                       <span>🔍</span> Ver Ficha
@@ -277,7 +277,7 @@
                     <button
                       v-if="authStore.isEditor"
                       @click="openEditModal(p)"
-                      class="p-1.5 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-slate-100 rounded-lg transition"
                       title="Editar datos de la persona"
                     >
                       ✏️
@@ -286,7 +286,7 @@
                     <button
                       v-if="authStore.isEditor"
                       @click="openAsignarModalParaPersona(p)"
-                      class="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition"
                       title="Asignar nuevo cargo a esta persona"
                     >
                       ➕
@@ -295,7 +295,7 @@
                     <button
                       v-if="authStore.isAdmin"
                       @click="confirmDeletePersona(p)"
-                      class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
                       title="Eliminar del padrón"
                     >
                       🗑️
@@ -359,7 +359,7 @@
               <span class="px-2.5 py-1 bg-slate-100 text-slate-700 font-extrabold rounded-lg text-xs uppercase tracking-wider">
                 {{ rol.nivel_responsabilidad }}
               </span>
-              <span class="font-mono text-sm font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">
+              <span class="font-mono text-sm font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded">
                 {{ rol.codigo }}
               </span>
             </div>
@@ -371,7 +371,7 @@
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
             <NuxtLink
               :to="`/roles?tipo_rol_id=${rol.id}`"
-              class="font-bold text-sky-600 hover:text-sky-800 transition"
+              class="font-bold text-primary-700 hover:text-primary-800 transition"
             >
               Ver Agentes con este Rol →
             </NuxtLink>
@@ -401,7 +401,7 @@
                 v-model="formPersona.cuil_cuit"
                 type="text"
                 placeholder="20-12345678-9"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -410,7 +410,7 @@
                 v-model="formPersona.titulo_profesional"
                 type="text"
                 placeholder="Ej: Lic. en Sistemas, Ing. TI"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -420,7 +420,7 @@
               <label for="personas-formpersona-tipo-documento" class="block font-bold text-slate-700 mb-1">Tipo de Documento</label>
               <select id="personas-formpersona-tipo-documento"
                 v-model="formPersona.tipo_documento"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               >
                 <option value="">Sin documento</option>
                 <option v-for="t in tiposDocumento" :key="t" :value="t">{{ t }}</option>
@@ -433,7 +433,7 @@
                 type="text"
                 :required="!!formPersona.tipo_documento"
                 placeholder="Ej: 30123456"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -446,7 +446,7 @@
                 type="text"
                 required
                 placeholder="Ej: Juan Martín"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -456,7 +456,7 @@
                 type="text"
                 required
                 placeholder="Ej: Pérez"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -468,7 +468,7 @@
                 v-model="formPersona.email_principal"
                 type="email"
                 placeholder="jperez@organismo.gob.ar"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -477,7 +477,7 @@
                 v-model="formPersona.email_alternativo"
                 type="email"
                 placeholder="jperez@gmail.com"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -489,7 +489,7 @@
                 v-model="formPersona.telefono_principal"
                 type="text"
                 placeholder="0221-429-0000"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -498,7 +498,7 @@
                 v-model="formPersona.telefono_alternativo"
                 type="text"
                 placeholder="0221-15-123456"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -509,7 +509,7 @@
               v-model="formPersona.observaciones"
               rows="2"
               placeholder="Notas sobre especialidad, capacitaciones o perfil..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             ></textarea>
           </div>
 
@@ -524,7 +524,7 @@
             <button
               type="submit"
               :disabled="saving"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{ saving ? 'Guardando...' : (isEditing ? 'Guardar Cambios' : 'Registrar Persona') }}
             </button>
@@ -541,11 +541,11 @@
         <!-- Header Modal -->
         <div class="p-6 bg-slate-900 text-white flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white font-extrabold flex items-center justify-center text-base shadow-inner">
+            <div class="w-12 h-12 rounded-2xl bg-primary-700 text-white font-extrabold flex items-center justify-center text-base shadow-inner">
               {{ selectedPersona.apellido.charAt(0) }}{{ selectedPersona.nombre.charAt(0) }}
             </div>
             <div>
-              <span class="text-xs uppercase font-bold text-sky-400 tracking-wider">Ficha Integral de Capital Humano</span>
+              <span class="text-xs uppercase font-bold text-primary-400 tracking-wider">Ficha Integral de Capital Humano</span>
               <h2 class="text-xl font-bold mt-0.5">{{ selectedPersona.apellido }}, {{ selectedPersona.nombre }}</h2>
               <p class="text-sm text-slate-300">{{ identificacion(selectedPersona) }} | {{ selectedPersona.titulo_profesional || 'Profesional TI' }}</p>
             </div>
@@ -657,7 +657,7 @@
                   <span class="font-mono text-xs font-bold bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-700">
                     {{ srvRef.servicio_area?.codigo_instancia }}
                   </span>
-                  <span class="px-2 py-0.5 rounded text-xs font-extrabold uppercase bg-sky-100 text-sky-800">
+                  <span class="px-2 py-0.5 rounded text-xs font-extrabold uppercase bg-primary-100 text-primary-800">
                     {{ srvRef.tipo_referente }}
                   </span>
                 </div>
@@ -712,7 +712,7 @@
             <select id="personas-formasig-area-ti-id"
               v-model="formAsig.area_ti_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             >
               <option value="" disabled>Seleccione Área TI...</option>
               <option v-for="a in areasList" :key="a.id" :value="a.id">
@@ -726,7 +726,7 @@
             <select id="personas-formasig-tipo-rol-id"
               v-model="formAsig.tipo_rol_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             >
               <option value="" disabled>Seleccione Rol...</option>
               <option v-for="r in tiposRol" :key="r.id" :value="r.id">
@@ -742,7 +742,7 @@
                 v-model="formAsig.fecha_inicio"
                 type="date"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
               />
             </div>
             <div>
@@ -751,7 +751,7 @@
                 v-model="formAsig.acto_administrativo"
                 type="text"
                 placeholder="Ej: Decreto 1250/2024"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
               />
             </div>
           </div>
@@ -761,7 +761,7 @@
               <input
                 type="checkbox"
                 v-model="formAsig.es_maxima_autoridad"
-                class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-500"
+                class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-600"
               />
               ⭐ Designar formalmente como Máxima Autoridad del Área
             </label>
@@ -779,7 +779,7 @@
             <button
               type="submit"
               :disabled="savingAsignacion"
-              class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold shadow-md shadow-indigo-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-indigo-700 hover:bg-indigo-600 text-white rounded-xl font-bold shadow-md shadow-indigo-700/20 disabled:opacity-50"
             >
               {{ savingAsignacion ? 'Guardando...' : 'Asignar Cargo' }}
             </button>

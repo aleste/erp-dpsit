@@ -30,7 +30,7 @@
             type="date"
             required
             :min="inicio"
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
           />
           <p v-if="fechaInvalida" class="mt-1 text-xs font-semibold text-rose-700">
             No puede ser anterior al inicio del cargo ({{ formatFecha(inicio) }}).
@@ -45,7 +45,7 @@
             rows="2"
             maxlength="500"
             placeholder="Ej: Renuncia, pase a otro organismo, conclusión del mandato..."
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
           ></textarea>
         </div>
 
@@ -57,7 +57,7 @@
             type="text"
             maxlength="150"
             placeholder="Ej: RESOL-2026-15-GDEBA"
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
           />
         </div>
 

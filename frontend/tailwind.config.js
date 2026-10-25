@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -14,24 +16,10 @@ export default {
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {
-        brand: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          950: '#082f49',
-        },
-        gov: {
-          primary: '#0F172A',
-          secondary: '#1E293B',
-          accent: '#0284c7',
-          success: '#10B981',
-          warning: '#F59E0B',
-          danger: '#EF4444',
-        }
+        // Color de marca y de acción principal (botones, enlaces, foco, menú activo).
+        // Sobre fondo claro: texto y botones desde el tono 700 (contraste ≥ 4,5:1).
+        // Los estados siguen con la paleta de Tailwind (emerald, amber, rose): su uso no es solo semántico.
+        primary: colors.sky,
       }
     },
   },

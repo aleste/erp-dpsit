@@ -15,16 +15,16 @@ export const ESTADOS_CERTIFICADO: Record<string, { label: string; clase: string 
   VIGENTE: { label: 'Vigente', clase: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
   PROXIMO_A_VENCER: { label: 'Próximo a vencer', clase: 'bg-amber-50 text-amber-700 border-amber-200' },
   VENCIDO: { label: 'Vencido', clase: 'bg-rose-50 text-rose-700 border-rose-200' },
-  NO_VIGENTE: { label: 'No vigente', clase: 'bg-slate-100 text-slate-500 border-slate-200' },
+  NO_VIGENTE: { label: 'No vigente', clase: 'bg-slate-100 text-slate-600 border-slate-200' },
 }
 
 export const ESTADOS_RECORDATORIO: Record<string, { label: string; clase: string }> = {
-  PENDIENTE: { label: 'Pendiente', clase: 'bg-sky-50 text-sky-700 border-sky-200' },
+  PENDIENTE: { label: 'Pendiente', clase: 'bg-primary-50 text-primary-700 border-primary-200' },
   ENVIANDO: { label: 'Enviando', clase: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
   ENVIADO: { label: 'Enviado', clase: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
   ERROR: { label: 'Con error', clase: 'bg-rose-50 text-rose-700 border-rose-200' },
   SIN_EMAIL: { label: 'Sin email', clase: 'bg-orange-50 text-orange-700 border-orange-200' },
-  CANCELADO: { label: 'Cancelado', clase: 'bg-slate-100 text-slate-500 border-slate-200' },
+  CANCELADO: { label: 'Cancelado', clase: 'bg-slate-100 text-slate-600 border-slate-200' },
 }
 
 export const ESTADOS_ENTREGA: Record<string, string> = {

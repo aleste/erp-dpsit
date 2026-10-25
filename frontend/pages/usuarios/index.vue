@@ -10,7 +10,7 @@
       <button
         v-if="authStore.isAdmin"
         @click="abrirFormulario()"
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
       >
         <span>+</span> Nuevo Usuario
       </button>
@@ -68,7 +68,7 @@
                   </span>
                 </td>
                 <td class="py-3.5 px-4">
-                  <span class="text-xs font-bold uppercase" :class="u.activo ? 'text-emerald-600' : 'text-rose-600'">
+                  <span class="text-xs font-bold uppercase" :class="u.activo ? 'text-emerald-700' : 'text-rose-700'">
                     {{ u.activo ? 'Activo' : 'Inactivo' }}
                   </span>
                 </td>
@@ -141,7 +141,7 @@
           </div>
 
           <label class="inline-flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
-            <input v-model="formulario.activo" type="checkbox" class="w-4 h-4 text-sky-600 rounded border-slate-300" />
+            <input v-model="formulario.activo" type="checkbox" class="w-4 h-4 text-primary-700 rounded border-slate-300" />
             Usuario activo (al desactivarlo se cierran sus sesiones)
           </label>
 
@@ -149,7 +149,7 @@
             <button type="button" @click="formulario.visible = false" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold">
               Cancelar
             </button>
-            <button type="submit" :disabled="guardando" class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50">
+            <button type="submit" :disabled="guardando" class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50">
               {{ guardando ? 'Guardando...' : 'Guardar' }}
             </button>
           </div>
@@ -254,10 +254,10 @@ onMounted(cargar)
 
 <style scoped>
 .campo {
-  @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500;
+  @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600;
 }
 .filtro {
-  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
+  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition;
 }
 .filtro-label {
   @apply block text-sm font-bold text-slate-500 mb-1;

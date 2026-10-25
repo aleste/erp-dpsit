@@ -12,7 +12,7 @@
       <div class="flex items-center gap-3">
         <button
           @click="downloadCsv"
-          class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-emerald-600/30 transition"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-emerald-700/30 transition"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -41,7 +41,7 @@
                 :value="r.id"
                 v-model="filters.tipo_rol_ids"
                 @change="fetchPreview"
-                class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+                class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
               />
               <span class="text-slate-800">{{ r.nombre }}</span>
             </label>
@@ -62,7 +62,7 @@
                 :value="m.id"
                 v-model="filters.ministerio_ids"
                 @change="fetchPreview"
-                class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+                class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
               />
               <span class="text-slate-800 font-semibold">{{ m.sigla }}</span>
               <span class="text-slate-500 truncate">- {{ m.nombre }}</span>
@@ -79,7 +79,7 @@
               type="checkbox"
               v-model="filters.solo_maximas_autoridades"
               @change="fetchPreview"
-              class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-500"
+              class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-600"
             />
             <span class="font-bold text-slate-800">⭐ Solo Máximas Autoridades TI</span>
           </label>
@@ -89,7 +89,7 @@
               type="checkbox"
               v-model="filters.solo_vigentes"
               @change="fetchPreview"
-              class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+              class="w-4 h-4 text-emerald-700 rounded border-slate-300 focus:ring-emerald-600"
             />
             <span class="text-slate-700">Solo Asignaciones Vigentes Actuales</span>
           </label>
@@ -99,7 +99,7 @@
               type="checkbox"
               v-model="filters.solo_homologadas"
               @change="fetchPreview"
-              class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+              class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
             />
             <span class="text-slate-700">Solo Áreas Homologadas {{ agency.shortName }}</span>
           </label>
@@ -109,7 +109,7 @@
               type="checkbox"
               v-model="filters.incluir_alternativos"
               @change="fetchPreview"
-              class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
+              class="w-4 h-4 text-indigo-700 rounded border-slate-300 focus:ring-indigo-600"
             />
             <span class="text-indigo-900 font-semibold">Incluir Correos Alternativos</span>
           </label>
@@ -124,9 +124,9 @@
         <h3 class="text-base font-bold text-slate-900">Resumen de Destinatarios</h3>
 
         <div class="grid grid-cols-2 gap-3 text-center">
-          <div class="p-3 bg-sky-50 rounded-xl border border-sky-100">
-            <p class="text-xs font-bold text-sky-700 uppercase">Contactos</p>
-            <p class="text-2xl font-extrabold text-sky-900 mt-1">{{ previewData.total_registros || 0 }}</p>
+          <div class="p-3 bg-primary-50 rounded-xl border border-primary-100">
+            <p class="text-xs font-bold text-primary-700 uppercase">Contactos</p>
+            <p class="text-2xl font-extrabold text-primary-900 mt-1">{{ previewData.total_registros || 0 }}</p>
           </div>
           <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
             <p class="text-xs font-bold text-emerald-700 uppercase">Emails Únicos</p>
@@ -175,7 +175,7 @@
                 <td class="py-2.5 px-3 font-bold text-slate-900">
                   {{ item.nombre_completo }}
                 </td>
-                <td class="py-2.5 px-3 text-sky-700 font-medium">
+                <td class="py-2.5 px-3 text-primary-700 font-medium">
                   {{ item.email_principal }}
                 </td>
                 <td class="py-2.5 px-3">

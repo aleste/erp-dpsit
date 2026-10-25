@@ -2,7 +2,7 @@
   <div>
     <!-- Cabecera Institucional -->
     <div class="text-center mb-8">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 shadow-xl shadow-sky-500/25 mb-4">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-700 mb-4">
         <span class="text-white font-extrabold text-2xl tracking-wider">{{ agency.acronym }}</span>
       </div>
       <h2 class="text-2xl font-extrabold text-white tracking-tight">ERP {{ agency.shortName }}</h2>
@@ -26,7 +26,7 @@
             type="email"
             required
             placeholder="ejemplo@dpsit.gob.ar"
-            class="w-full px-3.5 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
+            class="w-full px-3.5 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
           />
         </div>
 
@@ -37,14 +37,14 @@
             type="password"
             required
             placeholder="••••••••"
-            class="w-full px-3.5 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
+            class="w-full px-3.5 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
           />
         </div>
 
         <button
           type="submit"
           :disabled="loading"
-          class="w-full py-2.5 px-4 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold rounded-xl shadow-lg shadow-sky-600/30 hover:shadow-sky-500/40 focus:outline-none focus:ring-2 focus:ring-sky-500 transition disabled:opacity-50"
+          class="w-full py-2.5 px-4 bg-primary-700 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl shadow-lg shadow-primary-700/30 hover:shadow-primary-500/40 focus:outline-none focus:ring-2 focus:ring-primary-600 transition disabled:opacity-50"
         >
           {{ loading ? 'Iniciando sesión...' : 'Ingresar a la Plataforma' }}
         </button>
@@ -59,7 +59,7 @@
           <button
             type="button"
             @click="setProfile('admin@dpsit.gob.ar', 'admin123')"
-            class="py-2 px-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg border border-slate-700 transition text-center"
+            class="py-2 px-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-primary-400 rounded-lg border border-slate-700 transition text-center"
           >
             Admin
           </button>

@@ -83,7 +83,9 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
   se vincula a su campo con `for`/`id` (en `PersonaSearchSelect`, prop `input-id`). Tipografía: cuerpo,
   tablas y controles en `text-sm`; metadatos y badges en `text-xs` (piso de 12 px: no usar `text-[Npx]`);
   mayúsculas espaciadas solo en encabezados de tabla, badges e indicadores; texto gris sobre fondo claro
-  desde `slate-500` (`slate-600` sobre `slate-100`).
+  desde `slate-500` (`slate-600` sobre `slate-100`). Color: `primary-*` (alias de `sky`, en
+  `tailwind.config.js`) para marca y acción principal; botones y texto de color sobre fondo claro desde el
+  tono 700 (hover 600), anillos de foco 600; sobre fondo oscuro, texto desde el tono 300/400.
 - Denominación de la institución: nunca hardcodear; usar `config('app.agency.*')` / `useAgency()`.
 - Estilo PHP: Laravel Pint (`vendor/bin/pint`), aplicado solo a los archivos que tocaste.
 - Git: `develop` = desarrollo, `main` = producción. Trabajar en ramas desde `develop`. Commits estilo

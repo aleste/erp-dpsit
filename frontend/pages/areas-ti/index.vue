@@ -18,7 +18,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalCreate"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
           <span>+</span> Nueva Área TI
         </button>
@@ -50,16 +50,16 @@
       >
         <div>
           <p
-            class="text-xs font-bold uppercase tracking-wider text-emerald-600"
+            class="text-xs font-bold uppercase tracking-wider text-emerald-700"
           >
             Homologadas por {{ agency.shortName }}
           </p>
-          <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">
+          <h3 class="text-2xl font-extrabold text-emerald-700 mt-0.5">
             {{ stats.homologadas }}
           </h3>
         </div>
         <div
-          class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-base"
+          class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-base"
         >
           ✓
         </div>
@@ -69,15 +69,15 @@
         class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between"
       >
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-amber-600">
+          <p class="text-xs font-bold uppercase tracking-wider text-amber-700">
             En Proceso de Homologación
           </p>
-          <h3 class="text-2xl font-extrabold text-amber-600 mt-0.5">
+          <h3 class="text-2xl font-extrabold text-amber-700 mt-0.5">
             {{ stats.en_tramite }}
           </h3>
         </div>
         <div
-          class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-base"
+          class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-base"
         >
           ⏳
         </div>
@@ -102,7 +102,7 @@
             @input="debounceSearch"
             type="text"
             placeholder="Nombre, código o resolución..."
-            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white transition"
           />
         </div>
 
@@ -117,7 +117,7 @@
             id="areas-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todos los Ministerios</option>
             <option v-for="m in ministerios" :key="m.id" :value="m.id">
@@ -137,7 +137,7 @@
             id="areas-filters-es-homologada"
             v-model="filters.es_homologada"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todas las Áreas</option>
             <option value="true">
@@ -158,7 +158,7 @@
             id="areas-filters-nivel-jerarquico"
             v-model="filters.nivel_jerarquico"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todos los Niveles</option>
             <option value="DIRECCION_PROVINCIAL">Dirección Provincial</option>
@@ -219,12 +219,12 @@
 
           <div>
             <span
-              class="text-xs font-bold uppercase text-sky-600 tracking-wider"
+              class="text-xs font-bold uppercase text-primary-700 tracking-wider"
             >
               {{ area.ministerio?.sigla }} - {{ area.ministerio?.nombre }}
             </span>
             <h2
-              class="text-base font-bold text-slate-900 mt-0.5 group-hover:text-sky-600 transition"
+              class="text-base font-bold text-slate-900 mt-0.5 group-hover:text-primary-700 transition"
             >
               <NuxtLink :to="`/areas-ti/${area.id}`">{{
                 area.nombre
@@ -252,7 +252,7 @@
               <button
                 v-if="authStore.isEditor"
                 @click="openModalAutoridad(area)"
-                class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline"
+                class="text-xs font-bold text-primary-700 hover:text-primary-800 hover:underline"
               >
                 Cambiar / Designar
               </button>
@@ -268,7 +268,7 @@
                   {{ area.maxima_autoridad_vigente.persona?.apellido }},
                   {{ area.maxima_autoridad_vigente.persona?.nombre }}
                 </p>
-                <p class="text-xs text-sky-700 truncate">
+                <p class="text-xs text-primary-700 truncate">
                   {{ area.maxima_autoridad_vigente.tipo_rol?.nombre }}
                 </p>
               </div>
@@ -294,7 +294,7 @@
         >
           <NuxtLink
             :to="`/areas-ti/${area.id}`"
-            class="font-bold text-sky-600 hover:text-sky-800 transition"
+            class="font-bold text-primary-700 hover:text-primary-800 transition"
           >
             Ver Expediente Completo →
           </NuxtLink>
@@ -309,7 +309,7 @@
             </button>
             <button
               @click="openModalEdit(area)"
-              class="p-1.5 text-slate-500 hover:text-sky-600 hover:bg-slate-200/60 rounded-lg transition"
+              class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-slate-200/60 rounded-lg transition"
               title="Editar Área TI"
             >
               ✏️
@@ -317,7 +317,7 @@
             <button
               v-if="authStore.isAdmin"
               @click="confirmDelete(area)"
-              class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+              class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
               title="Eliminar Área TI"
             >
               🗑️
@@ -369,7 +369,7 @@
               id="areas-formarea-ministerio-id"
               v-model="formArea.ministerio_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             >
               <option value="" disabled>Seleccione Ministerio...</option>
               <option v-for="m in ministerios" :key="m.id" :value="m.id">
@@ -391,7 +391,7 @@
                 type="text"
                 required
                 placeholder="Ej: TI-MS-03"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -404,7 +404,7 @@
                 id="areas-formarea-nivel-jerarquico"
                 v-model="formArea.nivel_jerarquico"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               >
                 <option value="DIRECCION_PROVINCIAL">
                   Dirección Provincial
@@ -429,7 +429,7 @@
               type="text"
               required
               placeholder="Ej: Dirección Provincial de Infraestructura y Servicios de TI"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -440,7 +440,7 @@
               <input
                 type="checkbox"
                 v-model="formArea.es_homologada"
-                class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                class="w-4 h-4 text-emerald-700 rounded border-slate-300 focus:ring-emerald-600"
               />
               <span class="font-bold text-slate-800"
                 >Área Homologada formalmente ante la DPSIT</span
@@ -458,7 +458,7 @@
                 v-model="formArea.resolucion_homologacion"
                 type="text"
                 placeholder="Ej: RES-2024-150-DPSIT"
-                class="w-full p-2 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2 bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -475,7 +475,7 @@
                 v-model="formArea.email_institucional"
                 type="email"
                 placeholder="sistemas@organismo.gob.ar"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -489,7 +489,7 @@
                 v-model="formArea.telefono_contacto"
                 type="text"
                 placeholder="0221-429-0000 int 123"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -505,7 +505,7 @@
             <button
               type="submit"
               :disabled="saving"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{
                 saving
@@ -578,7 +578,7 @@
               v-model="formServicio.catalogo_servicio_id"
               @change="onTipoServicioChange"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             >
               <option value="" disabled>Seleccione Servicio...</option>
               <option
@@ -604,7 +604,7 @@
                 type="text"
                 required
                 placeholder="Ej: CLOUD-MS-01"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono uppercase text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono uppercase text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
             <div>
@@ -617,7 +617,7 @@
                 id="areas-formservicio-sla-nivel"
                 v-model="formServicio.sla_nivel"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               >
                 <option value="99.9% Disponibilidad 24x7">
                   Platinum (99.9% 24x7)
@@ -646,7 +646,7 @@
               v-model="formServicio.observaciones"
               rows="2"
               placeholder="Detalles sobre provisión, requerimientos o acuerdos del servicio..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             ></textarea>
           </div>
 
@@ -661,7 +661,7 @@
             <button
               type="submit"
               :disabled="savingServicio"
-              class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-md shadow-emerald-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-bold shadow-md shadow-emerald-700/20 disabled:opacity-50"
             >
               {{ savingServicio ? "Guardando..." : "Asociar Servicio al Área" }}
             </button>

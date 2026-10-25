@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalCreate"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
           <span>+</span> Nuevo Ministerio / Organismo
         </button>
@@ -34,22 +34,22 @@
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-sky-600">Total Áreas TI Dependientes</p>
-          <h3 class="text-2xl font-extrabold text-sky-600 mt-0.5">{{ totalAreasTi }}</h3>
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-700">Total Áreas TI Dependientes</p>
+          <h3 class="text-2xl font-extrabold text-primary-700 mt-0.5">{{ totalAreasTi }}</h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center font-bold text-base">
           🏢
         </div>
       </div>
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Organismos Activos</p>
-          <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-700">Organismos Activos</p>
+          <h3 class="text-2xl font-extrabold text-emerald-700 mt-0.5">
             {{ ministerios.filter(m => m.activo).length }}
           </h3>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-base">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-base">
           ✓
         </div>
       </div>
@@ -65,7 +65,7 @@
             @input="debounceSearch"
             type="text"
             placeholder="Buscar por nombre, código o sigla (ej. Salud, MSAL, HTC)..."
-            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white transition"
           />
         </div>
 
@@ -74,7 +74,7 @@
           <select id="ministerios-filters-activo"
             v-model="filters.activo"
             @change="fetchMinisterios"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todos los Estados</option>
             <option value="true">Solo Activos</option>
@@ -102,7 +102,7 @@
         <!-- Cabecera del Ministerio -->
         <div class="p-6 bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div class="flex items-center gap-3">
-            <span class="px-3 py-1 bg-sky-600 text-white rounded-xl text-sm font-extrabold tracking-wider">
+            <span class="px-3 py-1 bg-primary-700 text-white rounded-xl text-sm font-extrabold tracking-wider">
               {{ m.sigla || m.codigo }}
             </span>
             <div>
@@ -175,7 +175,7 @@
               <button
                 v-if="authStore.isEditor"
                 @click="openModalAutoridad(m)"
-                class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-white rounded-lg text-xs font-bold"
+                class="px-2.5 py-1 bg-amber-700 hover:bg-amber-600 text-white rounded-lg text-xs font-bold"
               >
                 {{ m.autoridad_vigente ? 'Designar reemplazo' : 'Designar autoridad' }}
               </button>
@@ -202,7 +202,7 @@
             </h3>
             <NuxtLink
               to="/areas-ti"
-              class="text-sm font-bold text-sky-600 hover:text-sky-800 transition"
+              class="text-sm font-bold text-primary-700 hover:text-primary-800 transition"
             >
               Gestionar Áreas TI →
             </NuxtLink>
@@ -216,7 +216,7 @@
             <div
               v-for="area in m.areas_ti"
               :key="area.id"
-              class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-sky-300 hover:shadow-md transition space-y-2"
+              class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-primary-300 hover:shadow-md transition space-y-2"
             >
               <div class="flex items-start justify-between gap-2">
                 <span class="font-mono text-xs font-bold text-slate-600 bg-slate-200/80 px-1.5 py-0.5 rounded">
@@ -231,7 +231,7 @@
               </div>
 
               <h4 class="font-bold text-slate-900 text-sm">
-                <NuxtLink :to="`/areas-ti/${area.id}`" class="hover:text-sky-600 transition">{{ area.nombre }}</NuxtLink>
+                <NuxtLink :to="`/areas-ti/${area.id}`" class="hover:text-primary-700 transition">{{ area.nombre }}</NuxtLink>
               </h4>
 
               <!-- Máxima autoridad del área -->
@@ -267,7 +267,7 @@
                 type="text"
                 required
                 placeholder="Ej: MSAL, DGCYE, HTC"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -276,7 +276,7 @@
                 v-model="form.sigla"
                 type="text"
                 placeholder="Ej: MSALUD, DGCYE"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 uppercase focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -288,7 +288,7 @@
               type="text"
               required
               placeholder="Ej: Ministerio de Salud"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -300,7 +300,7 @@
                 type="number"
                 min="0"
                 placeholder="0"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div class="flex items-center pt-6">
@@ -308,7 +308,7 @@
                 <input
                   type="checkbox"
                   v-model="form.activo"
-                  class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+                  class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
                 />
                 Organismo Activo
               </label>
@@ -326,7 +326,7 @@
             <button
               type="submit"
               :disabled="saving"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{ saving ? 'Guardando...' : (isEditing ? 'Guardar Cambios' : 'Crear Organismo') }}
             </button>
@@ -358,7 +358,7 @@
               placeholder="Buscar por apellido, nombre o CUIL..."
             />
             <p class="text-xs text-slate-500 mt-1">
-              Si no está en el padrón, cargala antes en <NuxtLink to="/personas" class="text-sky-600 font-bold">Personas</NuxtLink>.
+              Si no está en el padrón, cargala antes en <NuxtLink to="/personas" class="text-primary-700 font-bold">Personas</NuxtLink>.
               La autoridad vigente cesa el día anterior a la fecha de inicio.
             </p>
           </div>
@@ -374,7 +374,7 @@
                 type="text"
                 maxlength="150"
                 placeholder="Ej: Ministra, Presidente"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -382,7 +382,7 @@
               <input id="ministerios-formautoridad-fecha-inicio"
                 v-model="formAutoridad.fecha_inicio"
                 type="date"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -393,7 +393,7 @@
               v-model="formAutoridad.acto_administrativo"
               type="text"
               maxlength="150"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -402,7 +402,7 @@
             <textarea id="ministerios-formautoridad-observaciones"
               v-model="formAutoridad.observaciones"
               rows="2"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -417,7 +417,7 @@
             <button
               type="submit"
               :disabled="saving || (!formAutoridad.id && !formAutoridad.persona_id)"
-              class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-white rounded-xl font-bold disabled:opacity-50"
+              class="px-5 py-2 bg-amber-700 hover:bg-amber-600 text-white rounded-xl font-bold disabled:opacity-50"
             >
               {{ saving ? 'Guardando...' : (formAutoridad.id ? 'Guardar cambios' : 'Designar') }}
             </button>

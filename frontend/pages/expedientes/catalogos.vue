@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-6 max-w-5xl mx-auto">
-    <NuxtLink to="/expedientes" class="text-sm font-bold text-sky-600 hover:underline">← Volver al seguimiento</NuxtLink>
+    <NuxtLink to="/expedientes" class="text-sm font-bold text-primary-700 hover:underline">← Volver al seguimiento</NuxtLink>
     <div>
       <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Catálogos de Expedientes</h1>
       <p class="text-sm text-slate-600 mt-0.5">
@@ -15,14 +15,14 @@
     <template v-else>
       <div class="flex border-b border-slate-200 space-x-6">
         <button v-for="(t, id) in CATALOGOS" :key="id" @click="catalogo = id" class="pb-3 text-sm font-extrabold border-b-2 transition"
-                :class="catalogo === id ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
+                :class="catalogo === id ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'">
           {{ t.titulo }} ({{ registros(id).length }})
         </button>
       </div>
 
       <div class="flex justify-between items-center">
         <input v-model="busqueda" type="text" placeholder="Filtrar por nombre..." class="w-72 px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm" />
-        <button @click="abrir()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold">+ Agregar</button>
+        <button @click="abrir()" class="px-4 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold">+ Agregar</button>
       </div>
 
       <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
@@ -81,7 +81,7 @@
         <label class="flex items-center gap-2"><input v-model="form.activo" type="checkbox" class="rounded" /> Activo</label>
         <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
           <button type="button" @click="form.visible = false" class="px-4 py-2 bg-slate-100 rounded-xl font-semibold">Cancelar</button>
-          <button type="submit" :disabled="guardando" class="px-5 py-2 bg-sky-600 text-white rounded-xl font-bold disabled:opacity-50">Guardar</button>
+          <button type="submit" :disabled="guardando" class="px-5 py-2 bg-primary-700 text-white rounded-xl font-bold disabled:opacity-50">Guardar</button>
         </div>
       </form>
     </div>
@@ -151,6 +151,6 @@ onMounted(() => cargarOpciones(true))
 
 <style scoped>
 .campo {
-  @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500;
+  @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600;
 }
 </style>

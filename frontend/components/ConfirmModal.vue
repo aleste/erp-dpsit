@@ -36,7 +36,7 @@
                 <!-- Danger Icon (Trash / Alert) -->
                 <svg
                   v-if="modal.type === 'danger'"
-                  class="w-6 h-6 text-rose-600"
+                  class="w-6 h-6 text-rose-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -52,7 +52,7 @@
                 <!-- Warning Icon -->
                 <svg
                   v-else-if="modal.type === 'warning'"
-                  class="w-6 h-6 text-amber-600"
+                  class="w-6 h-6 text-amber-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -68,7 +68,7 @@
                 <!-- Info Icon -->
                 <svg
                   v-else
-                  class="w-6 h-6 text-sky-600"
+                  class="w-6 h-6 text-primary-700"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -134,19 +134,19 @@ const iconBgClass = computed(() => {
       return 'bg-amber-50 border border-amber-100'
     case 'info':
     default:
-      return 'bg-sky-50 border border-sky-100'
+      return 'bg-primary-50 border border-primary-100'
   }
 })
 
 const confirmBtnClass = computed(() => {
   switch (modal.value.type) {
     case 'danger':
-      return 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/30 focus:ring-rose-500'
+      return 'bg-rose-700 hover:bg-rose-600 shadow-rose-700/30 focus:ring-rose-600'
     case 'warning':
-      return 'bg-amber-600 hover:bg-amber-500 shadow-amber-600/30 focus:ring-amber-500'
+      return 'bg-amber-700 hover:bg-amber-600 shadow-amber-700/30 focus:ring-amber-600'
     case 'info':
     default:
-      return 'bg-sky-600 hover:bg-sky-500 shadow-sky-600/30 focus:ring-sky-500'
+      return 'bg-primary-700 hover:bg-primary-600 shadow-primary-700/30 focus:ring-primary-600'
   }
 })
 

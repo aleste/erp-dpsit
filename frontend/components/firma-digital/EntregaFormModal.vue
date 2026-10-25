@@ -34,12 +34,12 @@
             <button
               type="button"
               @click="mostrarNuevaPersona = !mostrarNuevaPersona"
-              class="text-sm font-bold text-sky-600 hover:text-sky-800 hover:underline"
+              class="text-sm font-bold text-primary-700 hover:text-primary-800 hover:underline"
             >
               {{ mostrarNuevaPersona ? '← Buscar en el padrón' : '+ La persona no está en el padrón: registrarla' }}
             </button>
 
-            <div v-if="mostrarNuevaPersona" class="p-4 rounded-xl border border-sky-200 bg-sky-50/40 space-y-3">
+            <div v-if="mostrarNuevaPersona" class="p-4 rounded-xl border border-primary-200 bg-primary-50/40 space-y-3">
               <p class="text-xs text-slate-500">
                 Solo apellido y nombre son obligatorios. El email es necesario para enviar los recordatorios de vencimiento.
               </p>
@@ -63,13 +63,13 @@
           <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">2. Organismo (opcional)</h3>
           <div class="flex flex-wrap gap-4 font-semibold text-slate-700">
             <label class="inline-flex items-center gap-2 cursor-pointer">
-              <input v-model="tipoOrganismo" type="radio" value="ministerio" class="text-sky-600" /> Ministerio del ERP
+              <input v-model="tipoOrganismo" type="radio" value="ministerio" class="text-primary-700" /> Ministerio del ERP
             </label>
             <label class="inline-flex items-center gap-2 cursor-pointer">
-              <input v-model="tipoOrganismo" type="radio" value="externo" class="text-sky-600" /> Organismo externo
+              <input v-model="tipoOrganismo" type="radio" value="externo" class="text-primary-700" /> Organismo externo
             </label>
             <label class="inline-flex items-center gap-2 cursor-pointer">
-              <input v-model="tipoOrganismo" type="radio" value="ninguno" class="text-sky-600" /> Sin organismo
+              <input v-model="tipoOrganismo" type="radio" value="ninguno" class="text-primary-700" /> Sin organismo
             </label>
           </div>
           <select v-if="tipoOrganismo === 'ministerio'" v-model="form.ministerio_id" required class="campo">
@@ -100,10 +100,10 @@
           <template v-if="!esEdicion">
             <div class="flex flex-wrap gap-4 font-semibold text-slate-700 pt-1">
               <label class="inline-flex items-center gap-2 cursor-pointer">
-                <input v-model="origenDispositivo" type="radio" value="nuevo" class="text-sky-600" /> Dispositivo nuevo
+                <input v-model="origenDispositivo" type="radio" value="nuevo" class="text-primary-700" /> Dispositivo nuevo
               </label>
               <label class="inline-flex items-center gap-2 cursor-pointer">
-                <input v-model="origenDispositivo" type="radio" value="existente" class="text-sky-600" /> Dispositivo disponible en stock
+                <input v-model="origenDispositivo" type="radio" value="existente" class="text-primary-700" /> Dispositivo disponible en stock
               </label>
             </div>
 
@@ -132,7 +132,7 @@
           <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">4. Certificado digital</h3>
 
           <label class="inline-flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
-            <input v-model="inicioDistinto" type="checkbox" class="w-4 h-4 text-sky-600 rounded border-slate-300" />
+            <input v-model="inicioDistinto" type="checkbox" class="w-4 h-4 text-primary-700 rounded border-slate-300" />
             El certificado comienza en una fecha distinta a la entrega
           </label>
           <div v-if="inicioDistinto" class="grid grid-cols-2 gap-3">
@@ -151,7 +151,7 @@
               </p>
               <input v-else v-model="cert.fecha_vencimiento" type="date" required class="campo" />
               <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-slate-600">
-                <input v-model="cert.vencimiento_manual" type="checkbox" class="w-3.5 h-3.5 text-sky-600 rounded" @change="alCambiarManualVencimiento" />
+                <input v-model="cert.vencimiento_manual" type="checkbox" class="w-3.5 h-3.5 text-primary-700 rounded" @change="alCambiarManualVencimiento" />
                 Indicar fecha manualmente
               </label>
             </div>
@@ -164,7 +164,7 @@
               </p>
               <input v-else v-model="cert.fecha_recordatorio" type="date" required class="campo" />
               <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-slate-600">
-                <input v-model="cert.recordatorio_manual" type="checkbox" class="w-3.5 h-3.5 text-sky-600 rounded" @change="alCambiarManualRecordatorio" />
+                <input v-model="cert.recordatorio_manual" type="checkbox" class="w-3.5 h-3.5 text-primary-700 rounded" @change="alCambiarManualRecordatorio" />
                 Indicar fecha manualmente
               </label>
             </div>
@@ -183,7 +183,7 @@
           <button
             type="submit"
             :disabled="guardando"
-            class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+            class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
           >
             {{ guardando ? 'Guardando...' : (esEdicion ? 'Guardar Cambios' : 'Registrar Entrega') }}
           </button>
@@ -364,6 +364,6 @@ onMounted(() => {
 
 <style scoped>
 .campo {
-  @apply w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500;
+  @apply w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600;
 }
 </style>

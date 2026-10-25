@@ -757,6 +757,7 @@
               />
               ⭐ Designar formalmente como Máxima Autoridad del Área
             </label>
+            <p v-if="formAsig.es_maxima_autoridad" class="mt-1 ml-6 text-xs text-slate-600">Si el área ya tiene una máxima autoridad vigente, su designación finalizará el día anterior a la fecha de inicio.</p>
           </div>
 
           <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">

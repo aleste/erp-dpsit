@@ -358,96 +358,13 @@
     <!-- ===================================================================== -->
     <!-- MODAL: DESIGNAR MÁXIMA AUTORIDAD                                      -->
     <!-- ===================================================================== -->
-    <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
-        <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold uppercase text-amber-400">Gobernanza TI</span>
-            <h2 class="text-base font-bold">Designar Máxima Autoridad</h2>
-            <p class="text-sm text-slate-400">{{ selectedArea?.nombre }}</p>
-          </div>
-          <button type="button" aria-label="Cerrar" @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
-        </div>
-
-        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-sm">
-          <div>
-            <label for="areas-formautoridad-persona-id" class="block font-bold text-slate-700 mb-1">Persona a Designar *</label>
-            <select id="areas-formautoridad-persona-id"
-              v-model="formAutoridad.persona_id"
-              required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            >
-              <option value="" disabled>Seleccione Persona del Padrón...</option>
-              <option v-for="p in personas" :key="p.id" :value="p.id">
-                {{ p.apellido }}, {{ p.nombre }} (CUIL: {{ p.cuil_cuit }})
-              </option>
-            </select>
-          </div>
-
-          <div>
-            <label for="areas-formautoridad-tipo-rol-id" class="block font-bold text-slate-700 mb-1">Cargo / Denominación Formal *</label>
-            <select id="areas-formautoridad-tipo-rol-id"
-              v-model="formAutoridad.tipo_rol_id"
-              required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            >
-              <option value="" disabled>Seleccione Cargo...</option>
-              <option v-for="r in tiposRol" :key="r.id" :value="r.id">
-                {{ r.nombre }} ({{ r.nivel_responsabilidad }})
-              </option>
-            </select>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label for="areas-formautoridad-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de Asunción *</label>
-              <input id="areas-formautoridad-fecha-inicio"
-                v-model="formAutoridad.fecha_inicio"
-                type="date"
-                required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-            <div>
-              <label for="areas-formautoridad-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto Administrativo</label>
-              <input id="areas-formautoridad-acto-administrativo"
-                v-model="formAutoridad.acto_administrativo"
-                type="text"
-                placeholder="Ej: Decreto 1250/24"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label for="areas-formautoridad-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea id="areas-formautoridad-observaciones"
-              v-model="formAutoridad.observaciones"
-              rows="2"
-              placeholder="Notas de designación formal..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            ></textarea>
-          </div>
-
-          <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
-            <button
-              type="button"
-              @click="showModalAutoridad = false"
-              class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              :disabled="saving"
-              class="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow-md shadow-amber-600/20 disabled:opacity-50"
-            >
-              {{ saving ? 'Designando...' : 'Confirmar Designación' }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <AreasTiDesignarAutoridadModal
+      v-if="showModalAutoridad && selectedArea"
+      :area="selectedArea"
+      :tipos-rol="tiposRol"
+      @close="showModalAutoridad = false"
+      @saved="alDesignarAutoridad"
+    />
 
     <!-- ===================================================================== -->
     <!-- MODAL: ASOCIAR SERVICIO TECNOLÓGICO DESDE EL LISTADO                  -->
@@ -550,7 +467,6 @@ const { toast, confirmDialog } = useToast()
 
 const areas = ref([])
 const ministerios = ref([])
-const personas = ref([])
 const tiposRol = ref([])
 const catalogoServicios = ref([])
 
@@ -605,14 +521,6 @@ const formArea = reactive({
   activo: true,
 })
 
-const formAutoridad = reactive({
-  persona_id: '',
-  tipo_rol_id: '',
-  fecha_inicio: new Date().toISOString().split('T')[0],
-  acto_administrativo: '',
-  observaciones: '',
-})
-
 let debounceTimer = null
 const debounceSearch = () => {
   clearTimeout(debounceTimer)
@@ -643,14 +551,12 @@ const fetchAreas = async () => {
 
 const fetchCatalogos = async () => {
   try {
-    const [resMin, resPer, resRol, resCat] = await Promise.all([
+    const [resMin, resRol, resCat] = await Promise.all([
       get('/ministerios'),
-      get('/personas'),
       get('/tipos-rol'),
       get('/catalogo-servicios'),
     ])
     if (resMin.success) ministerios.value = resMin.data
-    if (resPer.success) personas.value = resPer.data.data
     if (resRol.success) tiposRol.value = resRol.data
     if (resCat.success) catalogoServicios.value = resCat.data
   } catch (err) {
@@ -770,29 +676,12 @@ const saveArea = async () => {
 
 const openModalAutoridad = (area) => {
   selectedArea.value = area
-  formAutoridad.persona_id = area.maxima_autoridad_vigente?.persona_id || ''
-  formAutoridad.tipo_rol_id = area.maxima_autoridad_vigente?.tipo_rol_id || tiposRol.value[0]?.id || ''
-  formAutoridad.fecha_inicio = new Date().toISOString().split('T')[0]
-  formAutoridad.acto_administrativo = ''
-  formAutoridad.observaciones = ''
   showModalAutoridad.value = true
 }
 
-const saveAutoridad = async () => {
-  if (!selectedArea.value) return
-  saving.value = true
-  try {
-    const res = await post(`/areas-ti/${selectedArea.value.id}/maxima-autoridad`, formAutoridad)
-    if (res.success) {
-      toast.success('Máxima autoridad designada exitosamente.')
-      showModalAutoridad.value = false
-      await fetchAreas()
-    }
-  } catch (err) {
-    toast.error(err)
-  } finally {
-    saving.value = false
-  }
+const alDesignarAutoridad = async () => {
+  showModalAutoridad.value = false
+  await fetchAreas()
 }
 
 const confirmDelete = async (area) => {

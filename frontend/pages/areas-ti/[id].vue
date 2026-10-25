@@ -633,6 +633,14 @@
       </div>
     </div>
 
+    <AreasTiDesignarAutoridadModal
+      v-if="showModalAutoridad && area"
+      :area="area"
+      :tipos-rol="tiposRol"
+      @close="showModalAutoridad = false"
+      @saved="alDesignarAutoridad"
+    />
+
     <!-- ===================================================================== -->
     <!-- MODAL: ASOCIAR AGENTE / ASIGNAR ROL                                   -->
     <!-- ===================================================================== -->
@@ -721,6 +729,7 @@
               />
               <span class="font-bold text-slate-800">⭐ Designar como Máxima Autoridad del Área TI</span>
             </label>
+            <p v-if="formAsignacion.es_maxima_autoridad" class="mt-1 ml-6 text-xs text-slate-600">Si el área ya tiene una máxima autoridad vigente, su designación finalizará el día anterior a la fecha de inicio.</p>
           </div>
 
           <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
@@ -931,6 +940,7 @@ const formReferente = reactive({
 
 // Modales de Asignación / Desasociación de Agentes
 const showModalAsociar = ref(false)
+const showModalAutoridad = ref(false)
 const isEditingAsignacion = ref(false)
 const savingAsignacion = ref(false)
 
@@ -1175,19 +1185,12 @@ const openModalAsociar = () => {
 }
 
 const openModalAsociarAutoridad = () => {
-  isEditingAsignacion.value = false
-  Object.assign(formAsignacion, {
-    id: null,
-    persona_id: area.value?.maxima_autoridad_vigente?.persona_id || '',
-    area_ti_id: area.value?.id,
-    tipo_rol_id: area.value?.maxima_autoridad_vigente?.tipo_rol_id || tiposRol.value[0]?.id || '',
-    fecha_inicio: new Date().toISOString().split('T')[0],
-    fecha_fin: '',
-    es_maxima_autoridad: true,
-    acto_administrativo: '',
-    observaciones: 'Designación de Máxima Autoridad TI',
-  })
-  showModalAsociar.value = true
+  showModalAutoridad.value = true
+}
+
+const alDesignarAutoridad = async () => {
+  showModalAutoridad.value = false
+  await fetchArea()
 }
 
 const openModalEditAsignacion = (asig) => {

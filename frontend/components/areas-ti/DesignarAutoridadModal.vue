@@ -53,7 +53,7 @@
           </select>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label for="designar-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de asunción *</label>
             <input

@@ -217,7 +217,7 @@
             <NuxtLink
               v-if="authStore.isEditor && m.activo"
               :to="{ path: '/areas-ti', query: { ministerio_id: m.id, nueva: '1' } }"
-              class="px-3 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold whitespace-nowrap transition"
+              class="w-full sm:w-auto text-center px-3 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold transition"
             >
               + Registrar un área TI para este ministerio
             </NuxtLink>

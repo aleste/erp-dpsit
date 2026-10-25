@@ -201,15 +201,26 @@
               Áreas y Direcciones TI Dependientes
             </h3>
             <NuxtLink
-              to="/areas-ti"
+              :to="{ path: '/areas-ti', query: { ministerio_id: m.id } }"
               class="text-sm font-bold text-primary-700 hover:text-primary-800 transition"
             >
               Gestionar Áreas TI →
             </NuxtLink>
           </div>
 
-          <div v-if="!m.areas_ti || m.areas_ti.length === 0" class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm text-slate-500 italic">
-            Este ministerio no tiene áreas de tecnología asignadas actualmente.
+          <div
+            v-if="!m.areas_ti || m.areas_ti.length === 0"
+            class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm text-slate-600 flex flex-wrap items-center justify-between gap-3"
+          >
+            <span class="italic">Este ministerio no tiene áreas de tecnología asignadas actualmente.</span>
+            <!-- Alta con el ministerio ya elegido: abre el formulario en Áreas TI (solo organismos activos) -->
+            <NuxtLink
+              v-if="authStore.isEditor && m.activo"
+              :to="{ path: '/areas-ti', query: { ministerio_id: m.id, nueva: '1' } }"
+              class="px-3 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold whitespace-nowrap transition"
+            >
+              + Registrar un área TI para este ministerio
+            </NuxtLink>
           </div>
 
           <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">

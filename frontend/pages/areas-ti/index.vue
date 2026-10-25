@@ -674,6 +674,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useApi } from "~/composables/useApi";
 import { useAuthStore } from "~/stores/auth";
 import { useAgency } from "~/composables/useAgency";
@@ -681,6 +682,8 @@ import { useToast } from "~/composables/useToast";
 import { hoyISO } from "~/composables/useFechas";
 
 const { get, post, put, delete: del } = useApi();
+const route = useRoute();
+const router = useRouter();
 const authStore = useAuthStore();
 const agency = useAgency();
 const { toast, confirmDialog } = useToast();
@@ -843,7 +846,8 @@ const openModalCreate = () => {
   isEditing.value = false;
   Object.assign(formArea, {
     id: null,
-    ministerio_id: ministerios.value[0]?.id || "",
+    // Con la lista filtrada por un ministerio, el alta lo propone (evita cargarla en otro)
+    ministerio_id: filters.ministerio_id || ministerios.value[0]?.id || "",
     codigo: "",
     nombre: "",
     nivel_jerarquico: "DIRECCION_GENERAL",
@@ -932,8 +936,19 @@ const confirmDelete = async (area) => {
   }
 };
 
-onMounted(() => {
-  fetchCatalogos();
+onMounted(async () => {
+  // Desde Ministerios: ?ministerio_id=X filtra la lista y &nueva=1 abre el alta con ese ministerio
+  const ministerioId = Number(route.query.ministerio_id);
+  if (ministerioId) filters.ministerio_id = ministerioId;
+
   fetchAreas();
+  await fetchCatalogos();
+
+  if (route.query.nueva === "1") {
+    if (authStore.isEditor) openModalCreate();
+    // Se quita de la URL para que recargar o volver atrás no reabra el formulario
+    const { nueva, ...query } = route.query;
+    router.replace({ query });
+  }
 });
 </script>

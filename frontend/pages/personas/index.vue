@@ -796,7 +796,6 @@ const activeTab = ref('padron')
 const personas = ref([])
 const ministerios = ref([])
 const tiposRol = ref([])
-const personasList = ref([])
 const areasList = ref([])
 
 const loading = ref(false)
@@ -940,11 +939,7 @@ const fetchCatalogos = async () => {
 
 const fetchAuxiliares = async () => {
   try {
-    const [resP, resA] = await Promise.all([
-      get('/personas', { per_page: 200 }),
-      get('/areas-ti'),
-    ])
-    if (resP.success) personasList.value = resP.data.data || resP.data
+    const resA = await get('/areas-ti')
     if (resA.success) areasList.value = resA.data
   } catch (err) {
     console.error('Error fetching auxiliares:', err)

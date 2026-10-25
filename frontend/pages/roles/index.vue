@@ -182,16 +182,10 @@
         <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Persona *</label>
-            <select
+            <PersonaSearchSelect
               v-model="formAsig.persona_id"
-              required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            >
-              <option value="" disabled>Seleccione Persona...</option>
-              <option v-for="p in personasList" :key="p.id" :value="p.id">
-                {{ p.apellido }}, {{ p.nombre }} (CUIL: {{ p.cuil_cuit }})
-              </option>
-            </select>
+              placeholder="Buscar agente por apellido, nombre o CUIL..."
+            />
           </div>
 
           <div>
@@ -289,7 +283,6 @@ const { toast, confirmDialog } = useToast()
 const asignaciones = ref([])
 const tiposRol = ref([])
 const ministerios = ref([])
-const personasList = ref([])
 const areasList = ref([])
 const loading = ref(false)
 const saving = ref(false)
@@ -343,15 +336,11 @@ const fetchCatalogos = async () => {
 
 const openNewAsignacionModal = async () => {
   try {
-    const [resP, resA] = await Promise.all([
-      get('/personas', { per_page: 100 }),
-      get('/areas-ti'),
-    ])
-    if (resP.success) personasList.value = resP.data.data
+    const resA = await get('/areas-ti')
     if (resA.success) areasList.value = resA.data
 
     Object.assign(formAsig, {
-      persona_id: personasList.value[0]?.id || '',
+      persona_id: '',
       area_ti_id: areasList.value[0]?.id || '',
       tipo_rol_id: tiposRol.value[0]?.id || '',
       fecha_inicio: new Date().toISOString().split('T')[0],
@@ -367,6 +356,10 @@ const openNewAsignacionModal = async () => {
 }
 
 const saveAsignacion = async () => {
+  if (!formAsig.persona_id) {
+    toast.warning('Por favor seleccione un agente del padrón.')
+    return
+  }
   saving.value = true
   try {
     const res = await post('/asignaciones-rol', formAsig)

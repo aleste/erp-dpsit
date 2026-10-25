@@ -49,7 +49,7 @@ Leyenda de perfil: **Pública** = sin `auth:sanctum` · **Auth** = cualquier per
 | GET | `/asignaciones-rol` | Auth | AsignacionRol@index | `tipo_rol_id`, `ministerio_id`, `area_ti_id`, `persona_id`, `estado` ∈ VIGENTE/HISTORICO, `solo_maximas_autoridades`, `q`, `per_page` (25) | sí |
 | GET | `/asignaciones-rol/{id}` | Auth | AsignacionRol@show | — | no |
 | POST/PUT | `/asignaciones-rol[/{id}]` | E | AsignacionRol@store/update | `es_maxima_autoridad` por defecto según el tipo de rol; si es máxima autoridad y no tiene `fecha_fin`, aplica las reglas de D-33 (mismo cierre y mismos 422 que `/areas-ti/{id}/maxima-autoridad`) | sí |
-| POST | `/asignaciones-rol/{id}/finalizar-vigencia` | E | AsignacionRol@finalizarVigencia | `fecha_fin`, `motivo` (se agrega a observaciones) | sí |
+| POST | `/asignaciones-rol/{id}/finalizar-vigencia` | E | AsignacionRol@finalizarVigencia | `fecha_fin` (422 si es anterior a `fecha_inicio`), `motivo` (máx. 500) y `acto_administrativo` (máx. 150) opcionales; se agrega a observaciones «Baja de cargo · motivo · Acto: …» | sí |
 | DELETE | `/asignaciones-rol/{id}` | A | AsignacionRol@destroy | para cargas erróneas | sí |
 | GET | `/catalogo-servicios` | Auth | CatalogoServicio@index | `activo`, `categoria` | sí |
 | GET | `/catalogo-servicios/{id}` | Auth | CatalogoServicio@show | — | no |

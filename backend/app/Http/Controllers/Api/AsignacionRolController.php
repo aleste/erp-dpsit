@@ -9,7 +9,9 @@ use App\Services\AuditService;
 use App\Services\AutoridadAreaService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class AsignacionRolController extends Controller
 {
@@ -164,17 +166,32 @@ class AsignacionRolController extends Controller
      */
     public function finalizarVigencia(Request $request, int $id): JsonResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'fecha_fin' => 'required|date',
-            'motivo' => 'nullable|string',
+            'motivo' => 'nullable|string|max:500',
+            'acto_administrativo' => 'nullable|string|max:150',
         ]);
 
         $asignacion = AsignacionRol::findOrFail($id);
+
+        if (Carbon::parse($validated['fecha_fin'])->startOfDay()->lt($asignacion->fecha_inicio)) {
+            throw ValidationException::withMessages([
+                'fecha_fin' => 'La fecha de finalización no puede ser anterior al inicio del cargo ('.$asignacion->fecha_inicio->format('d/m/Y').').',
+            ]);
+        }
+
         $anterior = $asignacion->toArray();
 
+        // La baja queda en observaciones (no hay columnas propias): motivo y acto, si se informan
+        $baja = collect([
+            'Baja de cargo',
+            filled($validated['motivo'] ?? null) ? trim($validated['motivo']) : null,
+            filled($validated['acto_administrativo'] ?? null) ? 'Acto: '.trim($validated['acto_administrativo']) : null,
+        ])->filter()->implode(' · ');
+
         $asignacion->update([
-            'fecha_fin' => $request->fecha_fin,
-            'observaciones' => trim(($asignacion->observaciones ?? '')."\nBaja de cargo: ".$request->motivo),
+            'fecha_fin' => $validated['fecha_fin'],
+            'observaciones' => trim(($asignacion->observaciones ?? '')."\n".$baja),
         ]);
 
         AuditService::log('UPDATE', 'ASIGNACIONES_ROL', $asignacion->id, $anterior, $asignacion->toArray(), 'Finalización formal de vigencia');

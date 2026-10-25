@@ -75,35 +75,35 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
           <div class="lg:col-span-2">
-            <label class="filtro-label">Buscar</label>
-            <input v-model="filtros.q" @input="buscarConDemora" type="text" placeholder="Nº de expediente, carátula, motivo o GEDO..." class="filtro" />
+            <label for="expedientes-filtros-q" class="filtro-label">Buscar</label>
+            <input id="expedientes-filtros-q" v-model="filtros.q" @input="buscarConDemora" type="text" placeholder="Nº de expediente, carátula, motivo o GEDO..." class="filtro" />
           </div>
           <div>
-            <label class="filtro-label">Situación</label>
-            <select v-model="filtros.situacion" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-situacion" class="filtro-label">Situación</label>
+            <select id="expedientes-filtros-situacion" v-model="filtros.situacion" @change="recargar" class="filtro">
               <option value="EN_AREA">En el área</option>
               <option value="EGRESADAS">Egresados</option>
               <option value="TODAS">Todos los registros</option>
             </select>
           </div>
           <div>
-            <label class="filtro-label">Estado</label>
-            <select v-model="filtros.estado_id" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-estado-id" class="filtro-label">Estado</label>
+            <select id="expedientes-filtros-estado-id" v-model="filtros.estado_id" @change="recargar" class="filtro">
               <option value="">Todos</option>
               <option v-for="e in opciones.estados" :key="e.id" :value="e.id">{{ e.nombre }}</option>
             </select>
           </div>
           <div>
-            <label class="filtro-label">Responsable</label>
-            <select v-model="filtros.responsable_id" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-responsable-id" class="filtro-label">Responsable</label>
+            <select id="expedientes-filtros-responsable-id" v-model="filtros.responsable_id" @change="recargar" class="filtro">
               <option value="">Todos</option>
               <option value="sin">Sin responsable</option>
               <option v-for="u in opciones.integrantes" :key="u.id" :value="u.id">{{ u.name }}</option>
             </select>
           </div>
           <div>
-            <label class="filtro-label">Organismo</label>
-            <select v-model="filtros.ministerio_id" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-ministerio-id" class="filtro-label">Organismo</label>
+            <select id="expedientes-filtros-ministerio-id" v-model="filtros.ministerio_id" @change="recargar" class="filtro">
               <option value="">Todos</option>
               <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.nombre }}</option>
             </select>
@@ -112,31 +112,31 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           <div>
-            <label class="filtro-label">Requerimiento</label>
-            <select v-model="filtros.tipo_requerimiento_id" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-tipo-requerimiento-id" class="filtro-label">Requerimiento</label>
+            <select id="expedientes-filtros-tipo-requerimiento-id" v-model="filtros.tipo_requerimiento_id" @change="recargar" class="filtro">
               <option value="">Todos</option>
               <option v-for="t in opciones.tipos_requerimiento" :key="t.id" :value="t.id">{{ t.nombre }}</option>
             </select>
           </div>
           <div>
-            <label class="filtro-label">Ingreso desde</label>
-            <input v-model="filtros.ingreso_desde" @change="recargar" type="date" class="filtro" />
+            <label for="expedientes-filtros-ingreso-desde" class="filtro-label">Ingreso desde</label>
+            <input id="expedientes-filtros-ingreso-desde" v-model="filtros.ingreso_desde" @change="recargar" type="date" class="filtro" />
           </div>
           <div>
-            <label class="filtro-label">Ingreso hasta</label>
-            <input v-model="filtros.ingreso_hasta" @change="recargar" type="date" class="filtro" />
+            <label for="expedientes-filtros-ingreso-hasta" class="filtro-label">Ingreso hasta</label>
+            <input id="expedientes-filtros-ingreso-hasta" v-model="filtros.ingreso_hasta" @change="recargar" type="date" class="filtro" />
           </div>
           <div>
-            <label class="filtro-label">Egreso desde</label>
-            <input v-model="filtros.egreso_desde" @change="recargar" type="date" class="filtro" />
+            <label for="expedientes-filtros-egreso-desde" class="filtro-label">Egreso desde</label>
+            <input id="expedientes-filtros-egreso-desde" v-model="filtros.egreso_desde" @change="recargar" type="date" class="filtro" />
           </div>
           <div>
-            <label class="filtro-label">Egreso hasta</label>
-            <input v-model="filtros.egreso_hasta" @change="recargar" type="date" class="filtro" />
+            <label for="expedientes-filtros-egreso-hasta" class="filtro-label">Egreso hasta</label>
+            <input id="expedientes-filtros-egreso-hasta" v-model="filtros.egreso_hasta" @change="recargar" type="date" class="filtro" />
           </div>
           <div>
-            <label class="filtro-label">Orden</label>
-            <select v-model="filtros.orden" @change="recargar" class="filtro">
+            <label for="expedientes-filtros-orden" class="filtro-label">Orden</label>
+            <select id="expedientes-filtros-orden" v-model="filtros.orden" @change="recargar" class="filtro">
               <option value="antiguedad">Prioridad y antigüedad</option>
               <option value="ingreso_desc">Ingreso más reciente</option>
               <option value="egreso_desc">Egreso más reciente</option>

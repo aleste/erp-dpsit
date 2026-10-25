@@ -71,15 +71,15 @@
           <template v-if="panel === 'asignar'">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block font-bold text-slate-600 mb-1">Responsable</label>
-                <select v-model="accion.responsable_id" class="campo">
+                <label for="expediente-accion-responsable-id" class="block font-bold text-slate-600 mb-1">Responsable</label>
+                <select id="expediente-accion-responsable-id" v-model="accion.responsable_id" class="campo">
                   <option value="">Sin responsable</option>
                   <option v-for="u in opciones.integrantes" :key="u.id" :value="u.id">{{ u.name }}</option>
                 </select>
               </div>
               <div>
-                <label class="block font-bold text-slate-600 mb-1">Colaboran</label>
-                <select v-model="accion.colaboradores" multiple class="campo h-24">
+                <label for="expediente-accion-colaboradores" class="block font-bold text-slate-600 mb-1">Colaboran</label>
+                <select id="expediente-accion-colaboradores" v-model="accion.colaboradores" multiple class="campo h-24">
                   <option v-for="u in opciones.integrantes" :key="u.id" :value="u.id">{{ u.name }}</option>
                 </select>
               </div>
@@ -118,8 +118,8 @@
               <input v-model="accion.documento_respuesta" type="text" :required="documentoObligatorio" :placeholder="documentoObligatorio ? 'Documento de respuesta (GEDO) *' : 'Documento de respuesta (opcional)'" class="campo font-mono" />
             </div>
             <div>
-              <label class="block font-bold text-slate-600 mb-1">Remitido a *</label>
-              <input v-model="accion.dependencia_destino_nombre" list="destinos-expedientes" required placeholder="Dependencia de destino (elija una existente o escriba una nueva)" class="campo" />
+              <label for="expediente-accion-dependencia-destino-nombre" class="block font-bold text-slate-600 mb-1">Remitido a *</label>
+              <input id="expediente-accion-dependencia-destino-nombre" v-model="accion.dependencia_destino_nombre" list="destinos-expedientes" required placeholder="Dependencia de destino (elija una existente o escriba una nueva)" class="campo" />
               <datalist id="destinos-expedientes">
                 <option v-for="d in opciones.destinos.filter(x => x.activo)" :key="d.id" :value="d.nombre" />
               </datalist>
@@ -203,10 +203,10 @@
 
     <!-- Edición de datos (no cambia estado ni fechas del circuito) -->
     <div v-if="edicion.visible" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
+      <div v-dialogo="() => (edicion.visible = false)" class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">Editar datos del expediente</h2>
-          <button @click="edicion.visible = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="edicion.visible = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
         <form @submit.prevent="guardarEdicion" class="p-6 space-y-3 text-xs overflow-y-auto">
           <label class="block space-y-1"><span class="font-bold text-slate-700">Carátula</span><textarea v-model="edicion.caratula" rows="2" class="campo"></textarea></label>

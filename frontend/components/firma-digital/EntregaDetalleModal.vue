@@ -1,12 +1,12 @@
 <template>
   <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
+    <div v-dialogo="() => $emit('close')" class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <span class="text-[10px] uppercase font-bold text-sky-400 tracking-wider">Entrega de token #{{ entregaId }}</span>
           <h2 class="text-base font-bold">{{ entrega ? `${entrega.persona?.apellido}, ${entrega.persona?.nombre}` : 'Cargando...' }}</h2>
         </div>
-        <button @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
+        <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
       <div v-if="cargando" class="p-12 text-center text-xs text-slate-400">Cargando detalle...</div>
@@ -59,20 +59,20 @@
           <p class="font-bold text-slate-700">{{ panel === 'renovar' ? 'Renovar certificado en el mismo dispositivo' : 'Corregir fechas del certificado actual' }}</p>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label class="block font-bold text-slate-600 mb-1">Inicio del certificado *</label>
-              <input v-model="fechas.fecha_inicio" type="date" required class="campo" />
+              <label for="entrega-detalle-fechas-fecha-inicio" class="block font-bold text-slate-600 mb-1">Inicio del certificado *</label>
+              <input id="entrega-detalle-fechas-fecha-inicio" v-model="fechas.fecha_inicio" type="date" required class="campo" />
             </div>
             <div>
-              <label class="block font-bold text-slate-600 mb-1">Vencimiento</label>
-              <input v-if="fechas.vencimiento_manual" v-model="fechas.fecha_vencimiento" type="date" required class="campo" />
+              <label for="entrega-detalle-fechas-fecha-vencimiento" class="block font-bold text-slate-600 mb-1">Vencimiento</label>
+              <input id="entrega-detalle-fechas-fecha-vencimiento" v-if="fechas.vencimiento_manual" v-model="fechas.fecha_vencimiento" type="date" required class="campo" />
               <p v-else class="p-2.5 font-extrabold text-slate-800">{{ formatFecha(vencimientoCalculado) }}</p>
               <label class="inline-flex items-center gap-1.5 text-[11px] text-slate-600 cursor-pointer">
                 <input v-model="fechas.vencimiento_manual" type="checkbox" class="w-3.5 h-3.5 rounded text-sky-600" @change="precargarVencimiento" /> Manual
               </label>
             </div>
             <div>
-              <label class="block font-bold text-slate-600 mb-1">Recordatorio</label>
-              <input v-if="fechas.recordatorio_manual" v-model="fechas.fecha_recordatorio" type="date" required class="campo" />
+              <label for="entrega-detalle-fechas-fecha-recordatorio" class="block font-bold text-slate-600 mb-1">Recordatorio</label>
+              <input id="entrega-detalle-fechas-fecha-recordatorio" v-if="fechas.recordatorio_manual" v-model="fechas.fecha_recordatorio" type="date" required class="campo" />
               <p v-else class="p-2.5 font-extrabold text-slate-800">{{ formatFecha(recordatorioCalculado) }}</p>
               <label class="inline-flex items-center gap-1.5 text-[11px] text-slate-600 cursor-pointer">
                 <input v-model="fechas.recordatorio_manual" type="checkbox" class="w-3.5 h-3.5 rounded text-sky-600" @change="precargarRecordatorio" /> Manual

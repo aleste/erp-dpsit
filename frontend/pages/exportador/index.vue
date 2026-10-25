@@ -135,8 +135,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Lista de Correos para Notificación</label>
-          <textarea
+          <label for="exportador-campo" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Lista de Correos para Notificación</label>
+          <textarea id="exportador-campo"
             readonly
             :value="emailsFormatted"
             rows="6"

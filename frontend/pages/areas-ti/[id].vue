@@ -424,7 +424,7 @@
     <!-- MODAL: ASOCIAR / EDITAR SERVICIO TECNOLÓGICO AL ÁREA                  -->
     <!-- ===================================================================== -->
     <div v-if="showModalAsociarServicio" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsociarServicio = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
@@ -432,14 +432,14 @@
             </h2>
             <p class="text-xs text-emerald-300">{{ area?.nombre }}</p>
           </div>
-          <button @click="showModalAsociarServicio = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAsociarServicio = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-xs">
           <!-- Selector de Tipo de Servicio -->
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
-            <select
+            <label for="area-formservicioarea-catalogo-servicio-id" class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
+            <select id="area-formservicioarea-catalogo-servicio-id"
               v-model="formServicioArea.catalogo_servicio_id"
               @change="onTipoServicioChange"
               :disabled="isEditingServicioArea"
@@ -455,8 +455,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
-              <input
+              <label for="area-formservicioarea-codigo-instancia" class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
+              <input id="area-formservicioarea-codigo-instancia"
                 v-model="formServicioArea.codigo_instancia"
                 type="text"
                 required
@@ -465,8 +465,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Nivel de SLA *</label>
-              <select
+              <label for="area-formservicioarea-sla-nivel" class="block font-bold text-slate-700 mb-1">Nivel de SLA *</label>
+              <select id="area-formservicioarea-sla-nivel"
                 v-model="formServicioArea.sla_nivel"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -481,8 +481,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Estado de Servicio *</label>
-              <select
+              <label for="area-formservicioarea-estado-servicio" class="block font-bold text-slate-700 mb-1">Estado de Servicio *</label>
+              <select id="area-formservicioarea-estado-servicio"
                 v-model="formServicioArea.estado_servicio"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -494,8 +494,8 @@
               </select>
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Alta *</label>
-              <input
+              <label for="area-formservicioarea-fecha-alta" class="block font-bold text-slate-700 mb-1">Fecha de Alta *</label>
+              <input id="area-formservicioarea-fecha-alta"
                 v-model="formServicioArea.fecha_alta"
                 type="date"
                 required
@@ -505,8 +505,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones Técnicas</label>
-            <textarea
+            <label for="area-formservicioarea-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones Técnicas</label>
+            <textarea id="area-formservicioarea-observaciones"
               v-model="formServicioArea.observaciones"
               rows="3"
               placeholder="Detalles sobre alcance, subredes o condiciones de provisión del servicio..."
@@ -538,13 +538,13 @@
     <!-- MODAL: ASIGNAR Y GESTIONAR REFERENTES DEL SERVICIO                    -->
     <!-- ===================================================================== -->
     <div v-if="showModalReferente" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalReferente = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-sky-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Referentes del Servicio Tecnológico</h2>
             <p class="text-xs text-sky-300">{{ selectedServicio?.codigo_instancia }} - {{ selectedServicio?.catalogo_servicio?.nombre }}</p>
           </div>
-          <button @click="showModalReferente = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalReferente = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <div class="p-6 space-y-5 text-xs">
@@ -580,16 +580,16 @@
             <label class="block font-bold text-slate-800 uppercase tracking-wider text-[10px]">+ Asignar Nuevo Referente</label>
 
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
-              <PersonaSearchSelect
+              <label for="area-formreferente-persona-id" class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
+              <PersonaSearchSelect input-id="area-formreferente-persona-id"
                 v-model="formReferente.persona_id"
                 placeholder="Buscar agente por apellido, nombre o CUIL..."
               />
             </div>
 
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Tipo de Responsabilidad / Referente *</label>
-              <select
+              <label for="area-formreferente-tipo-referente" class="block font-bold text-slate-700 mb-1">Tipo de Responsabilidad / Referente *</label>
+              <select id="area-formreferente-tipo-referente"
                 v-model="formReferente.tipo_referente"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -637,7 +637,7 @@
     <!-- MODAL: ASOCIAR AGENTE / ASIGNAR ROL                                   -->
     <!-- ===================================================================== -->
     <div v-if="showModalAsociar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsociar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
@@ -645,13 +645,13 @@
             </h2>
             <p class="text-xs text-slate-400">{{ area?.nombre }}</p>
           </div>
-          <button @click="showModalAsociar = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAsociar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Agente / Persona del Padrón *</label>
-            <PersonaSearchSelect
+            <label for="area-formasignacion-persona-id" class="block font-bold text-slate-700 mb-1">Agente / Persona del Padrón *</label>
+            <PersonaSearchSelect input-id="area-formasignacion-persona-id"
               v-model="formAsignacion.persona_id"
               :disabled="isEditingAsignacion"
               placeholder="Buscar agente por apellido, nombre o CUIL..."
@@ -659,8 +659,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Rol / Función Asignada *</label>
-            <select
+            <label for="area-formasignacion-tipo-rol-id" class="block font-bold text-slate-700 mb-1">Rol / Función Asignada *</label>
+            <select id="area-formasignacion-tipo-rol-id"
               v-model="formAsignacion.tipo_rol_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -674,8 +674,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
-              <input
+              <label for="area-formasignacion-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
+              <input id="area-formasignacion-fecha-inicio"
                 v-model="formAsignacion.fecha_inicio"
                 type="date"
                 required
@@ -683,8 +683,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Fin (Opcional)</label>
-              <input
+              <label for="area-formasignacion-fecha-fin" class="block font-bold text-slate-700 mb-1">Fecha de Fin (Opcional)</label>
+              <input id="area-formasignacion-fecha-fin"
                 v-model="formAsignacion.fecha_fin"
                 type="date"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -693,8 +693,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Acto Administrativo / Norma de Designación</label>
-            <input
+            <label for="area-formasignacion-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto Administrativo / Norma de Designación</label>
+            <input id="area-formasignacion-acto-administrativo"
               v-model="formAsignacion.acto_administrativo"
               type="text"
               placeholder="Ej: Decreto 1250/2024, Resolución 45/24"
@@ -703,8 +703,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="area-formasignacion-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="area-formasignacion-observaciones"
               v-model="formAsignacion.observaciones"
               rows="2"
               placeholder="Detalles sobre funciones, pases o responsabilidades..."
@@ -747,13 +747,13 @@
     <!-- MODAL: DESASOCIAR / FINALIZAR VIGENCIA DE AGENTE                      -->
     <!-- ===================================================================== -->
     <div v-if="showModalFinalizar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalFinalizar = false)" class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-amber-950 text-white flex items-center justify-between">
           <div>
             <span class="text-[10px] font-bold uppercase text-amber-400">Desasociación / Cese de Cargo</span>
             <h2 class="text-base font-bold">Finalizar Vigencia de Agente</h2>
           </div>
-          <button @click="showModalFinalizar = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalFinalizar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="submitFinalizarVigencia" class="p-6 space-y-4 text-xs">
@@ -763,8 +763,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fecha de Finalización / Cese *</label>
-            <input
+            <label for="area-formfinalizar-fecha-fin" class="block font-bold text-slate-700 mb-1">Fecha de Finalización / Cese *</label>
+            <input id="area-formfinalizar-fecha-fin"
               v-model="formFinalizar.fecha_fin"
               type="date"
               required
@@ -773,8 +773,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Motivo del Cese / Acto de Baja</label>
-            <textarea
+            <label for="area-formfinalizar-motivo" class="block font-bold text-slate-700 mb-1">Motivo del Cese / Acto de Baja</label>
+            <textarea id="area-formfinalizar-motivo"
               v-model="formFinalizar.motivo"
               rows="2"
               placeholder="Ej: Pase a Ministerio de Economía, Renuncia formal, Conclusión de mandato..."
@@ -806,16 +806,16 @@
     <!-- MODAL: ADJUNTAR DOCUMENTO DIGITAL                                     -->
     <!-- ===================================================================== -->
     <div v-if="showModalDoc" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalDoc = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">Adjuntar Documento Digital</h2>
-          <button @click="showModalDoc = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalDoc = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="uploadDoc" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Título del Documento *</label>
-            <input
+            <label for="area-formdoc-titulo" class="block font-bold text-slate-700 mb-1">Título del Documento *</label>
+            <input id="area-formdoc-titulo"
               v-model="formDoc.titulo"
               type="text"
               required
@@ -825,8 +825,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Tipo de Documento *</label>
-            <select
+            <label for="area-formdoc-tipo-documento" class="block font-bold text-slate-700 mb-1">Tipo de Documento *</label>
+            <select id="area-formdoc-tipo-documento"
               v-model="formDoc.tipo_documento"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -839,8 +839,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Archivo Digital (PDF, DOCX hasta 20MB) *</label>
-            <input
+            <label for="area-campo" class="block font-bold text-slate-700 mb-1">Archivo Digital (PDF, DOCX hasta 20MB) *</label>
+            <input id="area-campo"
               type="file"
               required
               @change="handleFileChange"
@@ -849,8 +849,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="area-formdoc-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="area-formdoc-observaciones"
               v-model="formDoc.observaciones"
               rows="2"
               placeholder="Notas aclaratorias sobre el documento..."

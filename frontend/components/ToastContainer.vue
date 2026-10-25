@@ -1,6 +1,6 @@
 <template>
   <div
-    aria-live="assertive"
+    aria-live="polite"
     class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm sm:max-w-md pointer-events-none px-4 sm:px-0"
   >
     <TransitionGroup
@@ -16,7 +16,7 @@
         :key="toast.id"
         class="pointer-events-auto w-full rounded-2xl shadow-xl border overflow-hidden backdrop-blur-md transition-all duration-200"
         :class="containerClasses(toast.type)"
-        role="alert"
+        :role="toast.type === 'error' ? 'alert' : 'status'"
       >
         <div class="p-4 flex items-start gap-3.5">
           <!-- Ícono de Estado -->

@@ -1,12 +1,12 @@
 <template>
   <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
+    <div v-dialogo="() => $emit('close')" class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <h2 class="text-base font-bold">{{ titulo }}</h2>
           <p class="text-xs text-slate-400">Dispositivos de firma digital</p>
         </div>
-        <button @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
+        <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
       <form @submit.prevent="guardar" class="p-6 space-y-5 text-xs overflow-y-auto">
@@ -92,8 +92,8 @@
           <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">3. Entrega{{ esEdicion ? '' : ' y dispositivo' }}</h3>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de entrega *</label>
-              <input v-model="form.fecha_entrega" type="date" required class="campo" />
+              <label for="entrega-form-fecha-entrega" class="block font-bold text-slate-700 mb-1">Fecha de entrega *</label>
+              <input id="entrega-form-fecha-entrega" v-model="form.fecha_entrega" type="date" required class="campo" />
             </div>
           </div>
 
@@ -137,8 +137,8 @@
           </label>
           <div v-if="inicioDistinto" class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Inicio del certificado *</label>
-              <input v-model="cert.fecha_inicio" type="date" required class="campo" />
+              <label for="entrega-cert-fecha-inicio" class="block font-bold text-slate-700 mb-1">Inicio del certificado *</label>
+              <input id="entrega-cert-fecha-inicio" v-model="cert.fecha_inicio" type="date" required class="campo" />
             </div>
           </div>
 
@@ -172,8 +172,8 @@
         </section>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-          <textarea v-model="form.observaciones" rows="2" class="campo"></textarea>
+          <label for="entrega-form-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+          <textarea id="entrega-form-observaciones" v-model="form.observaciones" rows="2" class="campo"></textarea>
         </div>
 
         <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">

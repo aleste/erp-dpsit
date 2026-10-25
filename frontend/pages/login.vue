@@ -20,8 +20,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico</label>
-          <input
+          <label for="login-form-email" class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico</label>
+          <input id="login-form-email"
             v-model="form.email"
             type="email"
             required
@@ -31,8 +31,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña</label>
-          <input
+          <label for="login-form-password" class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña</label>
+          <input id="login-form-password"
             v-model="form.password"
             type="password"
             required

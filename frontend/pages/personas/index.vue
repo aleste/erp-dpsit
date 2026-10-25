@@ -99,8 +99,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           <!-- Búsqueda rápida de texto -->
           <div class="lg:col-span-2">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Persona</label>
-            <input
+            <label for="personas-filters-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Persona</label>
+            <input id="personas-filters-q"
               v-model="filters.q"
               @input="debounceSearch"
               type="text"
@@ -111,8 +111,8 @@
 
           <!-- Filtro por Ministerio -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
-            <select
+            <label for="personas-filters-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
+            <select id="personas-filters-ministerio-id"
               v-model="filters.ministerio_id"
               @change="fetchPersonas"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -124,8 +124,8 @@
 
           <!-- Filtro por Tipo de Rol -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Rol / Función</label>
-            <select
+            <label for="personas-filters-tipo-rol-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Rol / Función</label>
+            <select id="personas-filters-tipo-rol-id"
               v-model="filters.tipo_rol_id"
               @change="fetchPersonas"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -137,8 +137,8 @@
 
           <!-- Filtro por Estado de Cargo -->
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Cargo</label>
-            <select
+            <label for="personas-filters-estado-cargo" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Cargo</label>
+            <select id="personas-filters-estado-cargo"
               v-model="filters.estado_cargo"
               @change="fetchPersonas"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -384,20 +384,20 @@
     <!-- MODAL: CREAR / EDITAR PERSONA                                         -->
     <!-- ===================================================================== -->
     <div v-if="showCreateModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showCreateModal = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">{{ isEditing ? 'Editar Datos de la Persona' : 'Registrar Nueva Persona' }}</h2>
             <p class="text-xs text-slate-400">Padrón de Capital Humano TI Provincial</p>
           </div>
-          <button @click="showCreateModal = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showCreateModal = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="savePersona" class="p-6 space-y-4 text-xs">
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">CUIL / CUIT</label>
-              <input
+              <label for="personas-formpersona-cuil-cuit" class="block font-bold text-slate-700 mb-1">CUIL / CUIT</label>
+              <input id="personas-formpersona-cuil-cuit"
                 v-model="formPersona.cuil_cuit"
                 type="text"
                 placeholder="20-12345678-9"
@@ -405,8 +405,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Título Profesional</label>
-              <input
+              <label for="personas-formpersona-titulo-profesional" class="block font-bold text-slate-700 mb-1">Título Profesional</label>
+              <input id="personas-formpersona-titulo-profesional"
                 v-model="formPersona.titulo_profesional"
                 type="text"
                 placeholder="Ej: Lic. en Sistemas, Ing. TI"
@@ -417,8 +417,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Tipo de Documento</label>
-              <select
+              <label for="personas-formpersona-tipo-documento" class="block font-bold text-slate-700 mb-1">Tipo de Documento</label>
+              <select id="personas-formpersona-tipo-documento"
                 v-model="formPersona.tipo_documento"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
               >
@@ -427,8 +427,8 @@
               </select>
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Número de Documento</label>
-              <input
+              <label for="personas-formpersona-numero-documento" class="block font-bold text-slate-700 mb-1">Número de Documento</label>
+              <input id="personas-formpersona-numero-documento"
                 v-model="formPersona.numero_documento"
                 type="text"
                 :required="!!formPersona.tipo_documento"
@@ -440,8 +440,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Nombre *</label>
-              <input
+              <label for="personas-formpersona-nombre" class="block font-bold text-slate-700 mb-1">Nombre *</label>
+              <input id="personas-formpersona-nombre"
                 v-model="formPersona.nombre"
                 type="text"
                 required
@@ -450,8 +450,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Apellido *</label>
-              <input
+              <label for="personas-formpersona-apellido" class="block font-bold text-slate-700 mb-1">Apellido *</label>
+              <input id="personas-formpersona-apellido"
                 v-model="formPersona.apellido"
                 type="text"
                 required
@@ -463,8 +463,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Email Principal</label>
-              <input
+              <label for="personas-formpersona-email-principal" class="block font-bold text-slate-700 mb-1">Email Principal</label>
+              <input id="personas-formpersona-email-principal"
                 v-model="formPersona.email_principal"
                 type="email"
                 placeholder="jperez@organismo.gob.ar"
@@ -472,8 +472,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Email Alternativo</label>
-              <input
+              <label for="personas-formpersona-email-alternativo" class="block font-bold text-slate-700 mb-1">Email Alternativo</label>
+              <input id="personas-formpersona-email-alternativo"
                 v-model="formPersona.email_alternativo"
                 type="email"
                 placeholder="jperez@gmail.com"
@@ -484,8 +484,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Teléfono Principal</label>
-              <input
+              <label for="personas-formpersona-telefono-principal" class="block font-bold text-slate-700 mb-1">Teléfono Principal</label>
+              <input id="personas-formpersona-telefono-principal"
                 v-model="formPersona.telefono_principal"
                 type="text"
                 placeholder="0221-429-0000"
@@ -493,8 +493,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Teléfono Alternativo</label>
-              <input
+              <label for="personas-formpersona-telefono-alternativo" class="block font-bold text-slate-700 mb-1">Teléfono Alternativo</label>
+              <input id="personas-formpersona-telefono-alternativo"
                 v-model="formPersona.telefono_alternativo"
                 type="text"
                 placeholder="0221-15-123456"
@@ -504,8 +504,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="personas-formpersona-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="personas-formpersona-observaciones"
               v-model="formPersona.observaciones"
               rows="2"
               placeholder="Notas sobre especialidad, capacitaciones o perfil..."
@@ -537,7 +537,7 @@
     <!-- MODAL: FICHA INTEGRAL DE LA PERSONA (EXPEDIENTE)                      -->
     <!-- ===================================================================== -->
     <div v-if="selectedPersona" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (selectedPersona = null)" class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
         <!-- Header Modal -->
         <div class="p-6 bg-slate-900 text-white flex items-center justify-between">
           <div class="flex items-center gap-3">
@@ -550,7 +550,7 @@
               <p class="text-xs text-slate-300">{{ identificacion(selectedPersona) }} | {{ selectedPersona.titulo_profesional || 'Profesional TI' }}</p>
             </div>
           </div>
-          <button @click="selectedPersona = null" class="p-2 text-slate-400 hover:text-white rounded-lg">✕</button>
+          <button type="button" aria-label="Cerrar" @click="selectedPersona = null" class="p-2 text-slate-400 hover:text-white rounded-lg">✕</button>
         </div>
 
         <!-- Contenido Modal -->
@@ -681,27 +681,27 @@
     <!-- MODAL: ASIGNAR CARGO / ROL                                            -->
     <!-- ===================================================================== -->
     <div v-if="showModalAsignar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsignar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-indigo-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Asignar Cargo / Rol Institucional</h2>
             <p class="text-xs text-indigo-300">Vinculación formal a un Organismo / Área TI</p>
           </div>
-          <button @click="showModalAsignar = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAsignar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
-            <PersonaSearchSelect
+            <label for="personas-formasig-persona-id" class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
+            <PersonaSearchSelect input-id="personas-formasig-persona-id"
               v-model="formAsig.persona_id"
               placeholder="Buscar agente por apellido, nombre o CUIL..."
             />
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Área TI de Destino *</label>
-            <select
+            <label for="personas-formasig-area-ti-id" class="block font-bold text-slate-700 mb-1">Área TI de Destino *</label>
+            <select id="personas-formasig-area-ti-id"
               v-model="formAsig.area_ti_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -714,8 +714,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Cargo / Tipo de Rol *</label>
-            <select
+            <label for="personas-formasig-tipo-rol-id" class="block font-bold text-slate-700 mb-1">Cargo / Tipo de Rol *</label>
+            <select id="personas-formasig-tipo-rol-id"
               v-model="formAsig.tipo_rol_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -729,8 +729,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
-              <input
+              <label for="personas-formasig-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
+              <input id="personas-formasig-fecha-inicio"
                 v-model="formAsig.fecha_inicio"
                 type="date"
                 required
@@ -738,8 +738,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Acto de Designación</label>
-              <input
+              <label for="personas-formasig-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto de Designación</label>
+              <input id="personas-formasig-acto-administrativo"
                 v-model="formAsig.acto_administrativo"
                 type="text"
                 placeholder="Ej: Decreto 1250/2024"

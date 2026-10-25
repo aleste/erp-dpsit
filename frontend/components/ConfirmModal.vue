@@ -12,8 +12,6 @@
         v-if="modal.isOpen"
         class="fixed inset-0 z-[10000] overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4"
         @click.self="handleCancel"
-        @keydown.esc="handleCancel"
-        tabindex="-1"
       >
         <Transition
           enter-active-class="transition-all duration-200 ease-out"
@@ -24,9 +22,8 @@
           leave-to-class="opacity-0 scale-95 translate-y-4"
         >
           <div
+            v-dialogo="handleCancel"
             class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden"
-            role="dialog"
-            aria-modal="true"
             :aria-label="modal.title"
           >
             <!-- Header con Ícono y Título -->
@@ -99,6 +96,7 @@
             <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
               <button
                 type="button"
+                autofocus
                 @click="handleCancel"
                 class="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 transition focus:outline-none focus:ring-2 focus:ring-slate-400"
               >

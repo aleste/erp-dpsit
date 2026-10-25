@@ -25,8 +25,8 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Selector de Rol Obligatorio/Filtro -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Rol / Función</label>
-          <select
+          <label for="roles-filters-tipo-rol-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Rol / Función</label>
+          <select id="roles-filters-tipo-rol-id"
             v-model="filters.tipo_rol_id"
             @change="fetchAsignaciones"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -40,8 +40,8 @@
 
         <!-- Filtro por Ministerio -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
-          <select
+          <label for="roles-filters-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
+          <select id="roles-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAsignaciones"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -53,8 +53,8 @@
 
         <!-- Filtro por Vigencia -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Vigencia</label>
-          <select
+          <label for="roles-filters-estado" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Vigencia</label>
+          <select id="roles-filters-estado"
             v-model="filters.estado"
             @change="fetchAsignaciones"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -173,24 +173,24 @@
 
     <!-- MODAL: ASIGNAR NUEVO CARGO / ROL -->
     <div v-if="showModalAsignar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsignar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">Asignar Cargo / Rol Institucional</h2>
-          <button @click="showModalAsignar = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAsignar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Persona *</label>
-            <PersonaSearchSelect
+            <label for="roles-formasig-persona-id" class="block font-bold text-slate-700 mb-1">Persona *</label>
+            <PersonaSearchSelect input-id="roles-formasig-persona-id"
               v-model="formAsig.persona_id"
               placeholder="Buscar agente por apellido, nombre o CUIL..."
             />
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Área TI de Destino *</label>
-            <select
+            <label for="roles-formasig-area-ti-id" class="block font-bold text-slate-700 mb-1">Área TI de Destino *</label>
+            <select id="roles-formasig-area-ti-id"
               v-model="formAsig.area_ti_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -203,8 +203,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Cargo / Tipo de Rol *</label>
-            <select
+            <label for="roles-formasig-tipo-rol-id" class="block font-bold text-slate-700 mb-1">Cargo / Tipo de Rol *</label>
+            <select id="roles-formasig-tipo-rol-id"
               v-model="formAsig.tipo_rol_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -218,8 +218,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
-              <input
+              <label for="roles-formasig-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de Inicio *</label>
+              <input id="roles-formasig-fecha-inicio"
                 v-model="formAsig.fecha_inicio"
                 type="date"
                 required
@@ -227,8 +227,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Acto de Designación</label>
-              <input
+              <label for="roles-formasig-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto de Designación</label>
+              <input id="roles-formasig-acto-administrativo"
                 v-model="formAsig.acto_administrativo"
                 type="text"
                 placeholder="Ej: RES-2024-400"

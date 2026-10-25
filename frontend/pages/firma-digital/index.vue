@@ -52,8 +52,8 @@
     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
         <div class="lg:col-span-2">
-          <label class="filtro-label">Buscar</label>
-          <input
+          <label for="firma-filtros-q" class="filtro-label">Buscar</label>
+          <input id="firma-filtros-q"
             v-model="filtros.q"
             @input="buscarConDemora"
             type="text"
@@ -63,8 +63,8 @@
         </div>
 
         <div>
-          <label class="filtro-label">Organismo</label>
-          <select v-model="filtros.organismo" @change="recargar" class="filtro">
+          <label for="firma-filtros-organismo" class="filtro-label">Organismo</label>
+          <select id="firma-filtros-organismo" v-model="filtros.organismo" @change="recargar" class="filtro">
             <option value="">Todos</option>
             <option v-if="activeTab === 'entregas'" value="sin_organismo">Sin ministerio del ERP</option>
             <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -72,20 +72,20 @@
         </div>
 
         <div>
-          <label class="filtro-label">Estado del certificado</label>
-          <select v-model="filtros.estado_certificado" @change="recargar" class="filtro">
+          <label for="firma-filtros-estado-certificado" class="filtro-label">Estado del certificado</label>
+          <select id="firma-filtros-estado-certificado" v-model="filtros.estado_certificado" @change="recargar" class="filtro">
             <option value="">Todos</option>
             <option v-for="(info, valor) in ESTADOS_CERTIFICADO" :key="valor" :value="valor">{{ info.label }}</option>
           </select>
         </div>
 
         <div>
-          <label class="filtro-label">{{ activeTab === 'entregas' ? 'Vence desde' : 'Recordatorio desde' }}</label>
-          <input v-model="filtros.desde" @change="recargar" type="date" class="filtro" />
+          <label for="firma-filtros-desde" class="filtro-label">{{ activeTab === 'entregas' ? 'Vence desde' : 'Recordatorio desde' }}</label>
+          <input id="firma-filtros-desde" v-model="filtros.desde" @change="recargar" type="date" class="filtro" />
         </div>
         <div>
-          <label class="filtro-label">{{ activeTab === 'entregas' ? 'Vence hasta' : 'Recordatorio hasta' }}</label>
-          <input v-model="filtros.hasta" @change="recargar" type="date" class="filtro" />
+          <label for="firma-filtros-hasta" class="filtro-label">{{ activeTab === 'entregas' ? 'Vence hasta' : 'Recordatorio hasta' }}</label>
+          <input id="firma-filtros-hasta" v-model="filtros.hasta" @change="recargar" type="date" class="filtro" />
         </div>
       </div>
 

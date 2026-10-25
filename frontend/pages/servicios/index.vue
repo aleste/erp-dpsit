@@ -90,8 +90,8 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="sm:col-span-2">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Tipo de Servicio</label>
-            <input
+            <label for="servicios-filterscatalogo-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Tipo de Servicio</label>
+            <input id="servicios-filterscatalogo-q"
               v-model="filtersCatalogo.q"
               type="text"
               placeholder="Buscar por código, nombre o descripción (ej. Cloud, SSO, API)..."
@@ -100,8 +100,8 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Categoría Tecnológica</label>
-            <select
+            <label for="servicios-filterscatalogo-categoria" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Categoría Tecnológica</label>
+            <select id="servicios-filterscatalogo-categoria"
               v-model="filtersCatalogo.categoria"
               @change="fetchCatalogo"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -213,8 +213,8 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Filtrar por Organismo</label>
-            <select
+            <label for="servicios-filtersinstancias-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Filtrar por Organismo</label>
+            <select id="servicios-filtersinstancias-ministerio-id"
               v-model="filtersInstancias.ministerio_id"
               @change="fetchInstancias"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -225,8 +225,8 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Servicio</label>
-            <select
+            <label for="servicios-filtersinstancias-catalogo-servicio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Servicio</label>
+            <select id="servicios-filtersinstancias-catalogo-servicio-id"
               v-model="filtersInstancias.catalogo_servicio_id"
               @change="fetchInstancias"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -237,8 +237,8 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Servicio</label>
-            <select
+            <label for="servicios-filtersinstancias-estado-servicio" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Servicio</label>
+            <select id="servicios-filtersinstancias-estado-servicio"
               v-model="filtersInstancias.estado_servicio"
               @change="fetchInstancias"
               class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -348,7 +348,7 @@
     <!-- MODAL: CREAR / EDITAR TIPO DE SERVICIO (CATÁLOGO)                     -->
     <!-- ===================================================================== -->
     <div v-if="showModalCatalogo" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalCatalogo = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
@@ -356,14 +356,14 @@
             </h2>
             <p class="text-xs text-slate-400">Catálogo Rector de Tecnologías</p>
           </div>
-          <button @click="showModalCatalogo = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalCatalogo = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveCatalogo" class="p-6 space-y-4 text-xs">
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único *</label>
-              <input
+              <label for="servicios-formcatalogo-codigo" class="block font-bold text-slate-700 mb-1">Código Único *</label>
+              <input id="servicios-formcatalogo-codigo"
                 v-model="formCatalogo.codigo"
                 type="text"
                 required
@@ -373,8 +373,8 @@
             </div>
 
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Categoría Tecnológica *</label>
-              <select
+              <label for="servicios-formcatalogo-categoria" class="block font-bold text-slate-700 mb-1">Categoría Tecnológica *</label>
+              <select id="servicios-formcatalogo-categoria"
                 v-model="formCatalogo.categoria"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -390,8 +390,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Nombre Oficial del Servicio *</label>
-            <input
+            <label for="servicios-formcatalogo-nombre" class="block font-bold text-slate-700 mb-1">Nombre Oficial del Servicio *</label>
+            <input id="servicios-formcatalogo-nombre"
               v-model="formCatalogo.nombre"
               type="text"
               required
@@ -401,8 +401,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Descripción y Alcance</label>
-            <textarea
+            <label for="servicios-formcatalogo-descripcion" class="block font-bold text-slate-700 mb-1">Descripción y Alcance</label>
+            <textarea id="servicios-formcatalogo-descripcion"
               v-model="formCatalogo.descripcion"
               rows="3"
               placeholder="Detalles sobre infraestructura provista, requisitos de adhesión y características..."
@@ -445,20 +445,20 @@
     <!-- MODAL: APROVISIONAR SERVICIO A UN ÁREA TI                             -->
     <!-- ===================================================================== -->
     <div v-if="showModalAprovisionar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAprovisionar = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Aprovisionar Servicio Tecnológico</h2>
             <p class="text-xs text-emerald-300">Asignación formal a un Organismo / Área TI</p>
           </div>
-          <button @click="showModalAprovisionar = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAprovisionar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAprovisionamiento" class="p-6 space-y-4 text-xs">
           <!-- Selector de Área TI -->
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Área TI Destinataria *</label>
-            <select
+            <label for="servicios-formaprovisionar-area-ti-id" class="block font-bold text-slate-700 mb-1">Área TI Destinataria *</label>
+            <select id="servicios-formaprovisionar-area-ti-id"
               v-model="formAprovisionar.area_ti_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -472,8 +472,8 @@
 
           <!-- Selector de Tipo de Servicio -->
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
-            <select
+            <label for="servicios-formaprovisionar-catalogo-servicio-id" class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
+            <select id="servicios-formaprovisionar-catalogo-servicio-id"
               v-model="formAprovisionar.catalogo_servicio_id"
               @change="onTipoServicioChange"
               required
@@ -488,8 +488,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
-              <input
+              <label for="servicios-formaprovisionar-codigo-instancia" class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
+              <input id="servicios-formaprovisionar-codigo-instancia"
                 v-model="formAprovisionar.codigo_instancia"
                 type="text"
                 required
@@ -498,8 +498,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Nivel de SLA Garantizado *</label>
-              <select
+              <label for="servicios-formaprovisionar-sla-nivel" class="block font-bold text-slate-700 mb-1">Nivel de SLA Garantizado *</label>
+              <select id="servicios-formaprovisionar-sla-nivel"
                 v-model="formAprovisionar.sla_nivel"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -513,8 +513,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="servicios-formaprovisionar-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="servicios-formaprovisionar-observaciones"
               v-model="formAprovisionar.observaciones"
               rows="2"
               placeholder="Detalles sobre provisión, requerimientos o acuerdos del servicio..."

@@ -23,12 +23,12 @@
     <template v-else>
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="sm:col-span-2">
-          <label class="filtro-label">Buscar</label>
-          <input v-model="filtros.q" @input="buscarConDemora" type="text" placeholder="Nombre o email..." class="filtro" />
+          <label for="usuarios-filtros-q" class="filtro-label">Buscar</label>
+          <input id="usuarios-filtros-q" v-model="filtros.q" @input="buscarConDemora" type="text" placeholder="Nombre o email..." class="filtro" />
         </div>
         <div>
-          <label class="filtro-label">Estado</label>
-          <select v-model="filtros.activo" @change="cargar" class="filtro">
+          <label for="usuarios-filtros-activo" class="filtro-label">Estado</label>
+          <select id="usuarios-filtros-activo" v-model="filtros.activo" @change="cargar" class="filtro">
             <option value="">Todos</option>
             <option value="1">Activos</option>
             <option value="0">Inactivos</option>
@@ -86,34 +86,34 @@
 
     <!-- Modal alta / edición -->
     <div v-if="formulario.visible" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (formulario.visible = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">{{ formulario.id ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
             <p class="text-xs text-slate-400">Perfil general y permisos por módulo</p>
           </div>
-          <button @click="formulario.visible = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="formulario.visible = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="guardar" class="p-6 space-y-4 text-xs">
           <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2">
-              <label class="block font-bold text-slate-700 mb-1">Nombre y apellido *</label>
-              <input v-model="formulario.name" type="text" required class="campo" />
+              <label for="usuarios-formulario-name" class="block font-bold text-slate-700 mb-1">Nombre y apellido *</label>
+              <input id="usuarios-formulario-name" v-model="formulario.name" type="text" required class="campo" />
             </div>
             <div class="col-span-2">
-              <label class="block font-bold text-slate-700 mb-1">Email (usuario de acceso) *</label>
-              <input v-model="formulario.email" type="email" required class="campo" />
+              <label for="usuarios-formulario-email" class="block font-bold text-slate-700 mb-1">Email (usuario de acceso) *</label>
+              <input id="usuarios-formulario-email" v-model="formulario.email" type="email" required class="campo" />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Perfil general *</label>
-              <select v-model="formulario.perfil_acceso" required class="campo">
+              <label for="usuarios-formulario-perfil-acceso" class="block font-bold text-slate-700 mb-1">Perfil general *</label>
+              <select id="usuarios-formulario-perfil-acceso" v-model="formulario.perfil_acceso" required class="campo">
                 <option v-for="(label, valor) in PERFILES" :key="valor" :value="valor">{{ label }}</option>
               </select>
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">{{ formulario.id ? 'Nueva contraseña' : 'Contraseña inicial *' }}</label>
-              <input
+              <label for="usuarios-formulario-password" class="block font-bold text-slate-700 mb-1">{{ formulario.id ? 'Nueva contraseña' : 'Contraseña inicial *' }}</label>
+              <input id="usuarios-formulario-password"
                 v-model="formulario.password"
                 type="password"
                 :required="!formulario.id"

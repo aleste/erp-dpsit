@@ -157,6 +157,8 @@ migraciones **nuevas** (`2026_10_23_*`), incluida una que modifica `personas`.
     a la API en el mismo componente;
   - `components/`: `ToastContainer`, `ConfirmModal`, `PersonaSearchSelect`;
   - `composables/`: `useApi`, `useToast`, `useAgency`;
+  - `plugins/`: `dialogo.ts`, directiva `v-dialogo` para los paneles de los modales (`role="dialog"`,
+    título asociado, foco inicial y atrapado, Esc con pila de modales, retorno del foco al cerrar);
   - `stores/`: `auth`, `notification`.
 - `useApi()` arma la URL con `apiBase`, agrega `Authorization: Bearer`, limpia parámetros vacíos
   (`cleanParams`) y hace logout ante un 401. Excepción: la subida de archivos en `areas-ti/[id].vue`

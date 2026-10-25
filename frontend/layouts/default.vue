@@ -36,10 +36,18 @@
         </div>
 
         <!-- Menú Principal con Íconos y Tooltips Flotantes -->
-        <nav class="p-3 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+        <nav
+          class="p-3 space-y-1 overflow-y-auto flex-1 custom-scrollbar"
+          @mouseover="mostrarTooltip"
+          @focusin="mostrarTooltip"
+          @mouseleave="ocultarTooltip"
+          @focusout="ocultarTooltip"
+          @scroll="ocultarTooltip"
+        >
           <!-- 1. Panel de Control -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Panel de Control' : undefined"
               to="/"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -52,14 +60,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Panel de Control</span>
             </NuxtLink>
-
-            <!-- Tooltip Flotante en Modo Plegado -->
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50 flex items-center gap-1.5"
-            >
-              <span>Panel de Control</span>
-            </div>
           </div>
 
           <!-- SECCIÓN: Estructura y Personas -->
@@ -71,6 +71,7 @@
           <!-- 2. Ministerios -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Ministerios' : undefined"
               to="/ministerios"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -83,18 +84,12 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Ministerios</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Ministerios</span>
-            </div>
           </div>
 
           <!-- 3. Áreas TI Homologadas -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Áreas TI Homologadas' : undefined"
               to="/areas-ti"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -107,18 +102,12 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Áreas TI Homologadas</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Áreas TI Homologadas</span>
-            </div>
           </div>
 
           <!-- 4. Directorio de Personas -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Directorio de Personas' : undefined"
               to="/personas"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -131,18 +120,12 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Directorio de Personas</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Directorio de Personas</span>
-            </div>
           </div>
 
           <!-- 5. Búsqueda por Roles -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Búsqueda por Roles' : undefined"
               to="/roles"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -155,13 +138,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Búsqueda por Roles</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Búsqueda por Roles</span>
-            </div>
           </div>
 
           <!-- SECCIÓN: Servicios y Documentos -->
@@ -173,6 +149,7 @@
           <!-- 6. Servicios Tecnológicos -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Servicios Tecnológicos' : undefined"
               to="/servicios"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -185,18 +162,12 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Servicios Tecnológicos</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Servicios Tecnológicos</span>
-            </div>
           </div>
 
           <!-- 6b. Firma Digital (Tokens) -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Firma Digital (Tokens)' : undefined"
               to="/firma-digital"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -209,13 +180,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Firma Digital (Tokens)</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Firma Digital (Tokens)</span>
-            </div>
           </div>
 
           <!-- SECCIÓN: Gestión Administrativa (permiso por módulo) -->
@@ -227,6 +191,7 @@
 
           <div v-if="true" class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Seguimiento de Expedientes' : undefined"
               to="/expedientes"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -239,13 +204,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Seguimiento de Expedientes</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Seguimiento de Expedientes</span>
-            </div>
           </div>
           </template>
 
@@ -258,6 +216,7 @@
           <!-- 7. Exportador de Contactos -->
           <div class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Exportador de Contactos' : undefined"
               to="/exportador"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -270,13 +229,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Exportador de Contactos</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Exportador de Contactos</span>
-            </div>
           </div>
 
           <!-- SECCIÓN: Administración (solo ADMINISTRADOR) -->
@@ -288,6 +240,7 @@
 
           <div v-if="true" class="relative group/item">
             <NuxtLink
+              :aria-label="isCollapsed ? 'Usuarios y Permisos' : undefined"
               to="/usuarios"
               class="flex items-center rounded-xl text-xs font-semibold transition-all"
               :class="[
@@ -300,13 +253,6 @@
               </svg>
               <span v-show="!isCollapsed" class="truncate">Usuarios y Permisos</span>
             </NuxtLink>
-
-            <div
-              v-if="isCollapsed"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/item:opacity-100 pointer-events-none transition-all duration-150 z-50"
-            >
-              <span>Usuarios y Permisos</span>
-            </div>
           </div>
           </template>
         </nav>
@@ -366,7 +312,7 @@
 
           <!-- Tooltip Perfil -->
           <div
-            class="absolute left-full bottom-0 ml-3 px-3 py-2 bg-slate-950 text-white text-xs rounded-xl shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/user:opacity-100 pointer-events-none transition-all duration-150 z-50"
+            class="absolute left-full bottom-0 ml-3 px-3 py-2 bg-slate-950 text-white text-xs rounded-xl shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/user:opacity-100 group-focus-within/user:opacity-100 pointer-events-none transition-all duration-150 z-50"
           >
             <p class="font-bold">{{ authStore.user?.name || 'Usuario' }}</p>
             <p class="text-[10px] text-slate-400 uppercase tracking-wider">{{ authStore.user?.perfil_acceso || 'LECTOR' }}</p>
@@ -374,6 +320,16 @@
         </div>
       </div>
     </aside>
+
+    <!-- Tooltip del menú plegado: fuera del <nav>, cuyo overflow lo recortaría -->
+    <div
+      v-if="isCollapsed && tooltip.visible"
+      aria-hidden="true"
+      class="fixed left-20 ml-3 -translate-y-1/2 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap pointer-events-none z-50"
+      :style="{ top: `${tooltip.top}px` }"
+    >
+      {{ tooltip.texto }}
+    </div>
 
     <!-- Contenido Principal -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -424,7 +380,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 import { useAgency } from '~/composables/useAgency'
@@ -440,6 +396,24 @@ const toggleSidebar = () => {
   if (import.meta.client) {
     localStorage.setItem('sidebar_collapsed', isCollapsed.value ? 'true' : 'false')
   }
+}
+
+// Tooltip del menú plegado (con mouse o con foco de teclado)
+const tooltip = reactive({ visible: false, texto: '', top: 0 })
+
+const mostrarTooltip = (e) => {
+  if (!isCollapsed.value) return
+  const enlace = e.target.closest?.('a[aria-label]')
+  if (!enlace) {
+    tooltip.visible = false
+    return
+  }
+  const r = enlace.getBoundingClientRect()
+  Object.assign(tooltip, { visible: true, texto: enlace.getAttribute('aria-label'), top: r.top + r.height / 2 })
+}
+
+const ocultarTooltip = () => {
+  tooltip.visible = false
 }
 
 onMounted(() => {

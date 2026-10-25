@@ -59,8 +59,8 @@
     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="lg:col-span-3">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Ministerio u Organismo</label>
-          <input
+          <label for="ministerios-filters-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Ministerio u Organismo</label>
+          <input id="ministerios-filters-q"
             v-model="filters.q"
             @input="debounceSearch"
             type="text"
@@ -70,8 +70,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado</label>
-          <select
+          <label for="ministerios-filters-activo" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado</label>
+          <select id="ministerios-filters-activo"
             v-model="filters.activo"
             @change="fetchMinisterios"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -250,19 +250,19 @@
     <!-- MODAL: CREAR / EDITAR MINISTERIO                                      -->
     <!-- ===================================================================== -->
     <div v-if="showModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModal = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">
             {{ isEditing ? 'Editar Ministerio u Organismo' : 'Nuevo Ministerio u Organismo' }}
           </h2>
-          <button @click="showModal = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModal = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveMinisterio" class="p-6 space-y-4 text-xs">
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único *</label>
-              <input
+              <label for="ministerios-form-codigo" class="block font-bold text-slate-700 mb-1">Código Único *</label>
+              <input id="ministerios-form-codigo"
                 v-model="form.codigo"
                 type="text"
                 required
@@ -271,8 +271,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Sigla / Abreviatura</label>
-              <input
+              <label for="ministerios-form-sigla" class="block font-bold text-slate-700 mb-1">Sigla / Abreviatura</label>
+              <input id="ministerios-form-sigla"
                 v-model="form.sigla"
                 type="text"
                 placeholder="Ej: MSALUD, DGCYE"
@@ -282,8 +282,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Nombre Completo del Organismo *</label>
-            <input
+            <label for="ministerios-form-nombre" class="block font-bold text-slate-700 mb-1">Nombre Completo del Organismo *</label>
+            <input id="ministerios-form-nombre"
               v-model="form.nombre"
               type="text"
               required
@@ -294,8 +294,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Orden de Prioridad Protocolar</label>
-              <input
+              <label for="ministerios-form-orden-prioridad" class="block font-bold text-slate-700 mb-1">Orden de Prioridad Protocolar</label>
+              <input id="ministerios-form-orden-prioridad"
                 v-model.number="form.orden_prioridad"
                 type="number"
                 min="0"
@@ -339,7 +339,7 @@
     <!-- MODAL: DESIGNAR / EDITAR MÁXIMA AUTORIDAD                             -->
     <!-- ===================================================================== -->
     <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
@@ -347,13 +347,13 @@
             </h2>
             <p class="text-xs text-slate-400">{{ formAutoridad.organismo }}</p>
           </div>
-          <button @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-xs">
           <div v-if="!formAutoridad.id">
-            <label class="block font-bold text-slate-700 mb-1">Persona *</label>
-            <PersonaSearchSelect
+            <label for="ministerios-formautoridad-persona-id" class="block font-bold text-slate-700 mb-1">Persona *</label>
+            <PersonaSearchSelect input-id="ministerios-formautoridad-persona-id"
               v-model="formAutoridad.persona_id"
               placeholder="Buscar por apellido, nombre o CUIL..."
             />
@@ -368,8 +368,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Cargo</label>
-              <input
+              <label for="ministerios-formautoridad-cargo" class="block font-bold text-slate-700 mb-1">Cargo</label>
+              <input id="ministerios-formautoridad-cargo"
                 v-model="formAutoridad.cargo"
                 type="text"
                 maxlength="150"
@@ -378,8 +378,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de inicio</label>
-              <input
+              <label for="ministerios-formautoridad-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de inicio</label>
+              <input id="ministerios-formautoridad-fecha-inicio"
                 v-model="formAutoridad.fecha_inicio"
                 type="date"
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -388,8 +388,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Acto administrativo / decreto</label>
-            <input
+            <label for="ministerios-formautoridad-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto administrativo / decreto</label>
+            <input id="ministerios-formautoridad-acto-administrativo"
               v-model="formAutoridad.acto_administrativo"
               type="text"
               maxlength="150"
@@ -398,8 +398,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="ministerios-formautoridad-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="ministerios-formautoridad-observaciones"
               v-model="formAutoridad.observaciones"
               rows="2"
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"

@@ -78,7 +78,9 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
 - Correo: siempre vía `Mail` de Laravel; en desarrollo `MAIL_HOST=mailpit` (nunca un SMTP real).
 - Frontend: llamadas HTTP solo vía `useApi()`; notificaciones solo con `useToast()` (`toast.*`,
   `confirmDialog`). **Prohibido** `alert()`/`confirm()` nativos. Para elegir personas usar
-  `PersonaSearchSelect` (búsqueda remota; el padrón puede superar 2.000 personas).
+  `PersonaSearchSelect` (búsqueda remota; el padrón puede superar 2.000 personas). Todo modal lleva
+  `v-dialogo="() => cerrar()"` en su panel (`plugins/dialogo.ts`: rol, foco, Esc) y cada `<label>`
+  se vincula a su campo con `for`/`id` (en `PersonaSearchSelect`, prop `input-id`).
 - Denominación de la institución: nunca hardcodear; usar `config('app.agency.*')` / `useAgency()`.
 - Estilo PHP: Laravel Pint (`vendor/bin/pint`), aplicado solo a los archivos que tocaste.
 - Git: `develop` = desarrollo, `main` = producción. Trabajar en ramas desde `develop`. Commits estilo

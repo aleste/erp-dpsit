@@ -37,6 +37,7 @@
     <div v-else class="relative">
       <div class="relative">
         <input
+          :id="inputId"
           ref="inputRef"
           type="text"
           v-model="searchQuery"
@@ -156,6 +157,7 @@ const props = defineProps<{
   initialPersona?: Persona | null
   disabled?: boolean
   placeholder?: string
+  inputId?: string
 }>()
 
 const emit = defineEmits<{

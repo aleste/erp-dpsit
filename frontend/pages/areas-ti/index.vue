@@ -58,8 +58,8 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Buscador de texto -->
         <div class="lg:col-span-1">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar</label>
-          <input
+          <label for="areas-filters-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar</label>
+          <input id="areas-filters-q"
             v-model="filters.q"
             @input="debounceSearch"
             type="text"
@@ -70,8 +70,8 @@
 
         <!-- Filtro por Ministerio -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
-          <select
+          <label for="areas-filters-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
+          <select id="areas-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAreas"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -83,8 +83,8 @@
 
         <!-- Filtro por Homologación -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Homologación</label>
-          <select
+          <label for="areas-filters-es-homologada" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Homologación</label>
+          <select id="areas-filters-es-homologada"
             v-model="filters.es_homologada"
             @change="fetchAreas"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -97,8 +97,8 @@
 
         <!-- Filtro por Nivel Jerárquico -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nivel Jerárquico</label>
-          <select
+          <label for="areas-filters-nivel-jerarquico" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nivel Jerárquico</label>
+          <select id="areas-filters-nivel-jerarquico"
             v-model="filters.nivel_jerarquico"
             @change="fetchAreas"
             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
@@ -234,18 +234,18 @@
     <!-- MODAL: CREAR / EDITAR ÁREA TI                                         -->
     <!-- ===================================================================== -->
     <div v-if="showModalForm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalForm = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">
             {{ isEditing ? 'Editar Área TI Homologada' : 'Registrar Nueva Área TI' }}
           </h2>
-          <button @click="showModalForm = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalForm = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveArea" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Ministerio Perteneciente *</label>
-            <select
+            <label for="areas-formarea-ministerio-id" class="block font-bold text-slate-700 mb-1">Ministerio Perteneciente *</label>
+            <select id="areas-formarea-ministerio-id"
               v-model="formArea.ministerio_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -257,8 +257,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único Institucional *</label>
-              <input
+              <label for="areas-formarea-codigo" class="block font-bold text-slate-700 mb-1">Código Único Institucional *</label>
+              <input id="areas-formarea-codigo"
                 v-model="formArea.codigo"
                 type="text"
                 required
@@ -267,8 +267,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Nivel Jerárquico *</label>
-              <select
+              <label for="areas-formarea-nivel-jerarquico" class="block font-bold text-slate-700 mb-1">Nivel Jerárquico *</label>
+              <select id="areas-formarea-nivel-jerarquico"
                 v-model="formArea.nivel_jerarquico"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -283,8 +283,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Nombre Oficial del Área TI *</label>
-            <input
+            <label for="areas-formarea-nombre" class="block font-bold text-slate-700 mb-1">Nombre Oficial del Área TI *</label>
+            <input id="areas-formarea-nombre"
               v-model="formArea.nombre"
               type="text"
               required
@@ -304,8 +304,8 @@
             </label>
 
             <div v-if="formArea.es_homologada">
-              <label class="block font-semibold text-slate-600 mb-1">Número de Resolución / Acto de Homologación</label>
-              <input
+              <label for="areas-formarea-resolucion-homologacion" class="block font-semibold text-slate-600 mb-1">Número de Resolución / Acto de Homologación</label>
+              <input id="areas-formarea-resolucion-homologacion"
                 v-model="formArea.resolucion_homologacion"
                 type="text"
                 placeholder="Ej: RES-2024-150-DPSIT"
@@ -316,8 +316,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Email Institucional</label>
-              <input
+              <label for="areas-formarea-email-institucional" class="block font-bold text-slate-700 mb-1">Email Institucional</label>
+              <input id="areas-formarea-email-institucional"
                 v-model="formArea.email_institucional"
                 type="email"
                 placeholder="sistemas@organismo.gob.ar"
@@ -325,8 +325,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Teléfono de Contacto</label>
-              <input
+              <label for="areas-formarea-telefono-contacto" class="block font-bold text-slate-700 mb-1">Teléfono de Contacto</label>
+              <input id="areas-formarea-telefono-contacto"
                 v-model="formArea.telefono_contacto"
                 type="text"
                 placeholder="0221-429-0000 int 123"
@@ -359,20 +359,20 @@
     <!-- MODAL: DESIGNAR MÁXIMA AUTORIDAD                                      -->
     <!-- ===================================================================== -->
     <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <span class="text-[10px] font-bold uppercase text-amber-400">Gobernanza TI</span>
             <h2 class="text-base font-bold">Designar Máxima Autoridad</h2>
             <p class="text-xs text-slate-400">{{ selectedArea?.nombre }}</p>
           </div>
-          <button @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Persona a Designar *</label>
-            <select
+            <label for="areas-formautoridad-persona-id" class="block font-bold text-slate-700 mb-1">Persona a Designar *</label>
+            <select id="areas-formautoridad-persona-id"
               v-model="formAutoridad.persona_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -385,8 +385,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Cargo / Denominación Formal *</label>
-            <select
+            <label for="areas-formautoridad-tipo-rol-id" class="block font-bold text-slate-700 mb-1">Cargo / Denominación Formal *</label>
+            <select id="areas-formautoridad-tipo-rol-id"
               v-model="formAutoridad.tipo_rol_id"
               required
               class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -400,8 +400,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de Asunción *</label>
-              <input
+              <label for="areas-formautoridad-fecha-inicio" class="block font-bold text-slate-700 mb-1">Fecha de Asunción *</label>
+              <input id="areas-formautoridad-fecha-inicio"
                 v-model="formAutoridad.fecha_inicio"
                 type="date"
                 required
@@ -409,8 +409,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Acto Administrativo</label>
-              <input
+              <label for="areas-formautoridad-acto-administrativo" class="block font-bold text-slate-700 mb-1">Acto Administrativo</label>
+              <input id="areas-formautoridad-acto-administrativo"
                 v-model="formAutoridad.acto_administrativo"
                 type="text"
                 placeholder="Ej: Decreto 1250/24"
@@ -420,8 +420,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="areas-formautoridad-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="areas-formautoridad-observaciones"
               v-model="formAutoridad.observaciones"
               rows="2"
               placeholder="Notas de designación formal..."
@@ -453,19 +453,19 @@
     <!-- MODAL: ASOCIAR SERVICIO TECNOLÓGICO DESDE EL LISTADO                  -->
     <!-- ===================================================================== -->
     <div v-if="showModalServicio" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalServicio = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Asociar Servicio Tecnológico</h2>
             <p class="text-xs text-emerald-300">{{ selectedAreaParaServicio?.nombre }} ({{ selectedAreaParaServicio?.codigo }})</p>
           </div>
-          <button @click="showModalServicio = false" class="text-slate-400 hover:text-white">✕</button>
+          <button type="button" aria-label="Cerrar" @click="showModalServicio = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
         <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
-            <select
+            <label for="areas-formservicio-catalogo-servicio-id" class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
+            <select id="areas-formservicio-catalogo-servicio-id"
               v-model="formServicio.catalogo_servicio_id"
               @change="onTipoServicioChange"
               required
@@ -480,8 +480,8 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
-              <input
+              <label for="areas-formservicio-codigo-instancia" class="block font-bold text-slate-700 mb-1">Código Único de Instancia *</label>
+              <input id="areas-formservicio-codigo-instancia"
                 v-model="formServicio.codigo_instancia"
                 type="text"
                 required
@@ -490,8 +490,8 @@
               />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Nivel de SLA *</label>
-              <select
+              <label for="areas-formservicio-sla-nivel" class="block font-bold text-slate-700 mb-1">Nivel de SLA *</label>
+              <select id="areas-formservicio-sla-nivel"
                 v-model="formServicio.sla_nivel"
                 required
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -505,8 +505,8 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-            <textarea
+            <label for="areas-formservicio-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+            <textarea id="areas-formservicio-observaciones"
               v-model="formServicio.observaciones"
               rows="2"
               placeholder="Detalles sobre provisión, requerimientos o acuerdos del servicio..."

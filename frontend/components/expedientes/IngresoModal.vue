@@ -1,18 +1,18 @@
 <template>
   <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
+    <div v-dialogo="() => $emit('close')" class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <h2 class="text-base font-bold">Registrar Ingreso de Expediente</h2>
           <p class="text-xs text-slate-400">Expediente nuevo o reingreso de uno ya tramitado</p>
         </div>
-        <button @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
+        <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
       <form @submit.prevent="guardar" class="p-6 space-y-4 text-xs overflow-y-auto">
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Nº de expediente *</label>
-          <input
+          <label for="ingreso-form-numero" class="block font-bold text-slate-700 mb-1">Nº de expediente *</label>
+          <input id="ingreso-form-numero"
             v-model="form.numero"
             @input="verificarConDemora"
             type="text"
@@ -38,12 +38,12 @@
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fecha de ingreso *</label>
-            <input v-model="form.fecha_ingreso" type="date" required :max="hoyISO()" class="campo" />
+            <label for="ingreso-form-fecha-ingreso" class="block font-bold text-slate-700 mb-1">Fecha de ingreso *</label>
+            <input id="ingreso-form-fecha-ingreso" v-model="form.fecha_ingreso" type="date" required :max="hoyISO()" class="campo" />
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Organismo</label>
-            <select v-model="form.ministerio_id" :disabled="esReingreso && !!verificacion.expediente.ministerio_id" class="campo">
+            <label for="ingreso-form-ministerio-id" class="block font-bold text-slate-700 mb-1">Organismo</label>
+            <select id="ingreso-form-ministerio-id" v-model="form.ministerio_id" :disabled="esReingreso && !!verificacion.expediente.ministerio_id" class="campo">
               <option value="">Sin especificar</option>
               <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.nombre }}</option>
             </select>
@@ -51,39 +51,39 @@
         </div>
 
         <div v-if="!esReingreso || !verificacion.expediente.caratula">
-          <label class="block font-bold text-slate-700 mb-1">Carátula / asunto</label>
-          <textarea v-model="form.caratula" rows="2" class="campo" placeholder="Ej: Solicitud de bonificación ..."></textarea>
+          <label for="ingreso-form-caratula" class="block font-bold text-slate-700 mb-1">Carátula / asunto</label>
+          <textarea id="ingreso-form-caratula" v-model="form.caratula" rows="2" class="campo" placeholder="Ej: Solicitud de bonificación ..."></textarea>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">{{ esReingreso ? 'Motivo del reingreso *' : 'Motivo de la intervención' }}</label>
-          <textarea v-model="form.descripcion" rows="2" :required="esReingreso" class="campo" placeholder="Qué se solicita al área en este pase"></textarea>
+          <label for="ingreso-form-descripcion" class="block font-bold text-slate-700 mb-1">{{ esReingreso ? 'Motivo del reingreso *' : 'Motivo de la intervención' }}</label>
+          <textarea id="ingreso-form-descripcion" v-model="form.descripcion" rows="2" :required="esReingreso" class="campo" placeholder="Qué se solicita al área en este pase"></textarea>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Requerimiento</label>
-            <select v-model="form.tipo_requerimiento_id" class="campo">
+            <label for="ingreso-form-tipo-requerimiento-id" class="block font-bold text-slate-700 mb-1">Requerimiento</label>
+            <select id="ingreso-form-tipo-requerimiento-id" v-model="form.tipo_requerimiento_id" class="campo">
               <option value="">Sin especificar</option>
               <option v-for="t in requerimientosActivos" :key="t.id" :value="t.id">{{ t.nombre }}</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Responsable</label>
-            <select v-model="form.responsable_id" class="campo">
+            <label for="ingreso-form-responsable-id" class="block font-bold text-slate-700 mb-1">Responsable</label>
+            <select id="ingreso-form-responsable-id" v-model="form.responsable_id" class="campo">
               <option value="">Sin asignar</option>
               <option v-for="u in opciones.integrantes" :key="u.id" :value="u.id">{{ u.name }}</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Estado inicial</label>
-            <select v-model="form.estado_id" class="campo">
+            <label for="ingreso-form-estado-id" class="block font-bold text-slate-700 mb-1">Estado inicial</label>
+            <select id="ingreso-form-estado-id" v-model="form.estado_id" class="campo">
               <option v-for="e in estadosTrabajo" :key="e.id" :value="e.id">{{ e.nombre }}</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Prioridad</label>
-            <select v-model="form.prioridad" class="campo">
+            <label for="ingreso-form-prioridad" class="block font-bold text-slate-700 mb-1">Prioridad</label>
+            <select id="ingreso-form-prioridad" v-model="form.prioridad" class="campo">
               <option value="NORMAL">Normal</option>
               <option value="ALTA">Alta</option>
             </select>
@@ -97,19 +97,19 @@
               <input v-model="form.proxima_accion" type="text" maxlength="255" placeholder="Próxima acción prevista" class="campo" />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Fecha de la próxima acción</label>
-              <input v-model="form.fecha_proxima_accion" type="date" class="campo" />
+              <label for="ingreso-form-fecha-proxima-accion" class="block font-bold text-slate-700 mb-1">Fecha de la próxima acción</label>
+              <input id="ingreso-form-fecha-proxima-accion" v-model="form.fecha_proxima_accion" type="date" class="campo" />
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Vencimiento (solo si hay un plazo real)</label>
-              <input v-model="form.fecha_vencimiento" type="date" class="campo" />
+              <label for="ingreso-form-fecha-vencimiento" class="block font-bold text-slate-700 mb-1">Vencimiento (solo si hay un plazo real)</label>
+              <input id="ingreso-form-fecha-vencimiento" v-model="form.fecha_vencimiento" type="date" class="campo" />
             </div>
           </div>
         </details>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Observaciones</label>
-          <textarea v-model="form.observaciones" rows="2" class="campo"></textarea>
+          <label for="ingreso-form-observaciones" class="block font-bold text-slate-700 mb-1">Observaciones</label>
+          <textarea id="ingreso-form-observaciones" v-model="form.observaciones" rows="2" class="campo"></textarea>
         </div>
 
         <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">

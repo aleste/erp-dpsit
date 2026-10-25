@@ -61,7 +61,7 @@
     </template>
 
     <div v-if="form.visible" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <form @submit.prevent="guardar" class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 p-6 space-y-3 text-xs">
+      <form v-dialogo="() => (form.visible = false)" @submit.prevent="guardar" class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 p-6 space-y-3 text-xs">
         <h2 class="text-base font-bold text-slate-900">{{ form.id ? 'Editar' : 'Agregar' }} · {{ CATALOGOS[catalogo].titulo }}</h2>
         <label class="block space-y-1"><span class="font-bold text-slate-700">Nombre *</span><input v-model="form.nombre" required maxlength="255" class="campo" /></label>
         <template v-if="catalogo === 'estados'">

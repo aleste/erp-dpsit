@@ -4,12 +4,12 @@
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <h2 class="text-base font-bold">{{ titulo }}</h2>
-          <p class="text-xs text-slate-400">Dispositivos de firma digital</p>
+          <p class="text-sm text-slate-400">Dispositivos de firma digital</p>
         </div>
         <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
-      <form @submit.prevent="guardar" class="p-6 space-y-5 text-xs overflow-y-auto">
+      <form @submit.prevent="guardar" class="p-6 space-y-5 text-sm overflow-y-auto">
         <!-- Aviso de reemplazo -->
         <div v-if="reemplaza" class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800">
           Se registrará un nuevo dispositivo para <strong>{{ reemplaza.persona?.apellido }}, {{ reemplaza.persona?.nombre }}</strong>.
@@ -18,7 +18,7 @@
 
         <!-- PERSONA -->
         <section class="space-y-2">
-          <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">1. Persona titular</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">1. Persona titular</h3>
 
           <div v-if="esEdicion || reemplaza" class="p-3 rounded-xl bg-slate-50 border border-slate-200 font-semibold text-slate-800">
             {{ personaFija?.apellido }}, {{ personaFija?.nombre }}
@@ -34,13 +34,13 @@
             <button
               type="button"
               @click="mostrarNuevaPersona = !mostrarNuevaPersona"
-              class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline"
+              class="text-sm font-bold text-sky-600 hover:text-sky-800 hover:underline"
             >
               {{ mostrarNuevaPersona ? '← Buscar en el padrón' : '+ La persona no está en el padrón: registrarla' }}
             </button>
 
             <div v-if="mostrarNuevaPersona" class="p-4 rounded-xl border border-sky-200 bg-sky-50/40 space-y-3">
-              <p class="text-[11px] text-slate-500">
+              <p class="text-xs text-slate-500">
                 Solo apellido y nombre son obligatorios. El email es necesario para enviar los recordatorios de vencimiento.
               </p>
               <div class="grid grid-cols-2 gap-3">
@@ -60,7 +60,7 @@
 
         <!-- ORGANISMO -->
         <section class="space-y-2">
-          <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">2. Organismo (opcional)</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">2. Organismo (opcional)</h3>
           <div class="flex flex-wrap gap-4 font-semibold text-slate-700">
             <label class="inline-flex items-center gap-2 cursor-pointer">
               <input v-model="tipoOrganismo" type="radio" value="ministerio" class="text-sky-600" /> Ministerio del ERP
@@ -89,7 +89,7 @@
 
         <!-- ENTREGA Y DISPOSITIVO -->
         <section class="space-y-2">
-          <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">3. Entrega{{ esEdicion ? '' : ' y dispositivo' }}</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">3. Entrega{{ esEdicion ? '' : ' y dispositivo' }}</h3>
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label for="entrega-form-fecha-entrega" class="block font-bold text-slate-700 mb-1">Fecha de entrega *</label>
@@ -129,7 +129,7 @@
 
         <!-- CERTIFICADO -->
         <section v-if="!esEdicion" class="space-y-3">
-          <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">4. Certificado digital</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">4. Certificado digital</h3>
 
           <label class="inline-flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
             <input v-model="inicioDistinto" type="checkbox" class="w-4 h-4 text-sky-600 rounded border-slate-300" />
@@ -147,10 +147,10 @@
               <p class="font-bold text-slate-700">Vencimiento</p>
               <p v-if="!cert.vencimiento_manual" class="text-sm font-extrabold text-slate-900">
                 {{ formatFecha(vencimientoCalculado) }}
-                <span class="block text-[10px] font-semibold text-slate-400">Calculado: inicio + {{ parametros.vigencia_meses }} meses</span>
+                <span class="block text-xs font-semibold text-slate-500">Calculado: inicio + {{ parametros.vigencia_meses }} meses</span>
               </p>
               <input v-else v-model="cert.fecha_vencimiento" type="date" required class="campo" />
-              <label class="inline-flex items-center gap-2 cursor-pointer text-[11px] text-slate-600">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-slate-600">
                 <input v-model="cert.vencimiento_manual" type="checkbox" class="w-3.5 h-3.5 text-sky-600 rounded" @change="alCambiarManualVencimiento" />
                 Indicar fecha manualmente
               </label>
@@ -160,10 +160,10 @@
               <p class="font-bold text-slate-700">Recordatorio por email</p>
               <p v-if="!cert.recordatorio_manual" class="text-sm font-extrabold text-slate-900">
                 {{ formatFecha(recordatorioCalculado) }}
-                <span class="block text-[10px] font-semibold text-slate-400">{{ parametros.recordatorio_dias_anticipacion }} días antes del vencimiento</span>
+                <span class="block text-xs font-semibold text-slate-500">{{ parametros.recordatorio_dias_anticipacion }} días antes del vencimiento</span>
               </p>
               <input v-else v-model="cert.fecha_recordatorio" type="date" required class="campo" />
-              <label class="inline-flex items-center gap-2 cursor-pointer text-[11px] text-slate-600">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-slate-600">
                 <input v-model="cert.recordatorio_manual" type="checkbox" class="w-3.5 h-3.5 text-sky-600 rounded" @change="alCambiarManualRecordatorio" />
                 Indicar fecha manualmente
               </label>

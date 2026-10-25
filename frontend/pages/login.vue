@@ -14,13 +14,13 @@
     <!-- Formulario de Acceso -->
     <div class="bg-slate-900/90 backdrop-blur-md py-8 px-6 shadow-2xl rounded-2xl sm:px-10 border border-slate-800">
       <form class="space-y-5" @submit.prevent="handleLogin">
-        <div v-if="errorMessage" class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs flex items-center gap-2">
+        <div v-if="errorMessage" class="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-sm flex items-center gap-2">
           <span>⚠️</span>
           <span>{{ errorMessage }}</span>
         </div>
 
         <div>
-          <label for="login-form-email" class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico</label>
+          <label for="login-form-email" class="block text-sm font-semibold text-slate-300 mb-1.5">Correo Electrónico</label>
           <input id="login-form-email"
             v-model="form.email"
             type="email"
@@ -31,7 +31,7 @@
         </div>
 
         <div>
-          <label for="login-form-password" class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña</label>
+          <label for="login-form-password" class="block text-sm font-semibold text-slate-300 mb-1.5">Contraseña</label>
           <input id="login-form-password"
             v-model="form.password"
             type="password"
@@ -52,28 +52,28 @@
 
       <!-- Selector Rápido de Perfiles Demo -->
       <div class="mt-8 pt-6 border-t border-slate-800">
-        <p class="text-[11px] font-semibold text-slate-400 text-center uppercase tracking-wider mb-3">
+        <p class="text-xs font-semibold text-slate-400 text-center uppercase tracking-wider mb-3">
           Perfiles de Prueba Rápidos (Demo)
         </p>
         <div class="grid grid-cols-3 gap-2">
           <button
             type="button"
             @click="setProfile('admin@dpsit.gob.ar', 'admin123')"
-            class="py-2 px-2 text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg border border-slate-700 transition text-center"
+            class="py-2 px-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg border border-slate-700 transition text-center"
           >
             Admin
           </button>
           <button
             type="button"
             @click="setProfile('editor@dpsit.gob.ar', 'editor123')"
-            class="py-2 px-2 text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg border border-slate-700 transition text-center"
+            class="py-2 px-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg border border-slate-700 transition text-center"
           >
             Editor
           </button>
           <button
             type="button"
             @click="setProfile('lector@dpsit.gob.ar', 'lector123')"
-            class="py-2 px-2 text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg border border-slate-700 transition text-center"
+            class="py-2 px-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg border border-slate-700 transition text-center"
           >
             Lector
           </button>

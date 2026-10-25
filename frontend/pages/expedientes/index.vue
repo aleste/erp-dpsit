@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Seguimiento de Expedientes</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Expedientes que ingresan al área: situación actual, responsables, intervenciones y salidas.
         </p>
       </div>
@@ -12,14 +12,14 @@
         <NuxtLink
           v-if="authStore.isAdmin"
           to="/expedientes/catalogos"
-          class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700"
+          class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-sm font-bold text-slate-700"
         >
           ⚙️ Catálogos
         </NuxtLink>
         <button
           v-if="puedeOperar()"
           @click="mostrarIngreso = true"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
         >
           <span>+</span> Registrar Ingreso
         </button>
@@ -34,19 +34,19 @@
         @click="card.accion()"
         class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-sky-300 transition"
       >
-        <p class="text-[10px] font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
+        <p class="text-xs font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
         <h3 class="text-2xl font-extrabold mt-0.5" :class="card.color">{{ card.valor }}</h3>
       </button>
     </div>
 
     <!-- En el área por estado -->
-    <div v-if="tablero.por_estado?.length" class="flex flex-wrap items-center gap-2 text-xs">
-      <span class="font-bold text-slate-500 uppercase tracking-wider text-[10px]">En el área por estado:</span>
+    <div v-if="tablero.por_estado?.length" class="flex flex-wrap items-center gap-2 text-sm">
+      <span class="font-bold text-slate-500 uppercase tracking-wider text-xs">En el área por estado:</span>
       <button
         v-for="e in tablero.por_estado"
         :key="e.id"
         @click="filtrarPor('listado', { situacion: 'EN_AREA', estado_id: e.id })"
-        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] font-bold"
+        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-bold"
         :class="claseColor(e.color)"
       >
         {{ e.nombre }} <span class="opacity-70">{{ e.cantidad }}</span>
@@ -55,7 +55,7 @@
 
     <!-- Pestañas -->
     <div class="flex border-b border-slate-200 space-x-6">
-      <button v-for="t in pestanas" :key="t.id" @click="cambiarTab(t.id)" class="pb-3 text-xs font-extrabold border-b-2 transition"
+      <button v-for="t in pestanas" :key="t.id" @click="cambiarTab(t.id)" class="pb-3 text-sm font-extrabold border-b-2 transition"
               :class="activeTab === t.id ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
         {{ t.label }}
       </button>
@@ -63,10 +63,10 @@
 
     <!-- PESTAÑA: PRIORIDADES (reemplaza la hoja personal por antigüedad) -->
     <div v-if="activeTab === 'prioridad'" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-      <div class="p-4 border-b border-slate-100 text-xs text-slate-500">
+      <div class="p-4 border-b border-slate-100 text-sm text-slate-500">
         Expedientes en el área ordenados por prioridad y antigüedad. Se resaltan los que superan {{ tablero.umbral_dias_alerta }} días.
       </div>
-      <div v-if="!tablero.prioridad?.length" class="p-12 text-center text-xs text-slate-400">No hay expedientes en el área.</div>
+      <div v-if="!tablero.prioridad?.length" class="p-12 text-center text-sm text-slate-500">No hay expedientes en el área.</div>
       <TablaIntervenciones v-else :filas="tablero.prioridad" :umbral="tablero.umbral_dias_alerta" @abrir="abrirFicha" />
     </div>
 
@@ -144,7 +144,7 @@
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-sm">
           <div class="flex flex-wrap items-center gap-4 font-semibold text-slate-700">
             <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.mis" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Mis expedientes</label>
             <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.accion_vencida" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Próxima acción vencida</label>
@@ -161,11 +161,11 @@
       </div>
 
       <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-        <div v-if="cargando" class="p-12 text-center text-xs text-slate-400">Cargando...</div>
-        <div v-else-if="filas.length === 0" class="p-12 text-center text-xs text-slate-400">No se encontraron expedientes con los criterios especificados.</div>
+        <div v-if="cargando" class="p-12 text-center text-sm text-slate-500">Cargando...</div>
+        <div v-else-if="filas.length === 0" class="p-12 text-center text-sm text-slate-500">No se encontraron expedientes con los criterios especificados.</div>
         <TablaIntervenciones v-else :filas="filas" :umbral="tablero.umbral_dias_alerta" mostrar-egreso @abrir="abrirFicha" />
 
-        <div v-if="paginacion.last_page > 1" class="flex items-center justify-between px-4 py-3 border-t border-slate-100 text-xs text-slate-500">
+        <div v-if="paginacion.last_page > 1" class="flex items-center justify-between px-4 py-3 border-t border-slate-100 text-sm text-slate-500">
           <span>{{ paginacion.from }}–{{ paginacion.to }} de {{ paginacion.total }}</span>
           <div class="flex gap-2">
             <button :disabled="paginacion.current_page <= 1" @click="irAPagina(paginacion.current_page - 1)" class="px-3 py-1.5 bg-slate-100 rounded-lg font-bold disabled:opacity-40">‹ Anterior</button>
@@ -177,17 +177,17 @@
 
     <!-- PESTAÑA: ÚLTIMOS MOVIMIENTOS -->
     <div v-if="activeTab === 'movimientos'" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100">
-      <div v-if="!tablero.ultimos_movimientos?.length" class="p-12 text-center text-xs text-slate-400">Sin movimientos registrados.</div>
+      <div v-if="!tablero.ultimos_movimientos?.length" class="p-12 text-center text-sm text-slate-500">Sin movimientos registrados.</div>
       <button
         v-for="m in tablero.ultimos_movimientos"
         :key="m.id"
         @click="abrirFicha(m.intervencion?.expediente_id)"
-        class="w-full text-left p-4 hover:bg-slate-50 text-xs flex flex-col sm:flex-row sm:items-center gap-2"
+        class="w-full text-left p-4 hover:bg-slate-50 text-sm flex flex-col sm:flex-row sm:items-center gap-2"
       >
         <span class="font-mono font-bold text-slate-900 sm:w-72 truncate">{{ m.intervencion?.expediente?.numero }}</span>
-        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-[10px] font-bold uppercase text-slate-600 w-fit">{{ TIPOS_MOVIMIENTO[m.tipo] || m.tipo }}</span>
+        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-xs font-bold uppercase text-slate-600 w-fit">{{ TIPOS_MOVIMIENTO[m.tipo] || m.tipo }}</span>
         <span class="flex-1 text-slate-600 truncate">{{ m.descripcion }}</span>
-        <span class="text-slate-400 whitespace-nowrap">{{ formatFecha(m.fecha) }} · {{ m.usuario?.name || 'Importado' }}</span>
+        <span class="text-slate-500 whitespace-nowrap">{{ formatFecha(m.fecha) }} · {{ m.usuario?.name || 'Importado' }}</span>
       </button>
     </div>
 
@@ -360,9 +360,9 @@ onMounted(async () => {
 
 <style scoped>
 .filtro {
-  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
+  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
 }
 .filtro-label {
-  @apply block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1;
+  @apply block text-sm font-bold text-slate-500 mb-1;
 }
 </style>

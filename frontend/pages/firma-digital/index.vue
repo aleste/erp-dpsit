@@ -4,14 +4,14 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Dispositivos de Firma Digital</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Entrega de tokens, vigencia de certificados digitales y recordatorios automáticos de vencimiento.
         </p>
       </div>
       <button
         v-if="authStore.isEditor"
         @click="abrirAlta()"
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition"
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
       >
         <span>+</span> Registrar Entrega
       </button>
@@ -25,7 +25,7 @@
         @click="card.accion()"
         class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-sky-300 transition"
       >
-        <p class="text-[11px] font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
+        <p class="text-xs font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
         <h3 class="text-2xl font-extrabold mt-0.5" :class="card.color">{{ card.valor }}</h3>
       </button>
     </div>
@@ -34,14 +34,14 @@
     <div class="flex border-b border-slate-200 space-x-6">
       <button
         @click="cambiarTab('entregas')"
-        class="pb-3 text-xs font-extrabold border-b-2 transition flex items-center gap-2"
+        class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
         :class="activeTab === 'entregas' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
       >
         <span>🔑</span> Entregas y Certificados
       </button>
       <button
         @click="cambiarTab('recordatorios')"
-        class="pb-3 text-xs font-extrabold border-b-2 transition flex items-center gap-2"
+        class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
         :class="activeTab === 'recordatorios' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
       >
         <span>📬</span> Recordatorios de Vencimiento
@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-sm">
         <div class="flex flex-wrap items-center gap-4">
           <label v-if="activeTab === 'entregas'" class="inline-flex items-center gap-2 font-semibold text-slate-700">
             Entrega:
@@ -106,7 +106,7 @@
             </select>
           </label>
         </div>
-        <button v-if="hayFiltros" @click="limpiarFiltros" class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline">
+        <button v-if="hayFiltros" @click="limpiarFiltros" class="text-sm font-bold text-sky-600 hover:text-sky-800 hover:underline">
           Limpiar Filtros
         </button>
       </div>
@@ -114,16 +114,16 @@
 
     <!-- Tabla -->
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-      <div v-if="cargando" class="p-12 text-center text-xs text-slate-400">Cargando...</div>
-      <div v-else-if="filas.length === 0" class="p-12 text-center text-xs text-slate-400">
+      <div v-if="cargando" class="p-12 text-center text-sm text-slate-500">Cargando...</div>
+      <div v-else-if="filas.length === 0" class="p-12 text-center text-sm text-slate-500">
         No se encontraron registros con los criterios especificados.
       </div>
 
       <!-- Pestaña: entregas -->
       <div v-else-if="activeTab === 'entregas'" class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
+        <table class="w-full text-left text-sm">
           <thead>
-            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold uppercase tracking-wider text-xs">
               <th class="py-3.5 px-4">Titular</th>
               <th class="py-3.5 px-4">Organismo</th>
               <th class="py-3.5 px-4">Dispositivo</th>
@@ -139,21 +139,21 @@
                 <button @click="detalleId = e.id" class="font-extrabold text-slate-900 hover:text-sky-600 text-left">
                   {{ e.persona?.apellido }}, {{ e.persona?.nombre }}
                 </button>
-                <p class="text-[11px] text-slate-400">{{ e.persona?.email_principal || e.persona?.email_alternativo || 'Sin email' }}</p>
+                <p class="text-xs text-slate-500">{{ e.persona?.email_principal || e.persona?.email_alternativo || 'Sin email' }}</p>
               </td>
               <td class="py-3.5 px-4">
                 <span v-if="e.ministerio">{{ e.ministerio.sigla || e.ministerio.nombre }}</span>
-                <span v-else-if="e.organismo_externo" class="text-slate-600">{{ e.organismo_externo }} <span class="text-[10px] text-slate-400">(externo)</span></span>
-                <span v-else class="text-slate-400">—</span>
-                <p v-if="e.cargo_funcion" class="text-[11px] text-slate-400">{{ e.cargo_funcion }}</p>
+                <span v-else-if="e.organismo_externo" class="text-slate-600">{{ e.organismo_externo }} <span class="text-xs text-slate-500">(externo)</span></span>
+                <span v-else class="text-slate-500">—</span>
+                <p v-if="e.cargo_funcion" class="text-xs text-slate-500">{{ e.cargo_funcion }}</p>
               </td>
               <td class="py-3.5 px-4">
                 <p>{{ e.dispositivo?.marca || TIPOS_DISPOSITIVO[e.dispositivo?.tipo_dispositivo] }} {{ e.dispositivo?.modelo || '' }}</p>
-                <p class="text-[11px] font-mono text-slate-400">{{ e.dispositivo?.numero_serie || 's/n' }}</p>
+                <p class="text-xs font-mono text-slate-500">{{ e.dispositivo?.numero_serie || 's/n' }}</p>
               </td>
               <td class="py-3.5 px-4">
                 <p>{{ formatFecha(e.fecha_entrega) }}</p>
-                <p class="text-[10px] font-bold uppercase text-slate-400">{{ ESTADOS_ENTREGA[e.estado] }}</p>
+                <p class="text-xs font-bold uppercase text-slate-500">{{ ESTADOS_ENTREGA[e.estado] }}</p>
               </td>
               <td class="py-3.5 px-4 space-y-1">
                 <p class="font-semibold">{{ formatFecha(e.certificado_actual?.fecha_vencimiento) }}</p>
@@ -164,7 +164,7 @@
                 <FirmaDigitalEstadoBadge tipo="recordatorio" :estado="e.certificado_actual?.recordatorio_estado" />
               </td>
               <td class="py-3.5 px-4 text-right">
-                <button @click="detalleId = e.id" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-[11px] font-bold text-slate-700">
+                <button @click="detalleId = e.id" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-700 whitespace-nowrap">
                   🔍 Ver detalle
                 </button>
               </td>
@@ -175,9 +175,9 @@
 
       <!-- Pestaña: recordatorios -->
       <div v-else class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
+        <table class="w-full text-left text-sm">
           <thead>
-            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold uppercase tracking-wider text-xs">
               <th class="py-3.5 px-4">Titular</th>
               <th class="py-3.5 px-4">Destinatario</th>
               <th class="py-3.5 px-4">Vencimiento</th>
@@ -191,7 +191,7 @@
             <tr v-for="c in filas" :key="c.id" class="hover:bg-slate-50/80 transition">
               <td class="py-3.5 px-4 font-extrabold text-slate-900">
                 {{ c.entrega?.persona?.apellido }}, {{ c.entrega?.persona?.nombre }}
-                <p class="text-[11px] font-normal text-slate-400">{{ c.entrega?.ministerio?.sigla || c.entrega?.organismo_externo || '' }}</p>
+                <p class="text-xs font-normal text-slate-500">{{ c.entrega?.ministerio?.sigla || c.entrega?.organismo_externo || '' }}</p>
               </td>
               <td class="py-3.5 px-4 break-all">
                 {{ c.recordatorio_email || c.entrega?.persona?.email_principal || c.entrega?.persona?.email_alternativo || 'Sin email' }}
@@ -202,17 +202,17 @@
               </td>
               <td class="py-3.5 px-4">
                 {{ formatFecha(c.fecha_recordatorio) }}
-                <span v-if="c.recordatorio_manual" class="text-[9px] uppercase text-slate-400">(manual)</span>
+                <span v-if="c.recordatorio_manual" class="text-xs uppercase text-slate-500">(manual)</span>
               </td>
               <td class="py-3.5 px-4"><FirmaDigitalEstadoBadge tipo="recordatorio" :estado="c.recordatorio_estado" /></td>
-              <td class="py-3.5 px-4 text-[11px]">
+              <td class="py-3.5 px-4 text-xs">
                 <span v-if="c.recordatorio_enviado_at" class="text-emerald-700">Enviado el {{ formatFecha(c.recordatorio_enviado_at) }}</span>
                 <span v-else-if="c.recordatorio_ultimo_error" class="text-rose-600 break-all">{{ c.recordatorio_ultimo_error }}</span>
-                <span v-else class="text-slate-400">—</span>
-                <p v-if="c.recordatorio_intentos > 0" class="text-[10px] text-slate-400">Intentos: {{ c.recordatorio_intentos }}</p>
+                <span v-else class="text-slate-500">—</span>
+                <p v-if="c.recordatorio_intentos > 0" class="text-xs text-slate-500">Intentos: {{ c.recordatorio_intentos }}</p>
               </td>
               <td class="py-3.5 px-4 text-right">
-                <button @click="detalleId = c.entrega_token_id" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-[11px] font-bold text-slate-700">
+                <button @click="detalleId = c.entrega_token_id" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-700 whitespace-nowrap">
                   🔍 Ver entrega
                 </button>
               </td>
@@ -222,7 +222,7 @@
       </div>
 
       <!-- Paginación -->
-      <div v-if="paginacion.last_page > 1" class="flex items-center justify-between px-4 py-3 border-t border-slate-100 text-xs text-slate-500">
+      <div v-if="paginacion.last_page > 1" class="flex items-center justify-between px-4 py-3 border-t border-slate-100 text-sm text-slate-500">
         <span>{{ paginacion.from }}–{{ paginacion.to }} de {{ paginacion.total }}</span>
         <div class="flex gap-2">
           <button :disabled="paginacion.current_page <= 1" @click="irAPagina(paginacion.current_page - 1)" class="px-3 py-1.5 bg-slate-100 rounded-lg font-bold disabled:opacity-40">‹ Anterior</button>
@@ -231,7 +231,7 @@
       </div>
     </div>
 
-    <p class="text-[11px] text-slate-400">
+    <p class="text-xs text-slate-500">
       Los recordatorios se envían automáticamente todos los días a las {{ parametros.recordatorio_hora }},
       {{ parametros.recordatorio_dias_anticipacion }} días antes del vencimiento (valor configurable). Si la persona no tiene un email válido,
       el recordatorio queda como «Sin email» y puede reprogramarse luego de completar el dato en el padrón.
@@ -420,9 +420,9 @@ onMounted(async () => {
 
 <style scoped>
 .filtro {
-  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
+  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
 }
 .filtro-label {
-  @apply block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1;
+  @apply block text-sm font-bold text-slate-500 mb-1;
 }
 </style>

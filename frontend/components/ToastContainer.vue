@@ -78,12 +78,12 @@
             >
               {{ toast.title }}
             </h4>
-            <p class="text-xs font-medium leading-relaxed" :class="messageClasses(toast.type)">
+            <p class="text-sm font-medium leading-relaxed" :class="messageClasses(toast.type)">
               {{ toast.message }}
             </p>
 
             <!-- Lista de Errores de Validación (si corresponde) -->
-            <ul v-if="toast.details && toast.details.length > 0" class="mt-2 space-y-1 text-xs">
+            <ul v-if="toast.details && toast.details.length > 0" class="mt-2 space-y-1 text-sm">
               <li
                 v-for="(detail, idx) in toast.details"
                 :key="idx"

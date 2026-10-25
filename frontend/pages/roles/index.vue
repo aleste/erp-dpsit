@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Búsqueda y Gestión por Roles TI</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Localización transversal de referentes y autoridades según el tipo de responsabilidad tecnológica.
         </p>
       </div>
@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openNewAsignacionModal"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-semibold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-semibold shadow-md shadow-sky-600/20 transition"
         >
           + Asignar Nuevo Cargo/Rol
         </button>
@@ -25,11 +25,11 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Selector de Rol Obligatorio/Filtro -->
         <div>
-          <label for="roles-filters-tipo-rol-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Rol / Función</label>
+          <label for="roles-filters-tipo-rol-id" class="block text-sm font-bold text-slate-500 mb-1">Tipo de Rol / Función</label>
           <select id="roles-filters-tipo-rol-id"
             v-model="filters.tipo_rol_id"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todos los Roles</option>
             <option v-for="r in tiposRol" :key="r.id" :value="r.id">
@@ -40,11 +40,11 @@
 
         <!-- Filtro por Ministerio -->
         <div>
-          <label for="roles-filters-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
+          <label for="roles-filters-ministerio-id" class="block text-sm font-bold text-slate-500 mb-1">Ministerio</label>
           <select id="roles-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todos los Ministerios</option>
             <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -53,11 +53,11 @@
 
         <!-- Filtro por Vigencia -->
         <div>
-          <label for="roles-filters-estado" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Vigencia</label>
+          <label for="roles-filters-estado" class="block text-sm font-bold text-slate-500 mb-1">Estado de Vigencia</label>
           <select id="roles-filters-estado"
             v-model="filters.estado"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="VIGENTE">Solo Vigentes (Actuales)</option>
             <option value="HISTORICO">Solo Históricos (Bajas)</option>
@@ -67,7 +67,7 @@
 
         <!-- Filtro solo Máximas Autoridades -->
         <div class="flex items-end pb-2">
-          <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700">
             <input
               v-model="filters.solo_maximas_autoridades"
               @change="fetchAsignaciones"
@@ -82,18 +82,18 @@
 
     <!-- Grilla de Resultados -->
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-      <div v-if="loading" class="p-12 text-center text-xs text-slate-400">
+      <div v-if="loading" class="p-12 text-center text-sm text-slate-500">
         Buscando asignaciones de roles...
       </div>
 
-      <div v-else-if="asignaciones.length === 0" class="p-12 text-center text-xs text-slate-400">
+      <div v-else-if="asignaciones.length === 0" class="p-12 text-center text-sm text-slate-500">
         No se encontraron personas con los roles y filtros seleccionados.
       </div>
 
       <div v-else class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
+        <table class="w-full text-left text-sm">
           <thead>
-            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold uppercase">
+            <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-500 font-bold text-xs uppercase">
               <th class="py-3 px-4">Rol Asignado</th>
               <th class="py-3 px-4">Persona / Referente</th>
               <th class="py-3 px-4">Organismo / Área TI</th>
@@ -106,36 +106,36 @@
             <tr v-for="asig in asignaciones" :key="asig.id" class="hover:bg-slate-50/80 transition">
               <!-- Rol -->
               <td class="py-3.5 px-4">
-                <span class="font-extrabold text-slate-900 block text-xs">{{ asig.tipo_rol?.nombre }}</span>
-                <span class="text-[10px] text-slate-400 font-medium">{{ asig.tipo_rol?.nivel_responsabilidad }}</span>
+                <span class="font-extrabold text-slate-900 block text-sm">{{ asig.tipo_rol?.nombre }}</span>
+                <span class="text-xs text-slate-500 font-medium">{{ asig.tipo_rol?.nivel_responsabilidad }}</span>
               </td>
 
               <!-- Persona -->
               <td class="py-3.5 px-4">
                 <p class="font-bold text-slate-900">{{ asig.persona?.apellido }}, {{ asig.persona?.nombre }}</p>
-                <p class="text-[11px] text-slate-400">{{ asig.persona?.cuil_cuit }}</p>
+                <p class="text-xs text-slate-500">{{ asig.persona?.cuil_cuit }}</p>
               </td>
 
               <!-- Área TI y Ministerio -->
               <td class="py-3.5 px-4">
                 <p class="font-semibold text-slate-800">{{ asig.area_ti?.ministerio?.sigla }} - {{ asig.area_ti?.ministerio?.nombre }}</p>
-                <p class="text-[11px] text-slate-500">{{ asig.area_ti?.nombre }}</p>
+                <p class="text-xs text-slate-500">{{ asig.area_ti?.nombre }}</p>
               </td>
 
               <!-- Vigencia -->
               <td class="py-3.5 px-4">
                 <div class="flex items-center gap-2">
                   <span
-                    class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
+                    class="px-2 py-0.5 rounded text-xs font-bold uppercase"
                     :class="asig.estado_vigencia === 'VIGENTE' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'"
                   >
                     {{ asig.estado_vigencia }}
                   </span>
-                  <span class="text-[11px] text-slate-500">
+                  <span class="text-xs text-slate-500">
                     {{ asig.fecha_inicio }} {{ asig.fecha_fin ? `al ${asig.fecha_fin}` : '(Indefinido)' }}
                   </span>
                 </div>
-                <p v-if="asig.acto_administrativo" class="text-[10px] text-slate-400 italic mt-0.5">
+                <p v-if="asig.acto_administrativo" class="text-xs text-slate-500 italic mt-0.5">
                   {{ asig.acto_administrativo }}
                 </p>
               </td>
@@ -150,7 +150,7 @@
               <td class="py-3.5 px-4 text-right space-x-2">
                 <a
                   :href="`mailto:${asig.persona?.email_principal}`"
-                  class="p-1.5 inline-block text-sky-600 hover:text-sky-800 hover:bg-sky-50 rounded-lg transition text-xs font-semibold"
+                  class="p-1.5 inline-block text-sky-600 hover:text-sky-800 hover:bg-sky-50 rounded-lg transition text-sm font-semibold"
                   title="Enviar correo institucional"
                 >
                   ✉️ Correo
@@ -159,7 +159,7 @@
                 <button
                   v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'"
                   @click="finalizarVigenciaModal(asig)"
-                  class="p-1.5 inline-block text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-xs font-semibold"
+                  class="p-1.5 inline-block text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-sm font-semibold"
                   title="Finalizar vigencia / Dar de baja"
                 >
                   ⏱️ Finalizar
@@ -173,13 +173,13 @@
 
     <!-- MODAL: ASIGNAR NUEVO CARGO / ROL -->
     <div v-if="showModalAsignar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAsignar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsignar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">Asignar Cargo / Rol Institucional</h2>
           <button type="button" aria-label="Cerrar" @click="showModalAsignar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-sm">
           <div>
             <label for="roles-formasig-persona-id" class="block font-bold text-slate-700 mb-1">Persona *</label>
             <PersonaSearchSelect input-id="roles-formasig-persona-id"

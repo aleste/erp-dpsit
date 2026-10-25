@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Módulo de Exportación y Notificación Masiva</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Filtrado y extracción personalizada de listas de correos y autoridades para comunicaciones oficiales y campañas institucionales.
         </p>
       </div>
@@ -12,7 +12,7 @@
       <div class="flex items-center gap-3">
         <button
           @click="downloadCsv"
-          class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/30 transition"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-emerald-600/30 transition"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -24,13 +24,13 @@
 
     <!-- Panel de Filtros Personalizados -->
     <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-      <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400">Configuración de Filtros de Extracción</h2>
+      <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-500">Configuración de Filtros de Extracción</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- 1. Filtro por Tipos de Rol -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-700 uppercase">Roles / Cargos Seleccionados</label>
-          <div class="max-h-48 overflow-y-auto space-y-1.5 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs custom-scrollbar">
+          <label class="block text-sm font-bold text-slate-700">Roles / Cargos Seleccionados</label>
+          <div class="max-h-48 overflow-y-auto space-y-1.5 p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm custom-scrollbar">
             <label
               v-for="r in tiposRol"
               :key="r.id"
@@ -50,8 +50,8 @@
 
         <!-- 2. Filtro por Ministerios -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-700 uppercase">Ministerios / Organismos</label>
-          <div class="max-h-48 overflow-y-auto space-y-1.5 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs custom-scrollbar">
+          <label class="block text-sm font-bold text-slate-700">Ministerios / Organismos</label>
+          <div class="max-h-48 overflow-y-auto space-y-1.5 p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm custom-scrollbar">
             <label
               v-for="m in ministerios"
               :key="m.id"
@@ -71,8 +71,8 @@
         </div>
 
         <!-- 3. Parámetros Especiales de Extracción -->
-        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
-          <label class="block font-bold text-slate-700 uppercase">Criterios de Autoridad y Correo</label>
+        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm">
+          <label class="block font-bold text-slate-700">Criterios de Autoridad y Correo</label>
 
           <label class="flex items-center gap-2 cursor-pointer">
             <input
@@ -125,30 +125,30 @@
 
         <div class="grid grid-cols-2 gap-3 text-center">
           <div class="p-3 bg-sky-50 rounded-xl border border-sky-100">
-            <p class="text-[10px] font-bold text-sky-700 uppercase">Contactos</p>
+            <p class="text-xs font-bold text-sky-700 uppercase">Contactos</p>
             <p class="text-2xl font-extrabold text-sky-900 mt-1">{{ previewData.total_registros || 0 }}</p>
           </div>
           <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-            <p class="text-[10px] font-bold text-emerald-700 uppercase">Emails Únicos</p>
+            <p class="text-xs font-bold text-emerald-700 uppercase">Emails Únicos</p>
             <p class="text-2xl font-extrabold text-emerald-900 mt-1">{{ previewData.total_emails_unicos || 0 }}</p>
           </div>
         </div>
 
         <div>
-          <label for="exportador-campo" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Lista de Correos para Notificación</label>
+          <label for="exportador-campo" class="block text-sm font-bold text-slate-500 mb-1.5">Lista de Correos para Notificación</label>
           <textarea id="exportador-campo"
             readonly
             :value="emailsFormatted"
             rows="6"
             placeholder="No hay correos para los filtros seleccionados"
-            class="w-full p-2.5 bg-slate-900 text-cyan-300 font-mono text-[11px] rounded-xl border border-slate-800 focus:outline-none custom-scrollbar"
+            class="w-full p-2.5 bg-slate-900 text-cyan-300 font-mono text-xs rounded-xl border border-slate-800 focus:outline-none custom-scrollbar"
           ></textarea>
         </div>
 
         <button
           @click="copyToClipboard"
           :disabled="!emailsFormatted"
-          class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition disabled:opacity-40"
+          class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition disabled:opacity-40"
         >
           {{ copied ? '✓ ¡Correos Copiados al Portapapeles!' : '📋 Copiar Lista de Correos (CCO / BCC)' }}
         </button>
@@ -161,9 +161,9 @@
         </h3>
 
         <div class="overflow-x-auto flex-1 custom-scrollbar">
-          <table class="w-full text-left text-xs">
+          <table class="w-full text-left text-sm">
             <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase">
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold text-xs uppercase">
                 <th class="py-2.5 px-3">Autoridad / Referente</th>
                 <th class="py-2.5 px-3">Correo Principal</th>
                 <th class="py-2.5 px-3">Organismo / Rol</th>
@@ -180,7 +180,7 @@
                 </td>
                 <td class="py-2.5 px-3">
                   <p class="font-semibold text-slate-800">{{ item.ministerio_sigla }}</p>
-                  <p class="text-[11px] text-slate-500">{{ item.rol }}</p>
+                  <p class="text-xs text-slate-500">{{ item.rol }}</p>
                 </td>
                 <td class="py-2.5 px-3 text-center">
                   <span v-if="item.es_maxima_autoridad" class="text-amber-500 font-bold">⭐</span>

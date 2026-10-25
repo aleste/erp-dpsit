@@ -1,13 +1,13 @@
 <template>
   <div class="space-y-6 max-w-7xl mx-auto">
     <!-- Botón Volver y Breadcrumb -->
-    <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+    <div class="flex items-center gap-2 text-sm font-semibold text-slate-500">
       <NuxtLink to="/areas-ti" class="hover:text-sky-600">← Volver a Áreas TI</NuxtLink>
       <span>/</span>
       <span class="text-slate-800">{{ area?.codigo || 'Cargando...' }}</span>
     </div>
 
-    <div v-if="loading" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+    <div v-if="loading" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
       Cargando expediente del Área TI...
     </div>
 
@@ -17,14 +17,14 @@
         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="space-y-2">
             <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 bg-sky-600 text-white font-extrabold rounded-lg text-xs tracking-wider">
+              <span class="px-2.5 py-1 bg-sky-600 text-white font-extrabold rounded-lg text-sm tracking-wider">
                 {{ area.ministerio?.sigla }}
               </span>
-              <span class="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+              <span class="font-mono text-sm font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
                 {{ area.codigo }}
               </span>
               <span
-                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
+                class="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider"
                 :class="area.es_homologada ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'"
               >
                 {{ area.es_homologada ? `Área Homologada por ${agency.shortName}` : 'En Trámite de Homologación' }}
@@ -32,26 +32,26 @@
             </div>
 
             <h1 class="text-2xl font-extrabold text-slate-900">{{ area.nombre }}</h1>
-            <p class="text-xs text-slate-500 font-semibold">{{ area.ministerio?.nombre }} | Nivel: {{ area.nivel_jerarquico }}</p>
+            <p class="text-sm text-slate-500 font-semibold">{{ area.ministerio?.nombre }} | Nivel: {{ area.nivel_jerarquico }}</p>
           </div>
 
           <!-- Acciones de Cabecera -->
           <div v-if="authStore.isEditor" class="flex flex-wrap gap-2">
             <button
               @click="openModalAsociarServicio"
-              class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5"
+              class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5"
             >
               <span>⚡+</span> Asociar Servicio Tecnológico
             </button>
             <button
               @click="openModalAsociar"
-              class="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition flex items-center gap-1.5"
+              class="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition flex items-center gap-1.5"
             >
               <span>👤+</span> Asociar Agente
             </button>
             <button
               @click="openModalDoc"
-              class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold shadow-sm transition flex items-center gap-1.5"
+              class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-1.5"
             >
               <span>📄</span> Adjuntar Documento
             </button>
@@ -59,17 +59,17 @@
         </div>
 
         <!-- Barra de Datos Rápidos -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-100 text-xs text-slate-600">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-slate-100 text-sm text-slate-600">
           <div>
-            <span class="text-slate-400 block text-[10px] font-bold uppercase">Resolución {{ agency.shortName }}</span>
+            <span class="text-slate-500 block text-xs font-bold uppercase">Resolución {{ agency.shortName }}</span>
             <strong class="text-slate-800">{{ area.resolucion_homologacion || 'Sin resolución registrada' }}</strong>
           </div>
           <div>
-            <span class="text-slate-400 block text-[10px] font-bold uppercase">Email Institucional</span>
+            <span class="text-slate-500 block text-xs font-bold uppercase">Email Institucional</span>
             <strong class="text-slate-800">{{ area.email_institucional || 'No registrado' }}</strong>
           </div>
           <div>
-            <span class="text-slate-400 block text-[10px] font-bold uppercase">Contacto Telefónico</span>
+            <span class="text-slate-500 block text-xs font-bold uppercase">Contacto Telefónico</span>
             <strong class="text-slate-800">{{ area.telefono_contacto || 'No registrado' }}</strong>
           </div>
         </div>
@@ -82,20 +82,20 @@
             ⭐
           </div>
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Máxima Autoridad de TI Designada</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Máxima Autoridad de TI Designada</span>
             <div v-if="area.maxima_autoridad_vigente">
               <h2 class="text-lg font-bold text-white mt-0.5">
                 {{ area.maxima_autoridad_vigente.persona?.apellido }}, {{ area.maxima_autoridad_vigente.persona?.nombre }}
               </h2>
-              <p class="text-xs text-slate-300 font-medium">
+              <p class="text-sm text-slate-300 font-medium">
                 {{ area.maxima_autoridad_vigente.tipo_rol?.nombre }} (Desde {{ area.maxima_autoridad_vigente.fecha_inicio }})
               </p>
-              <div class="flex items-center gap-3 text-[11px] text-slate-400 mt-1">
+              <div class="flex items-center gap-3 text-xs text-slate-400 mt-1">
                 <span>✉️ {{ area.maxima_autoridad_vigente.persona?.email_principal }}</span>
                 <span>📞 {{ area.maxima_autoridad_vigente.persona?.telefono_principal }}</span>
               </div>
             </div>
-            <div v-else class="text-xs text-slate-400 italic mt-1">
+            <div v-else class="text-sm text-slate-400 italic mt-1">
               Actualmente no se encuentra registrada una máxima autoridad formal en este organismo.
             </div>
           </div>
@@ -104,7 +104,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalAsociarAutoridad"
-          class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-bold transition flex items-center gap-1.5 self-start md:self-auto"
+          class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-sm font-bold transition flex items-center gap-1.5 self-start md:self-auto"
         >
           ⭐ Designar / Reasignar Autoridad
         </button>
@@ -114,7 +114,7 @@
       <div class="flex border-b border-slate-200 space-x-4">
         <button
           @click="activeTab = 'equipo'"
-          class="pb-3 text-xs font-bold border-b-2 transition flex items-center gap-1.5"
+          class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
           :class="activeTab === 'equipo' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
         >
           <span>👥</span> Equipo y Roles Asignados ({{ area.asignaciones?.length || 0 }})
@@ -122,7 +122,7 @@
 
         <button
           @click="activeTab = 'servicios'"
-          class="pb-3 text-xs font-bold border-b-2 transition flex items-center gap-1.5"
+          class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
           :class="activeTab === 'servicios' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
         >
           <span>⚡</span> Servicios Tecnológicos Activos ({{ area.servicios?.length || 0 }})
@@ -130,7 +130,7 @@
 
         <button
           @click="activeTab = 'documentos'"
-          class="pb-3 text-xs font-bold border-b-2 transition flex items-center gap-1.5"
+          class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
           :class="activeTab === 'documentos' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
         >
           <span>📄</span> Bóveda Documental y Actas ({{ area.documentos?.length || 0 }})
@@ -140,27 +140,27 @@
       <!-- TAB 1: EQUIPO Y ASIGNACIONES -->
       <div v-if="activeTab === 'equipo'" class="space-y-4">
         <div class="flex items-center justify-between">
-          <p class="text-xs text-slate-500">
+          <p class="text-sm text-slate-500">
             Nómina histórica y vigente de agentes y autoridades asociadas a <strong>{{ area.nombre }}</strong>.
           </p>
 
           <button
             v-if="authStore.isEditor"
             @click="openModalAsociar"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold shadow-sm transition"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
             <span>+</span> Asociar Nuevo Agente
           </button>
         </div>
 
-        <div v-if="!area.asignaciones || area.asignaciones.length === 0" class="p-8 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+        <div v-if="!area.asignaciones || area.asignaciones.length === 0" class="p-8 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
           No hay agentes o autoridades asociadas a esta área TI.
         </div>
 
         <div v-else class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-          <table class="w-full text-left text-xs">
+          <table class="w-full text-left text-sm">
             <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase">
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold text-xs uppercase">
                 <th class="py-3 px-4">Agente</th>
                 <th class="py-3 px-4">Rol / Cargo Formal</th>
                 <th class="py-3 px-4">Vigencia Temporal</th>
@@ -179,35 +179,35 @@
                 <td class="py-3.5 px-4 font-bold text-slate-900">
                   <div class="flex items-center gap-2">
                     <span
-                      class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[10px]"
+                      class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs"
                       :class="asig.estado_vigencia === 'VIGENTE' ? 'bg-sky-100 text-sky-800' : 'bg-slate-200 text-slate-600'"
                     >
                       {{ asig.persona?.apellido?.charAt(0) || 'P' }}
                     </span>
                     <div>
                       <span>{{ asig.persona?.apellido }}, {{ asig.persona?.nombre }}</span>
-                      <span class="block text-[11px] text-slate-400 font-normal">CUIL: {{ asig.persona?.cuil_cuit }} | {{ asig.persona?.email_principal }}</span>
+                      <span class="block text-xs text-slate-500 font-normal">CUIL: {{ asig.persona?.cuil_cuit }} | {{ asig.persona?.email_principal }}</span>
                     </div>
                   </div>
                 </td>
                 <td class="py-3.5 px-4">
                   <span class="font-bold text-sky-800">{{ asig.tipo_rol?.nombre }}</span>
-                  <span class="block text-[10px] text-slate-400 font-semibold">{{ asig.tipo_rol?.nivel_responsabilidad }}</span>
+                  <span class="block text-xs text-slate-500 font-semibold">{{ asig.tipo_rol?.nivel_responsabilidad }}</span>
                 </td>
                 <td class="py-3.5 px-4">
                   <span
-                    class="px-2 py-0.5 rounded text-[10px] font-bold uppercase mr-1.5 inline-block"
+                    class="px-2 py-0.5 rounded text-xs font-bold uppercase mr-1.5 inline-block"
                     :class="asig.estado_vigencia === 'VIGENTE' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'"
                   >
                     {{ asig.estado_vigencia }}
                   </span>
-                  <span class="text-[11px] text-slate-600 block mt-0.5 font-medium">
+                  <span class="text-xs text-slate-600 block mt-0.5 font-medium">
                     {{ asig.fecha_inicio }} {{ asig.fecha_fin ? `al ${asig.fecha_fin}` : '(Actual)' }}
                   </span>
                 </td>
                 <td class="py-3.5 px-4 text-slate-600">
-                  <span class="font-mono text-[11px] font-semibold">{{ asig.acto_administrativo || '-' }}</span>
-                  <span v-if="asig.observaciones" class="block text-[10px] text-slate-400 italic truncate max-w-xs" :title="asig.observaciones">
+                  <span class="font-mono text-xs font-semibold">{{ asig.acto_administrativo || '-' }}</span>
+                  <span v-if="asig.observaciones" class="block text-xs text-slate-500 italic truncate max-w-xs" :title="asig.observaciones">
                     {{ asig.observaciones }}
                   </span>
                 </td>
@@ -230,7 +230,7 @@
                     <button
                       v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'"
                       @click="openModalFinalizar(asig)"
-                      class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-[11px] font-bold transition flex items-center gap-1"
+                      class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition flex items-center gap-1"
                       title="Finalizar vigencia del agente en esta área"
                     >
                       🛑 Desasociar
@@ -240,7 +240,7 @@
                     <button
                       v-if="authStore.isAdmin"
                       @click="handleDeleteAsignacion(asig)"
-                      class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                       title="Eliminar registro"
                     >
                       🗑️
@@ -256,20 +256,20 @@
       <!-- TAB 2: SERVICIOS TECNOLÓGICOS PROVISTOS -->
       <div v-if="activeTab === 'servicios'" class="space-y-4">
         <div class="flex items-center justify-between">
-          <p class="text-xs text-slate-500">
+          <p class="text-sm text-slate-500">
             Servicios tecnológicos provinciales provistos y administrados para <strong>{{ area.nombre }}</strong>.
           </p>
 
           <button
             v-if="authStore.isEditor"
             @click="openModalAsociarServicio"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-sm transition"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
             <span>+</span> Asociar Nuevo Servicio
           </button>
         </div>
 
-        <div v-if="!area.servicios || area.servicios.length === 0" class="p-8 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+        <div v-if="!area.servicios || area.servicios.length === 0" class="p-8 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
           No hay servicios tecnológicos provistos a esta área TI.
         </div>
 
@@ -282,7 +282,7 @@
             <div class="space-y-3">
               <div class="flex items-start justify-between gap-2">
                 <span
-                  class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wide"
+                  class="px-2.5 py-1 rounded-lg text-xs font-extrabold uppercase tracking-wide"
                   :class="{
                     'bg-emerald-100 text-emerald-800': srv.estado_servicio === 'ACTIVO',
                     'bg-amber-100 text-amber-800': srv.estado_servicio === 'EN_PROCESO' || srv.estado_servicio === 'SOLICITADO',
@@ -293,44 +293,44 @@
                   {{ srv.estado_servicio }}
                 </span>
 
-                <span class="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                <span class="font-mono text-sm font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
                   {{ srv.codigo_instancia }}
                 </span>
               </div>
 
               <div>
                 <h3 class="text-base font-bold text-slate-900">{{ srv.catalogo_servicio?.nombre }}</h3>
-                <p class="text-xs text-slate-500 mt-0.5">SLA: <strong>{{ srv.sla_nivel || 'Estándar' }}</strong> | Alta: {{ srv.fecha_alta }}</p>
-                <p v-if="srv.observaciones" class="text-xs text-slate-600 mt-1 italic">{{ srv.observaciones }}</p>
+                <p class="text-sm text-slate-500 mt-0.5">SLA: <strong>{{ srv.sla_nivel || 'Estándar' }}</strong> | Alta: {{ srv.fecha_alta }}</p>
+                <p v-if="srv.observaciones" class="text-sm text-slate-600 mt-1 italic">{{ srv.observaciones }}</p>
               </div>
 
               <!-- Referentes Asignados con Opción de Quitar Directamente -->
-              <div class="text-xs pt-1">
+              <div class="text-sm pt-1">
                 <div class="flex items-center justify-between mb-1.5">
-                  <p class="text-[10px] font-bold uppercase text-slate-400">Referentes Técnicos / Administrativos</p>
+                  <p class="text-xs font-bold uppercase text-slate-500">Referentes Técnicos / Administrativos</p>
                   <button
                     v-if="authStore.isEditor"
                     @click="openModalReferente(srv)"
-                    class="text-[10px] font-bold text-sky-600 hover:text-sky-800"
+                    class="text-xs font-bold text-sky-600 hover:text-sky-800"
                   >
                     + Asignar Referente
                   </button>
                 </div>
 
-                <div v-if="!srv.referentes || srv.referentes.length === 0" class="text-slate-400 italic text-[11px]">
+                <div v-if="!srv.referentes || srv.referentes.length === 0" class="text-slate-500 italic text-xs">
                   Sin referentes específicos designados.
                 </div>
                 <div v-else class="flex flex-wrap gap-1.5">
                   <span
                     v-for="ref in srv.referentes"
                     :key="ref.id"
-                    class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-lg text-[11px] text-slate-700 group/ref"
+                    class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs text-slate-700 group/ref"
                   >
                     <span><strong>{{ ref.persona?.apellido }}, {{ ref.persona?.nombre }}</strong> ({{ ref.tipo_referente }})</span>
                     <button
                       v-if="authStore.isEditor"
                       @click="handleRemoveReferente(srv, ref)"
-                      class="ml-1 text-slate-400 hover:text-rose-600 font-bold p-0.5 hover:bg-rose-50 rounded transition"
+                      class="ml-1 text-slate-500 hover:text-rose-600 font-bold p-0.5 hover:bg-rose-50 rounded transition"
                       title="Desvincular y quitar referente"
                     >
                       ✕
@@ -341,19 +341,19 @@
             </div>
 
             <!-- Acciones del Servicio -->
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
               <div class="flex items-center gap-1.5">
                 <button
                   v-if="authStore.isEditor"
                   @click="openModalEditServicio(srv)"
-                  class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-[11px] transition"
+                  class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-xs transition"
                 >
                   ✏️ Editar Datos
                 </button>
                 <button
                   v-if="authStore.isEditor"
                   @click="openModalReferente(srv)"
-                  class="px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-lg font-bold text-[11px] transition"
+                  class="px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-lg font-bold text-xs transition"
                 >
                   👤 Gestionar Referentes
                 </button>
@@ -362,7 +362,7 @@
               <button
                 v-if="authStore.isAdmin"
                 @click="handleDeleteServicioArea(srv)"
-                class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                 title="Desasociar y eliminar servicio del área"
               >
                 🗑️
@@ -374,14 +374,14 @@
 
       <!-- TAB 3: DOCUMENTACIÓN DIGITAL -->
       <div v-if="activeTab === 'documentos'" class="space-y-4">
-        <div v-if="!area.documentos || area.documentos.length === 0" class="p-8 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+        <div v-if="!area.documentos || area.documentos.length === 0" class="p-8 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
           No hay documentos digitales adjuntos a esta área.
         </div>
 
         <div v-else class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-          <table class="w-full text-left text-xs">
+          <table class="w-full text-left text-sm">
             <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase">
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold text-xs uppercase">
                 <th class="py-3 px-4">Documento</th>
                 <th class="py-3 px-4">Tipo</th>
                 <th class="py-3 px-4">Tamaño</th>
@@ -393,7 +393,7 @@
               <tr v-for="doc in area.documentos" :key="doc.id" class="hover:bg-slate-50/80">
                 <td class="py-3.5 px-4 font-bold text-slate-900">
                   {{ doc.titulo }}
-                  <span class="block text-[11px] text-slate-400 font-normal">{{ doc.archivo_nombre_original }}</span>
+                  <span class="block text-xs text-slate-500 font-normal">{{ doc.archivo_nombre_original }}</span>
                 </td>
                 <td class="py-3.5 px-4 font-semibold text-slate-700">
                   {{ doc.tipo_documento }}
@@ -401,14 +401,14 @@
                 <td class="py-3.5 px-4 text-slate-500">
                   {{ doc.tamanio_formateado }}
                 </td>
-                <td class="py-3.5 px-4 font-mono text-[10px] text-slate-400 truncate max-w-xs" :title="doc.sha256">
+                <td class="py-3.5 px-4 font-mono text-xs text-slate-500 truncate max-w-xs" :title="doc.sha256">
                   {{ doc.sha256 || '-' }}
                 </td>
                 <td class="py-3.5 px-4 text-right">
                   <a
                     :href="`${config.public.apiBase}/documentos/${doc.id}/descargar`"
                     target="_blank"
-                    class="px-3 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 rounded-lg font-bold text-xs inline-block transition"
+                    class="px-3 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 rounded-lg font-bold text-sm inline-block transition"
                   >
                     ⬇ Descargar
                   </a>
@@ -424,18 +424,18 @@
     <!-- MODAL: ASOCIAR / EDITAR SERVICIO TECNOLÓGICO AL ÁREA                  -->
     <!-- ===================================================================== -->
     <div v-if="showModalAsociarServicio" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAsociarServicio = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsociarServicio = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
               {{ isEditingServicioArea ? 'Editar Servicio Tecnológico' : 'Asociar Servicio Tecnológico al Área' }}
             </h2>
-            <p class="text-xs text-emerald-300">{{ area?.nombre }}</p>
+            <p class="text-sm text-emerald-300">{{ area?.nombre }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalAsociarServicio = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-sm">
           <!-- Selector de Tipo de Servicio -->
           <div>
             <label for="area-formservicioarea-catalogo-servicio-id" class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
@@ -538,20 +538,20 @@
     <!-- MODAL: ASIGNAR Y GESTIONAR REFERENTES DEL SERVICIO                    -->
     <!-- ===================================================================== -->
     <div v-if="showModalReferente" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalReferente = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalReferente = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-sky-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Referentes del Servicio Tecnológico</h2>
-            <p class="text-xs text-sky-300">{{ selectedServicio?.codigo_instancia }} - {{ selectedServicio?.catalogo_servicio?.nombre }}</p>
+            <p class="text-sm text-sky-300">{{ selectedServicio?.codigo_instancia }} - {{ selectedServicio?.catalogo_servicio?.nombre }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalReferente = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <div class="p-6 space-y-5 text-xs">
+        <div class="p-6 space-y-5 text-sm">
           <!-- Nómina Actual de Referentes con botón de Quitar -->
           <div>
-            <label class="block font-bold text-slate-700 uppercase tracking-wider text-[10px] mb-2">Referentes Asignados Actualmente</label>
-            <div v-if="!selectedServicio?.referentes || selectedServicio?.referentes.length === 0" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-400 italic text-center">
+            <label class="block font-bold text-slate-700 text-xs mb-2">Referentes Asignados Actualmente</label>
+            <div v-if="!selectedServicio?.referentes || selectedServicio?.referentes.length === 0" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 italic text-center">
               No hay referentes designados para esta instancia de servicio.
             </div>
             <div v-else class="space-y-2">
@@ -562,12 +562,12 @@
               >
                 <div>
                   <p class="font-bold text-slate-800">{{ r.persona?.apellido }}, {{ r.persona?.nombre }}</p>
-                  <p class="text-[11px] text-slate-500">{{ r.tipo_referente }} | CUIL: {{ r.persona?.cuil_cuit }}</p>
+                  <p class="text-xs text-slate-500">{{ r.tipo_referente }} | CUIL: {{ r.persona?.cuil_cuit }}</p>
                 </div>
                 <button
                   type="button"
                   @click="handleRemoveReferente(selectedServicio, r)"
-                  class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-[11px] font-bold transition flex items-center gap-1"
+                  class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-xs font-bold transition flex items-center gap-1"
                 >
                   <span>🗑️</span> Quitar
                 </button>
@@ -577,7 +577,7 @@
 
           <!-- Formulario para Agregar Nuevo Referente -->
           <form @submit.prevent="saveReferenteServicio" class="pt-4 border-t border-slate-100 space-y-3">
-            <label class="block font-bold text-slate-800 uppercase tracking-wider text-[10px]">+ Asignar Nuevo Referente</label>
+            <label class="block font-bold text-slate-800 text-xs">+ Asignar Nuevo Referente</label>
 
             <div>
               <label for="area-formreferente-persona-id" class="block font-bold text-slate-700 mb-1">Persona / Agente *</label>
@@ -637,18 +637,18 @@
     <!-- MODAL: ASOCIAR AGENTE / ASIGNAR ROL                                   -->
     <!-- ===================================================================== -->
     <div v-if="showModalAsociar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAsociar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAsociar = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
               {{ isEditingAsignacion ? 'Editar Asignación de Rol' : 'Asociar Agente al Área TI' }}
             </h2>
-            <p class="text-xs text-slate-400">{{ area?.nombre }}</p>
+            <p class="text-sm text-slate-400">{{ area?.nombre }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalAsociar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveAsignacion" class="p-6 space-y-4 text-sm">
           <div>
             <label for="area-formasignacion-persona-id" class="block font-bold text-slate-700 mb-1">Agente / Persona del Padrón *</label>
             <PersonaSearchSelect input-id="area-formasignacion-persona-id"
@@ -747,19 +747,19 @@
     <!-- MODAL: DESASOCIAR / FINALIZAR VIGENCIA DE AGENTE                      -->
     <!-- ===================================================================== -->
     <div v-if="showModalFinalizar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalFinalizar = false)" class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalFinalizar = false)" class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-amber-950 text-white flex items-center justify-between">
           <div>
-            <span class="text-[10px] font-bold uppercase text-amber-400">Desasociación / Cese de Cargo</span>
+            <span class="text-xs font-bold uppercase text-amber-400">Desasociación / Cese de Cargo</span>
             <h2 class="text-base font-bold">Finalizar Vigencia de Agente</h2>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalFinalizar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="submitFinalizarVigencia" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="submitFinalizarVigencia" class="p-6 space-y-4 text-sm">
           <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-slate-800">
             <p class="font-bold">{{ selectedAsignacion?.persona?.apellido }}, {{ selectedAsignacion?.persona?.nombre }}</p>
-            <p class="text-[11px] text-amber-900">{{ selectedAsignacion?.tipo_rol?.nombre }} (Desde {{ selectedAsignacion?.fecha_inicio }})</p>
+            <p class="text-xs text-amber-900">{{ selectedAsignacion?.tipo_rol?.nombre }} (Desde {{ selectedAsignacion?.fecha_inicio }})</p>
           </div>
 
           <div>
@@ -806,13 +806,13 @@
     <!-- MODAL: ADJUNTAR DOCUMENTO DIGITAL                                     -->
     <!-- ===================================================================== -->
     <div v-if="showModalDoc" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalDoc = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalDoc = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">Adjuntar Documento Digital</h2>
           <button type="button" aria-label="Cerrar" @click="showModalDoc = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="uploadDoc" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="uploadDoc" class="p-6 space-y-4 text-sm">
           <div>
             <label for="area-formdoc-titulo" class="block font-bold text-slate-700 mb-1">Título del Documento *</label>
             <input id="area-formdoc-titulo"

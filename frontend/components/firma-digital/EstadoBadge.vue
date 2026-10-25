@@ -1,6 +1,6 @@
 <template>
   <span
-    class="inline-flex items-center px-2 py-0.5 rounded-lg border text-[10px] font-bold uppercase tracking-wide whitespace-nowrap"
+    class="inline-flex items-center px-2 py-0.5 rounded-lg border text-xs font-bold uppercase tracking-wide whitespace-nowrap"
     :class="info.clase"
   >
     {{ info.label }}

@@ -3,33 +3,33 @@
     <div v-dialogo="() => $emit('close')" class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
-          <span class="text-[10px] uppercase font-bold text-sky-400 tracking-wider">Entrega de token #{{ entregaId }}</span>
+          <span class="text-xs uppercase font-bold text-sky-400 tracking-wider">Entrega de token #{{ entregaId }}</span>
           <h2 class="text-base font-bold">{{ entrega ? `${entrega.persona?.apellido}, ${entrega.persona?.nombre}` : 'Cargando...' }}</h2>
         </div>
         <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
-      <div v-if="cargando" class="p-12 text-center text-xs text-slate-400">Cargando detalle...</div>
+      <div v-if="cargando" class="p-12 text-center text-sm text-slate-500">Cargando detalle...</div>
 
-      <div v-else-if="entrega" class="p-6 space-y-5 text-xs overflow-y-auto">
+      <div v-else-if="entrega" class="p-6 space-y-5 text-sm overflow-y-auto">
         <!-- Datos generales -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <p class="text-[10px] font-bold uppercase text-slate-400">Contacto</p>
+            <p class="text-xs font-bold uppercase text-slate-500">Contacto</p>
             <p class="font-semibold text-slate-800 mt-0.5 break-all">{{ entrega.persona?.email_principal || entrega.persona?.email_alternativo || 'Sin email' }}</p>
-            <p v-if="!entrega.persona?.email_principal && !entrega.persona?.email_alternativo" class="text-[10px] text-orange-600 mt-1">
+            <p v-if="!entrega.persona?.email_principal && !entrega.persona?.email_alternativo" class="text-xs text-orange-600 mt-1">
               ⚠ Sin email no se pueden enviar recordatorios. Complételo en el padrón de Personas.
             </p>
             <p class="text-slate-500 mt-1">{{ identificacion(entrega.persona) }}</p>
           </div>
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <p class="text-[10px] font-bold uppercase text-slate-400">Organismo</p>
+            <p class="text-xs font-bold uppercase text-slate-500">Organismo</p>
             <p class="font-semibold text-slate-800 mt-0.5">{{ entrega.ministerio?.nombre || entrega.organismo_externo || 'Sin organismo' }}</p>
-            <p v-if="entrega.organismo_externo" class="text-[10px] text-slate-500">Externo al ERP</p>
+            <p v-if="entrega.organismo_externo" class="text-xs text-slate-500">Externo al ERP</p>
             <p v-if="entrega.cargo_funcion" class="text-slate-500 mt-1">{{ entrega.cargo_funcion }}</p>
           </div>
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <p class="text-[10px] font-bold uppercase text-slate-400">Dispositivo</p>
+            <p class="text-xs font-bold uppercase text-slate-500">Dispositivo</p>
             <p class="font-semibold text-slate-800 mt-0.5">
               {{ TIPOS_DISPOSITIVO[entrega.dispositivo?.tipo_dispositivo] || entrega.dispositivo?.tipo_dispositivo }} · {{ entrega.dispositivo?.marca || 's/marca' }} {{ entrega.dispositivo?.modelo || '' }}
             </p>
@@ -39,7 +39,7 @@
 
         <div class="flex flex-wrap items-center gap-3 text-slate-600">
           <span>Entregado el <strong>{{ formatFecha(entrega.fecha_entrega) }}</strong></span>
-          <span class="px-2 py-0.5 rounded-lg bg-slate-100 font-bold uppercase text-[10px]">{{ ESTADOS_ENTREGA[entrega.estado] || entrega.estado }}</span>
+          <span class="px-2 py-0.5 rounded-lg bg-slate-100 font-bold uppercase text-xs">{{ ESTADOS_ENTREGA[entrega.estado] || entrega.estado }}</span>
           <span v-if="entrega.fecha_fin">Finalizada el <strong>{{ formatFecha(entrega.fecha_fin) }}</strong></span>
           <span v-if="entrega.motivo_fin" class="text-slate-500">— {{ entrega.motivo_fin }}</span>
         </div>
@@ -66,7 +66,7 @@
               <label for="entrega-detalle-fechas-fecha-vencimiento" class="block font-bold text-slate-600 mb-1">Vencimiento</label>
               <input id="entrega-detalle-fechas-fecha-vencimiento" v-if="fechas.vencimiento_manual" v-model="fechas.fecha_vencimiento" type="date" required class="campo" />
               <p v-else class="p-2.5 font-extrabold text-slate-800">{{ formatFecha(vencimientoCalculado) }}</p>
-              <label class="inline-flex items-center gap-1.5 text-[11px] text-slate-600 cursor-pointer">
+              <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
                 <input v-model="fechas.vencimiento_manual" type="checkbox" class="w-3.5 h-3.5 rounded text-sky-600" @change="precargarVencimiento" /> Manual
               </label>
             </div>
@@ -74,7 +74,7 @@
               <label for="entrega-detalle-fechas-fecha-recordatorio" class="block font-bold text-slate-600 mb-1">Recordatorio</label>
               <input id="entrega-detalle-fechas-fecha-recordatorio" v-if="fechas.recordatorio_manual" v-model="fechas.fecha_recordatorio" type="date" required class="campo" />
               <p v-else class="p-2.5 font-extrabold text-slate-800">{{ formatFecha(recordatorioCalculado) }}</p>
-              <label class="inline-flex items-center gap-1.5 text-[11px] text-slate-600 cursor-pointer">
+              <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
                 <input v-model="fechas.recordatorio_manual" type="checkbox" class="w-3.5 h-3.5 rounded text-sky-600" @change="precargarRecordatorio" /> Manual
               </label>
             </div>
@@ -114,11 +114,11 @@
 
         <!-- Historial de certificados -->
         <div>
-          <h3 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-2">Certificados de esta entrega</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2">Certificados de esta entrega</h3>
           <div class="border border-slate-200 rounded-xl overflow-hidden">
             <table class="w-full text-left">
               <thead>
-                <tr class="bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <tr class="bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-500">
                   <th class="py-2 px-3">Inicio</th>
                   <th class="py-2 px-3">Vencimiento</th>
                   <th class="py-2 px-3">Estado</th>
@@ -127,14 +127,14 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
-                <tr v-for="(c, i) in entrega.certificados" :key="c.id" :class="i > 0 ? 'text-slate-400' : 'text-slate-700'">
+                <tr v-for="(c, i) in entrega.certificados" :key="c.id" :class="i > 0 ? 'text-slate-500' : 'text-slate-700'">
                   <td class="py-2 px-3">{{ formatFecha(c.fecha_inicio) }}</td>
                   <td class="py-2 px-3 font-semibold">
                     {{ formatFecha(c.fecha_vencimiento) }}
-                    <span v-if="c.vencimiento_manual" class="text-[9px] uppercase text-slate-400">(manual)</span>
+                    <span v-if="c.vencimiento_manual" class="text-xs uppercase text-slate-500">(manual)</span>
                   </td>
                   <td class="py-2 px-3">
-                    <span v-if="i > 0" class="text-[10px] font-bold uppercase">Reemplazado</span>
+                    <span v-if="i > 0" class="text-xs font-bold uppercase">Reemplazado</span>
                     <FirmaDigitalEstadoBadge v-else :estado="esAsignada ? c.estado_certificado : 'NO_VIGENTE'" />
                   </td>
                   <td class="py-2 px-3 space-y-0.5">
@@ -142,10 +142,10 @@
                       <span>{{ formatFecha(c.fecha_recordatorio) }}</span>
                       <FirmaDigitalEstadoBadge tipo="recordatorio" :estado="c.recordatorio_estado" />
                     </div>
-                    <p v-if="c.recordatorio_enviado_at" class="text-[10px] text-slate-500">
+                    <p v-if="c.recordatorio_enviado_at" class="text-xs text-slate-500">
                       Enviado {{ formatFecha(c.recordatorio_enviado_at) }} a {{ c.recordatorio_email }}
                     </p>
-                    <p v-if="c.recordatorio_ultimo_error && c.recordatorio_estado !== 'ENVIADO'" class="text-[10px] text-rose-600 break-all">
+                    <p v-if="c.recordatorio_ultimo_error && c.recordatorio_estado !== 'ENVIADO'" class="text-xs text-rose-600 break-all">
                       {{ c.recordatorio_ultimo_error }}
                     </p>
                   </td>
@@ -153,7 +153,7 @@
                     <button
                       v-if="i === 0 && authStore.isEditor && esAsignada && c.recordatorio_estado !== 'PENDIENTE'"
                       @click="reprogramar(c)"
-                      class="text-[11px] font-bold text-sky-600 hover:underline"
+                      class="text-xs font-bold text-sky-600 hover:underline"
                     >
                       Reprogramar
                     </button>
@@ -169,12 +169,12 @@
         <button
           v-if="authStore.isAdmin && entrega"
           @click="eliminar"
-          class="px-4 py-2 text-rose-600 hover:bg-rose-50 rounded-xl text-xs font-bold"
+          class="px-4 py-2 text-rose-600 hover:bg-rose-50 rounded-xl text-sm font-bold"
         >
           🗑️ Eliminar registro
         </button>
         <span v-else></span>
-        <button @click="$emit('close')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">Cerrar</button>
+        <button @click="$emit('close')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold">Cerrar</button>
       </div>
     </div>
   </div>
@@ -355,6 +355,6 @@ onMounted(() => {
   @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500;
 }
 .btn-sec {
-  @apply px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-[11px] font-bold text-slate-700 transition;
+  @apply px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-bold text-slate-700 transition;
 }
 </style>

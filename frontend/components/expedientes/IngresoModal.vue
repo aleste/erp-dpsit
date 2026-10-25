@@ -4,12 +4,12 @@
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <h2 class="text-base font-bold">Registrar Ingreso de Expediente</h2>
-          <p class="text-xs text-slate-400">Expediente nuevo o reingreso de uno ya tramitado</p>
+          <p class="text-sm text-slate-400">Expediente nuevo o reingreso de uno ya tramitado</p>
         </div>
         <button type="button" aria-label="Cerrar" @click="$emit('close')" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
-      <form @submit.prevent="guardar" class="p-6 space-y-4 text-xs overflow-y-auto">
+      <form @submit.prevent="guardar" class="p-6 space-y-4 text-sm overflow-y-auto">
         <div>
           <label for="ingreso-form-numero" class="block font-bold text-slate-700 mb-1">Nº de expediente *</label>
           <input id="ingreso-form-numero"
@@ -21,7 +21,7 @@
             class="campo font-mono"
           />
           <!-- Resultado de la verificación (reemplaza el resaltado de duplicados de la planilla) -->
-          <div v-if="verificacion" class="mt-2 p-3 rounded-xl border text-[11px]" :class="claseVerificacion">
+          <div v-if="verificacion" class="mt-2 p-3 rounded-xl border text-xs" :class="claseVerificacion">
             <template v-if="!verificacion.existe">Expediente nuevo: se registrará la 1ª intervención.</template>
             <template v-else-if="verificacion.en_area">
               <strong>El expediente ya está en el área</strong> ({{ verificacion.expediente.intervencion_actual?.estado?.nombre }}).

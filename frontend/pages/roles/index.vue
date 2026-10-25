@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openNewAsignacionModal"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-semibold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-semibold shadow-md shadow-primary-700/20 transition"
         >
           + Asignar Nuevo Cargo/Rol
         </button>
@@ -29,7 +29,7 @@
           <select id="roles-filters-tipo-rol-id"
             v-model="filters.tipo_rol_id"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todos los Roles</option>
             <option v-for="r in tiposRol" :key="r.id" :value="r.id">
@@ -44,7 +44,7 @@
           <select id="roles-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="">Todos los Ministerios</option>
             <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -57,7 +57,7 @@
           <select id="roles-filters-estado"
             v-model="filters.estado"
             @change="fetchAsignaciones"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition"
           >
             <option value="VIGENTE">Solo Vigentes (Actuales)</option>
             <option value="HISTORICO">Solo Históricos (Bajas)</option>
@@ -72,7 +72,7 @@
               v-model="filters.solo_maximas_autoridades"
               @change="fetchAsignaciones"
               type="checkbox"
-              class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+              class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
             />
             Solo Máximas Autoridades
           </label>
@@ -150,7 +150,7 @@
               <td class="py-3.5 px-4 text-right space-x-2">
                 <a
                   :href="`mailto:${asig.persona?.email_principal}`"
-                  class="p-1.5 inline-block text-sky-600 hover:text-sky-800 hover:bg-sky-50 rounded-lg transition text-sm font-semibold"
+                  class="p-1.5 inline-block text-primary-700 hover:text-primary-800 hover:bg-primary-50 rounded-lg transition text-sm font-semibold"
                   title="Enviar correo institucional"
                 >
                   ✉️ Correo
@@ -159,7 +159,7 @@
                 <button
                   v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'"
                   @click="finalizarVigenciaModal(asig)"
-                  class="p-1.5 inline-block text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-sm font-semibold"
+                  class="p-1.5 inline-block text-amber-700 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-sm font-semibold"
                   title="Finalizar vigencia / Dar de baja"
                 >
                   Finalizar vigencia
@@ -200,7 +200,7 @@
             <select id="roles-formasig-area-ti-id"
               v-model="formAsig.area_ti_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             >
               <option value="" disabled>Seleccione Área TI...</option>
               <option v-for="a in areasList" :key="a.id" :value="a.id">
@@ -214,7 +214,7 @@
             <select id="roles-formasig-tipo-rol-id"
               v-model="formAsig.tipo_rol_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             >
               <option value="" disabled>Seleccione Rol...</option>
               <option v-for="r in tiposRol" :key="r.id" :value="r.id">
@@ -230,7 +230,7 @@
                 v-model="formAsig.fecha_inicio"
                 type="date"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -239,7 +239,7 @@
                 v-model="formAsig.acto_administrativo"
                 type="text"
                 placeholder="Ej: RES-2024-400"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -249,7 +249,7 @@
               <input
                 type="checkbox"
                 v-model="formAsig.es_maxima_autoridad"
-                class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-500"
+                class="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-600"
               />
               <span class="font-bold text-slate-800">⭐ Designar formalmente como Máxima Autoridad del Área</span>
             </label>
@@ -267,7 +267,7 @@
             <button
               type="submit"
               :disabled="saving"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{ saving ? 'Guardando...' : 'Asignar Cargo' }}
             </button>

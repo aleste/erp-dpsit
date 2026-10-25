@@ -3,10 +3,10 @@
     <!-- 1. Estado: Persona Seleccionada -->
     <div
       v-if="selectedPersona"
-      class="flex items-center justify-between p-2.5 bg-sky-50/80 border border-sky-200 rounded-xl transition-all shadow-sm"
+      class="flex items-center justify-between p-2.5 bg-primary-50/80 border border-primary-200 rounded-xl transition-all shadow-sm"
     >
       <div class="flex items-center gap-3 overflow-hidden">
-        <div class="w-8 h-8 rounded-lg bg-sky-600 text-white font-bold flex items-center justify-center text-sm flex-shrink-0 shadow-sm">
+        <div class="w-8 h-8 rounded-lg bg-primary-700 text-white font-bold flex items-center justify-center text-sm flex-shrink-0 shadow-sm">
           {{ selectedPersona.apellido ? selectedPersona.apellido.charAt(0) : '' }}{{ selectedPersona.nombre ? selectedPersona.nombre.charAt(0) : '' }}
         </div>
         <div class="truncate">
@@ -24,7 +24,7 @@
         v-if="!disabled"
         type="button"
         @click="clearSelection"
-        class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition ml-2 flex-shrink-0"
+        class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition ml-2 flex-shrink-0"
         title="Cambiar persona"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@
           @input="onSearchInput"
           :disabled="disabled"
           :placeholder="placeholder || 'Escriba apellido, nombre o CUIL para buscar en el padrón...'"
-          class="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition disabled:opacity-60"
+          class="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white transition disabled:opacity-60"
         />
 
         <!-- Ícono Lupa -->
@@ -53,7 +53,7 @@
           <svg v-if="!loading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <svg v-else class="w-4 h-4 animate-spin text-sky-600" fill="none" viewBox="0 0 24 24">
+          <svg v-else class="w-4 h-4 animate-spin text-primary-700" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
@@ -100,14 +100,14 @@
             :key="p.id"
             type="button"
             @click="selectPersona(p)"
-            class="w-full text-left p-3 hover:bg-sky-50/70 flex items-center justify-between gap-3 transition group"
+            class="w-full text-left p-3 hover:bg-primary-50/70 flex items-center justify-between gap-3 transition group"
           >
             <div class="flex items-center gap-2.5 overflow-hidden">
-              <div class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-sky-600 group-hover:text-white text-slate-700 font-bold flex items-center justify-center text-xs flex-shrink-0 transition-colors">
+              <div class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-primary-600 group-hover:text-white text-slate-700 font-bold flex items-center justify-center text-xs flex-shrink-0 transition-colors">
                 {{ p.apellido ? p.apellido.charAt(0) : '' }}{{ p.nombre ? p.nombre.charAt(0) : '' }}
               </div>
               <div class="truncate">
-                <p class="font-bold text-slate-800 group-hover:text-sky-900 truncate">
+                <p class="font-bold text-slate-800 group-hover:text-primary-900 truncate">
                   {{ p.apellido }}, {{ p.nombre }}
                 </p>
                 <p class="text-xs text-slate-500 font-mono">

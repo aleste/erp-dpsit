@@ -13,7 +13,7 @@
         >
           <!-- Logotipo Expandido -->
           <NuxtLink to="/" class="flex items-center gap-3 overflow-hidden group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-sky-500/20 flex-shrink-0 group-hover:scale-105 transition-transform">
+            <div class="w-10 h-10 rounded-xl bg-primary-700 flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0 group-hover:scale-105 transition-transform">
               {{ agency.acronym }}
             </div>
             <div v-show="!isCollapsed" class="truncate transition-opacity duration-300">
@@ -51,7 +51,7 @@
               to="/"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path === '/' ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path === '/' ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -63,7 +63,7 @@
           </div>
 
           <!-- SECCIÓN: Estructura y Personas -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
             Estructura y Personas
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -75,7 +75,7 @@
               to="/ministerios"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path === '/ministerios' ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path === '/ministerios' ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -93,7 +93,7 @@
               to="/areas-ti"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/areas-ti') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/areas-ti') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -111,7 +111,7 @@
               to="/personas"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/personas') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/personas') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -129,7 +129,7 @@
               to="/roles"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/roles') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/roles') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -141,7 +141,7 @@
           </div>
 
           <!-- SECCIÓN: Servicios y Documentos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
             Servicios y Documentos
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -153,7 +153,7 @@
               to="/servicios"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/servicios') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/servicios') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -171,7 +171,7 @@
               to="/firma-digital"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/firma-digital') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/firma-digital') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -184,7 +184,7 @@
 
           <!-- SECCIÓN: Gestión Administrativa (permiso por módulo) -->
           <template v-if="authStore.puedeModulo('EXPEDIENTES', 'CONSULTA')">
-            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
               Gestión Administrativa
             </div>
             <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -195,7 +195,7 @@
               to="/expedientes"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/expedientes') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/expedientes') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -208,7 +208,7 @@
           </template>
 
           <!-- SECCIÓN: Comunicaciones y Datos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
             Comunicaciones y Datos
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -220,7 +220,7 @@
               to="/exportador"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/exportador') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/exportador') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -233,7 +233,7 @@
 
           <!-- SECCIÓN: Administración (solo ADMINISTRADOR) -->
           <template v-if="authStore.isAdmin">
-            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
               Administración
             </div>
             <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -244,7 +244,7 @@
               to="/usuarios"
               class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
-                route.path.startsWith('/usuarios') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
+                route.path.startsWith('/usuarios') ? 'bg-primary-700 text-white shadow-md shadow-primary-700/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
               ]"
             >
@@ -350,7 +350,7 @@
             </svg>
           </button>
 
-          <span class="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-100 uppercase tracking-wider truncate max-w-md hidden sm:inline-block">
+          <span class="text-xs font-bold text-primary-700 bg-primary-50 px-3 py-1 rounded-full border border-primary-100 uppercase tracking-wider truncate max-w-md hidden sm:inline-block">
             {{ agency.name }}
           </span>
         </div>
@@ -361,7 +361,7 @@
             <p class="text-xs text-slate-500">Sistema Homologado de TI</p>
           </div>
           <div class="h-6 w-px bg-slate-200 hidden md:block"></div>
-          <div class="text-sm font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+          <div class="text-sm font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
             v1.0.0
           </div>
         </div>

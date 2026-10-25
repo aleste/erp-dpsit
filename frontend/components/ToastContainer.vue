@@ -140,7 +140,7 @@ const containerClasses = (type: ToastType) => {
       return 'bg-slate-900/95 text-slate-100 border-amber-500/40 shadow-amber-950/40'
     case 'info':
     default:
-      return 'bg-slate-900/95 text-slate-100 border-sky-500/40 shadow-sky-950/40'
+      return 'bg-slate-900/95 text-slate-100 border-primary-500/40 shadow-primary-950/40'
   }
 }
 
@@ -154,7 +154,7 @@ const iconContainerClasses = (type: ToastType) => {
       return 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
     case 'info':
     default:
-      return 'bg-sky-500/20 text-sky-400 border border-sky-500/30'
+      return 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
   }
 }
 
@@ -168,7 +168,7 @@ const titleClasses = (type: ToastType) => {
       return 'text-amber-400'
     case 'info':
     default:
-      return 'text-sky-400'
+      return 'text-primary-400'
   }
 }
 
@@ -186,7 +186,7 @@ const progressBarClasses = (type: ToastType) => {
       return 'bg-amber-500'
     case 'info':
     default:
-      return 'bg-sky-500'
+      return 'bg-primary-500'
   }
 }
 </script>

@@ -117,7 +117,7 @@
           <button
             type="submit"
             :disabled="guardando || verificacion?.en_area"
-            class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+            class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
           >
             {{ guardando ? 'Registrando...' : (esReingreso ? 'Registrar reingreso' : 'Registrar ingreso') }}
           </button>
@@ -203,6 +203,6 @@ onMounted(async () => {
 
 <style scoped>
 .campo {
-  @apply w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 disabled:opacity-60;
+  @apply w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 disabled:opacity-60;
 }
 </style>

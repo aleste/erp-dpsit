@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-6 max-w-7xl mx-auto">
     <!-- Botón Volver y Breadcrumb -->
-    <div class="flex items-center gap-2 text-sm font-semibold text-slate-500">
-      <NuxtLink to="/areas-ti" class="hover:text-sky-600">← Volver a Áreas TI</NuxtLink>
+    <div class="flex items-center gap-2 text-sm font-semibold text-slate-600">
+      <NuxtLink to="/areas-ti" class="hover:text-primary-700">← Volver a Áreas TI</NuxtLink>
       <span>/</span>
       <span class="text-slate-800">{{ area?.codigo || 'Cargando...' }}</span>
     </div>
@@ -17,7 +17,7 @@
         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="space-y-2">
             <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 bg-sky-600 text-white font-extrabold rounded-lg text-sm tracking-wider">
+              <span class="px-2.5 py-1 bg-primary-700 text-white font-extrabold rounded-lg text-sm tracking-wider">
                 {{ area.ministerio?.sigla }}
               </span>
               <span class="font-mono text-sm font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
@@ -39,13 +39,13 @@
           <div v-if="authStore.isEditor" class="flex flex-wrap gap-2">
             <button
               @click="openModalAsociarServicio"
-              class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5"
+              class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-700/20 transition flex items-center gap-1.5"
             >
               <span>⚡+</span> Asociar Servicio Tecnológico
             </button>
             <button
               @click="openModalAsociar"
-              class="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition flex items-center gap-1.5"
+              class="px-3.5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition flex items-center gap-1.5"
             >
               <span>👤+</span> Asociar Agente
             </button>
@@ -104,7 +104,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalAsociarAutoridad"
-          class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl text-sm font-bold transition flex items-center gap-1.5 self-start md:self-auto"
+          class="px-4 py-2 bg-amber-500/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/40 rounded-xl text-sm font-bold transition flex items-center gap-1.5 self-start md:self-auto"
         >
           ⭐ Designar / Reasignar Autoridad
         </button>
@@ -115,7 +115,7 @@
         <button
           @click="activeTab = 'equipo'"
           class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
-          :class="activeTab === 'equipo' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+          :class="activeTab === 'equipo' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
         >
           <span>👥</span> Equipo y Roles Asignados ({{ area.asignaciones?.length || 0 }})
         </button>
@@ -123,7 +123,7 @@
         <button
           @click="activeTab = 'servicios'"
           class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
-          :class="activeTab === 'servicios' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+          :class="activeTab === 'servicios' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
         >
           <span>⚡</span> Servicios Tecnológicos Activos ({{ area.servicios?.length || 0 }})
         </button>
@@ -131,7 +131,7 @@
         <button
           @click="activeTab = 'documentos'"
           class="pb-3 text-sm font-bold border-b-2 transition flex items-center gap-1.5"
-          :class="activeTab === 'documentos' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+          :class="activeTab === 'documentos' ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'"
         >
           <span>📄</span> Bóveda Documental y Actas ({{ area.documentos?.length || 0 }})
         </button>
@@ -140,14 +140,14 @@
       <!-- TAB 1: EQUIPO Y ASIGNACIONES -->
       <div v-if="activeTab === 'equipo'" class="space-y-4">
         <div class="flex items-center justify-between">
-          <p class="text-sm text-slate-500">
+          <p class="text-sm text-slate-600">
             Nómina histórica y vigente de agentes y autoridades asociadas a <strong>{{ area.nombre }}</strong>.
           </p>
 
           <button
             v-if="authStore.isEditor"
             @click="openModalAsociar"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-sm font-bold shadow-sm transition"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
             <span>+</span> Asociar Nuevo Agente
           </button>
@@ -180,7 +180,7 @@
                   <div class="flex items-center gap-2">
                     <span
                       class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs"
-                      :class="asig.estado_vigencia === 'VIGENTE' ? 'bg-sky-100 text-sky-800' : 'bg-slate-200 text-slate-600'"
+                      :class="asig.estado_vigencia === 'VIGENTE' ? 'bg-primary-100 text-primary-800' : 'bg-slate-200 text-slate-600'"
                     >
                       {{ asig.persona?.apellido?.charAt(0) || 'P' }}
                     </span>
@@ -191,7 +191,7 @@
                   </div>
                 </td>
                 <td class="py-3.5 px-4">
-                  <span class="font-bold text-sky-800">{{ asig.tipo_rol?.nombre }}</span>
+                  <span class="font-bold text-primary-800">{{ asig.tipo_rol?.nombre }}</span>
                   <span class="block text-xs text-slate-500 font-semibold">{{ asig.tipo_rol?.nivel_responsabilidad }}</span>
                 </td>
                 <td class="py-3.5 px-4">
@@ -220,7 +220,7 @@
                     <button
                       v-if="authStore.isEditor"
                       @click="openModalEditAsignacion(asig)"
-                      class="p-1.5 text-slate-500 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition"
                       title="Editar Asignación"
                     >
                       ✏️
@@ -240,7 +240,7 @@
                     <button
                       v-if="authStore.isAdmin"
                       @click="handleDeleteAsignacion(asig)"
-                      class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                      class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
                       title="Eliminar registro"
                     >
                       🗑️
@@ -256,14 +256,14 @@
       <!-- TAB 2: SERVICIOS TECNOLÓGICOS PROVISTOS -->
       <div v-if="activeTab === 'servicios'" class="space-y-4">
         <div class="flex items-center justify-between">
-          <p class="text-sm text-slate-500">
+          <p class="text-sm text-slate-600">
             Servicios tecnológicos provinciales provistos y administrados para <strong>{{ area.nombre }}</strong>.
           </p>
 
           <button
             v-if="authStore.isEditor"
             @click="openModalAsociarServicio"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-bold shadow-sm transition"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
             <span>+</span> Asociar Nuevo Servicio
           </button>
@@ -311,7 +311,7 @@
                   <button
                     v-if="authStore.isEditor"
                     @click="openModalReferente(srv)"
-                    class="text-xs font-bold text-sky-600 hover:text-sky-800"
+                    class="text-xs font-bold text-primary-700 hover:text-primary-800"
                   >
                     + Asignar Referente
                   </button>
@@ -330,7 +330,7 @@
                     <button
                       v-if="authStore.isEditor"
                       @click="handleRemoveReferente(srv, ref)"
-                      class="ml-1 text-slate-500 hover:text-rose-600 font-bold p-0.5 hover:bg-rose-50 rounded transition"
+                      class="ml-1 text-slate-500 hover:text-rose-700 font-bold p-0.5 hover:bg-rose-50 rounded transition"
                       title="Desvincular y quitar referente"
                     >
                       ✕
@@ -353,7 +353,7 @@
                 <button
                   v-if="authStore.isEditor"
                   @click="openModalReferente(srv)"
-                  class="px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-lg font-bold text-xs transition"
+                  class="px-2.5 py-1 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-lg font-bold text-xs transition"
                 >
                   👤 Gestionar Referentes
                 </button>
@@ -362,7 +362,7 @@
               <button
                 v-if="authStore.isAdmin"
                 @click="handleDeleteServicioArea(srv)"
-                class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
                 title="Desasociar y eliminar servicio del área"
               >
                 🗑️
@@ -408,7 +408,7 @@
                   <a
                     :href="`${config.public.apiBase}/documentos/${doc.id}/descargar`"
                     target="_blank"
-                    class="px-3 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 rounded-lg font-bold text-sm inline-block transition"
+                    class="px-3 py-1.5 bg-primary-50 text-primary-700 hover:bg-primary-100 rounded-lg font-bold text-sm inline-block transition"
                   >
                     ⬇ Descargar
                   </a>
@@ -444,7 +444,7 @@
               @change="onTipoServicioChange"
               :disabled="isEditingServicioArea"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-60"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 disabled:opacity-60"
             >
               <option value="" disabled>Seleccione Servicio...</option>
               <option v-for="c in catalogoServicios.filter(x => x.activo)" :key="c.id" :value="c.id">
@@ -461,7 +461,7 @@
                 type="text"
                 required
                 placeholder="Ej: CLOUD-MS-01"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono uppercase text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono uppercase text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
             <div>
@@ -469,7 +469,7 @@
               <select id="area-formservicioarea-sla-nivel"
                 v-model="formServicioArea.sla_nivel"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               >
                 <option value="99.9% Disponibilidad 24x7">Platinum (99.9% 24x7)</option>
                 <option value="99.5% Disponibilidad Lun-Vie">Gold (99.5% 12x5)</option>
@@ -485,7 +485,7 @@
               <select id="area-formservicioarea-estado-servicio"
                 v-model="formServicioArea.estado_servicio"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               >
                 <option value="ACTIVO">Activo</option>
                 <option value="EN_PROCESO">En Proceso / Configuración</option>
@@ -499,7 +499,7 @@
                 v-model="formServicioArea.fecha_alta"
                 type="date"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
           </div>
@@ -510,7 +510,7 @@
               v-model="formServicioArea.observaciones"
               rows="3"
               placeholder="Detalles sobre alcance, subredes o condiciones de provisión del servicio..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
             ></textarea>
           </div>
 
@@ -525,7 +525,7 @@
             <button
               type="submit"
               :disabled="savingServicioArea"
-              class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-md shadow-emerald-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-bold shadow-md shadow-emerald-700/20 disabled:opacity-50"
             >
               {{ savingServicioArea ? 'Guardando...' : (isEditingServicioArea ? 'Guardar Cambios' : 'Asociar Servicio al Área') }}
             </button>
@@ -539,10 +539,10 @@
     <!-- ===================================================================== -->
     <div v-if="showModalReferente" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div v-dialogo="() => (showModalReferente = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
-        <div class="p-5 bg-sky-950 text-white flex items-center justify-between">
+        <div class="p-5 bg-primary-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Referentes del Servicio Tecnológico</h2>
-            <p class="text-sm text-sky-300">{{ selectedServicio?.codigo_instancia }} - {{ selectedServicio?.catalogo_servicio?.nombre }}</p>
+            <p class="text-sm text-primary-300">{{ selectedServicio?.codigo_instancia }} - {{ selectedServicio?.catalogo_servicio?.nombre }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalReferente = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
@@ -592,7 +592,7 @@
               <select id="area-formreferente-tipo-referente"
                 v-model="formReferente.tipo_referente"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               >
                 <option value="TECNICO_PRINCIPAL">Referente Técnico Principal</option>
                 <option value="TECNICO_ALTERNO">Referente Técnico Alterno</option>
@@ -606,7 +606,7 @@
                 <input
                   type="checkbox"
                   v-model="formReferente.es_principal"
-                  class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+                  class="w-4 h-4 text-primary-700 rounded border-slate-300 focus:ring-primary-600"
                 />
                 Designar como Contacto Técnico Primario
               </label>
@@ -623,7 +623,7 @@
               <button
                 type="submit"
                 :disabled="savingReferente"
-                class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+                class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
               >
                 {{ savingReferente ? 'Guardando...' : 'Asignar Referente' }}
               </button>
@@ -671,7 +671,7 @@
             <select id="area-formasignacion-tipo-rol-id"
               v-model="formAsignacion.tipo_rol_id"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             >
               <option value="" disabled>Seleccione Rol...</option>
               <option v-for="r in tiposRol" :key="r.id" :value="r.id">
@@ -687,7 +687,7 @@
                 v-model="formAsignacion.fecha_inicio"
                 type="date"
                 required
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
             <div>
@@ -695,7 +695,7 @@
               <input id="area-formasignacion-fecha-fin"
                 v-model="formAsignacion.fecha_fin"
                 type="date"
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
             </div>
           </div>
@@ -706,7 +706,7 @@
               v-model="formAsignacion.acto_administrativo"
               type="text"
               placeholder="Ej: Decreto 1250/2024, Resolución 45/24"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -716,7 +716,7 @@
               v-model="formAsignacion.observaciones"
               rows="2"
               placeholder="Detalles sobre funciones, pases o responsabilidades..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             ></textarea>
           </div>
 
@@ -725,7 +725,7 @@
               <input
                 type="checkbox"
                 v-model="formAsignacion.es_maxima_autoridad"
-                class="w-4 h-4 text-amber-600 rounded border-slate-300 focus:ring-amber-500"
+                class="w-4 h-4 text-amber-700 rounded border-slate-300 focus:ring-amber-600"
               />
               <span class="font-bold text-slate-800">⭐ Designar como Máxima Autoridad del Área TI</span>
             </label>
@@ -743,7 +743,7 @@
             <button
               type="submit"
               :disabled="savingAsignacion"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{ savingAsignacion ? 'Guardando...' : (isEditingAsignacion ? 'Actualizar Asignación' : 'Asociar Agente') }}
             </button>
@@ -778,7 +778,7 @@
               type="text"
               required
               placeholder="Ej: Resolución de Homologación 2024"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
 
@@ -787,7 +787,7 @@
             <select id="area-formdoc-tipo-documento"
               v-model="formDoc.tipo_documento"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             >
               <option value="RESOLUCION_HOMOLOGACION">Resolución de Homologación</option>
               <option value="ACTA_ACUERDO">Acta de Acuerdo Técnico</option>
@@ -812,7 +812,7 @@
               v-model="formDoc.observaciones"
               rows="2"
               placeholder="Notas aclaratorias sobre el documento..."
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             ></textarea>
           </div>
 
@@ -827,7 +827,7 @@
             <button
               type="submit"
               :disabled="uploading"
-              class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold shadow-md shadow-sky-600/20 disabled:opacity-50"
+              class="px-5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl font-bold shadow-md shadow-primary-700/20 disabled:opacity-50"
             >
               {{ uploading ? 'Subiendo y calculando Hash...' : 'Subir Archivo' }}
             </button>

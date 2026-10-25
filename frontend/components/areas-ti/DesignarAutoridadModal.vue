@@ -46,7 +46,7 @@
             id="designar-tipo-rol-id"
             v-model="form.tipo_rol_id"
             required
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
           >
             <option value="" disabled>Seleccione el cargo...</option>
             <option v-for="r in tiposRol" :key="r.id" :value="r.id">{{ r.nombre }}</option>
@@ -61,7 +61,7 @@
               v-model="form.fecha_inicio"
               type="date"
               required
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
           <div>
@@ -72,7 +72,7 @@
               type="text"
               maxlength="150"
               placeholder="Ej: Decreto 1250/24"
-              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
             />
           </div>
         </div>
@@ -89,7 +89,7 @@
             id="designar-observaciones"
             v-model="form.observaciones"
             rows="2"
-            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600"
           ></textarea>
         </div>
 

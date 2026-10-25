@@ -19,7 +19,7 @@
         <button
           v-if="puedeOperar()"
           @click="mostrarIngreso = true"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
           <span>+</span> Registrar Ingreso
         </button>
@@ -32,7 +32,7 @@
         v-for="card in tarjetas"
         :key="card.key"
         @click="card.accion()"
-        class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-sky-300 transition"
+        class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm text-left hover:border-primary-300 transition"
       >
         <p class="text-xs font-bold uppercase tracking-wider" :class="card.color">{{ card.label }}</p>
         <h3 class="text-2xl font-extrabold mt-0.5" :class="card.color">{{ card.valor }}</h3>
@@ -56,7 +56,7 @@
     <!-- Pestañas -->
     <div class="flex border-b border-slate-200 space-x-6">
       <button v-for="t in pestanas" :key="t.id" @click="cambiarTab(t.id)" class="pb-3 text-sm font-extrabold border-b-2 transition"
-              :class="activeTab === t.id ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
+              :class="activeTab === t.id ? 'border-primary-600 text-primary-700' : 'border-transparent text-slate-600 hover:text-slate-700'">
         {{ t.label }}
       </button>
     </div>
@@ -146,13 +146,13 @@
 
         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-sm">
           <div class="flex flex-wrap items-center gap-4 font-semibold text-slate-700">
-            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.mis" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Mis expedientes</label>
-            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.accion_vencida" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Próxima acción vencida</label>
-            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.plazo_vencido" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Plazo vencido</label>
-            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.demorados" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-sky-600" /> Más de {{ tablero.umbral_dias_alerta }} días en el área</label>
+            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.mis" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-primary-700" /> Mis expedientes</label>
+            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.accion_vencida" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-primary-700" /> Próxima acción vencida</label>
+            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.plazo_vencido" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-primary-700" /> Plazo vencido</label>
+            <label class="inline-flex items-center gap-2 cursor-pointer"><input v-model="filtros.demorados" @change="recargar" type="checkbox" class="w-4 h-4 rounded text-primary-700" /> Más de {{ tablero.umbral_dias_alerta }} días en el área</label>
           </div>
           <div class="flex items-center gap-3">
-            <button v-if="hayFiltros" @click="limpiarFiltros" class="font-bold text-sky-600 hover:underline">Limpiar Filtros</button>
+            <button v-if="hayFiltros" @click="limpiarFiltros" class="font-bold text-primary-700 hover:underline">Limpiar Filtros</button>
             <button @click="exportar" :disabled="exportando" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-slate-700 disabled:opacity-50">
               {{ exportando ? 'Exportando...' : '⬇ Exportar CSV' }}
             </button>
@@ -242,12 +242,12 @@ const tarjetas = computed(() => {
   const t = tablero.value.totales || {}
   return [
     { key: 'en_area', label: 'En el área', valor: t.en_area ?? 0, color: 'text-slate-800', accion: () => filtrarPor('listado', {}) },
-    { key: 'mis', label: 'Mis expedientes', valor: t.mis_expedientes ?? 0, color: 'text-sky-600', accion: () => filtrarPor('listado', { mis: true }) },
-    { key: 'sin', label: 'Sin responsable', valor: t.sin_responsable ?? 0, color: 'text-amber-600', accion: () => filtrarPor('listado', { responsable_id: 'sin' }) },
-    { key: 'demorados', label: `Más de ${tablero.value.umbral_dias_alerta} días`, valor: t.demorados ?? 0, color: 'text-orange-600', accion: () => filtrarPor('listado', { demorados: true }) },
-    { key: 'accion', label: 'Acción vencida', valor: t.accion_vencida ?? 0, color: 'text-rose-600', accion: () => filtrarPor('listado', { accion_vencida: true }) },
+    { key: 'mis', label: 'Mis expedientes', valor: t.mis_expedientes ?? 0, color: 'text-primary-700', accion: () => filtrarPor('listado', { mis: true }) },
+    { key: 'sin', label: 'Sin responsable', valor: t.sin_responsable ?? 0, color: 'text-amber-700', accion: () => filtrarPor('listado', { responsable_id: 'sin' }) },
+    { key: 'demorados', label: `Más de ${tablero.value.umbral_dias_alerta} días`, valor: t.demorados ?? 0, color: 'text-orange-700', accion: () => filtrarPor('listado', { demorados: true }) },
+    { key: 'accion', label: 'Acción vencida', valor: t.accion_vencida ?? 0, color: 'text-rose-700', accion: () => filtrarPor('listado', { accion_vencida: true }) },
     { key: 'plazo', label: 'Plazo vencido', valor: t.plazo_vencido ?? 0, color: 'text-rose-700', accion: () => filtrarPor('listado', { plazo_vencido: true }) },
-    { key: 'egresos', label: 'Egresos del mes', valor: t.egresos_mes ?? 0, color: 'text-emerald-600', accion: () => filtrarPor('listado', { situacion: 'EGRESADAS', orden: 'egreso_desc' }) },
+    { key: 'egresos', label: 'Egresos del mes', valor: t.egresos_mes ?? 0, color: 'text-emerald-700', accion: () => filtrarPor('listado', { situacion: 'EGRESADAS', orden: 'egreso_desc' }) },
   ]
 })
 
@@ -360,7 +360,7 @@ onMounted(async () => {
 
 <style scoped>
 .filtro {
-  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition;
+  @apply w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-600 transition;
 }
 .filtro-label {
   @apply block text-sm font-bold text-slate-500 mb-1;

@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Gestión de Áreas TI Homologadas</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Padrón de direcciones y dependencias de tecnología por ministerio, homologaciones {{ agency.shortName }} y máximas autoridades.
         </p>
       </div>
@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalCreate"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
         >
           <span>+</span> Nueva Área TI
         </button>
@@ -24,7 +24,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total de Áreas TI</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total de Áreas TI</p>
           <h3 class="text-2xl font-extrabold text-slate-800 mt-0.5">{{ stats.total }}</h3>
         </div>
         <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-base">
@@ -34,7 +34,7 @@
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Homologadas por {{ agency.shortName }}</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Homologadas por {{ agency.shortName }}</p>
           <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">{{ stats.homologadas }}</h3>
         </div>
         <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-base">
@@ -44,7 +44,7 @@
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-amber-600">En Proceso de Homologación</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-amber-600">En Proceso de Homologación</p>
           <h3 class="text-2xl font-extrabold text-amber-600 mt-0.5">{{ stats.en_tramite }}</h3>
         </div>
         <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-base">
@@ -58,23 +58,23 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Buscador de texto -->
         <div class="lg:col-span-1">
-          <label for="areas-filters-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar</label>
+          <label for="areas-filters-q" class="block text-sm font-bold text-slate-500 mb-1">Buscar</label>
           <input id="areas-filters-q"
             v-model="filters.q"
             @input="debounceSearch"
             type="text"
             placeholder="Nombre, código o resolución..."
-            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
           />
         </div>
 
         <!-- Filtro por Ministerio -->
         <div>
-          <label for="areas-filters-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Ministerio</label>
+          <label for="areas-filters-ministerio-id" class="block text-sm font-bold text-slate-500 mb-1">Ministerio</label>
           <select id="areas-filters-ministerio-id"
             v-model="filters.ministerio_id"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todos los Ministerios</option>
             <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -83,11 +83,11 @@
 
         <!-- Filtro por Homologación -->
         <div>
-          <label for="areas-filters-es-homologada" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Homologación</label>
+          <label for="areas-filters-es-homologada" class="block text-sm font-bold text-slate-500 mb-1">Estado de Homologación</label>
           <select id="areas-filters-es-homologada"
             v-model="filters.es_homologada"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todas las Áreas</option>
             <option value="true">Solo Homologadas {{ agency.shortName }}</option>
@@ -97,11 +97,11 @@
 
         <!-- Filtro por Nivel Jerárquico -->
         <div>
-          <label for="areas-filters-nivel-jerarquico" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nivel Jerárquico</label>
+          <label for="areas-filters-nivel-jerarquico" class="block text-sm font-bold text-slate-500 mb-1">Nivel Jerárquico</label>
           <select id="areas-filters-nivel-jerarquico"
             v-model="filters.nivel_jerarquico"
             @change="fetchAreas"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todos los Niveles</option>
             <option value="DIRECCION_PROVINCIAL">Dirección Provincial</option>
@@ -115,11 +115,11 @@
     </div>
 
     <!-- Grilla de Áreas TI -->
-    <div v-if="loading" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+    <div v-if="loading" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
       Cargando áreas de tecnología...
     </div>
 
-    <div v-else-if="areas.length === 0" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+    <div v-else-if="areas.length === 0" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
       No se encontraron áreas TI que coincidan con los criterios de búsqueda.
     </div>
 
@@ -132,12 +132,12 @@
         <!-- Cabecera de la Tarjeta -->
         <div class="p-5 space-y-3">
           <div class="flex items-start justify-between gap-2">
-            <span class="px-2 py-0.5 bg-slate-100 text-slate-700 font-mono text-[10px] font-bold rounded">
+            <span class="px-2 py-0.5 bg-slate-100 text-slate-700 font-mono text-xs font-bold rounded">
               {{ area.codigo }}
             </span>
 
             <span
-              class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
+              class="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider"
               :class="area.es_homologada ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'"
             >
               {{ area.es_homologada ? `Homologada ${agency.shortName}` : 'En Trámite' }}
@@ -145,25 +145,25 @@
           </div>
 
           <div>
-            <span class="text-[11px] font-bold uppercase text-sky-600 tracking-wider">
+            <span class="text-xs font-bold uppercase text-sky-600 tracking-wider">
               {{ area.ministerio?.sigla }} - {{ area.ministerio?.nombre }}
             </span>
             <h2 class="text-base font-bold text-slate-900 mt-0.5 group-hover:text-sky-600 transition">
               <NuxtLink :to="`/areas-ti/${area.id}`">{{ area.nombre }}</NuxtLink>
             </h2>
-            <p v-if="area.resolucion_homologacion" class="text-[11px] text-slate-400 mt-1">
+            <p v-if="area.resolucion_homologacion" class="text-xs text-slate-500 mt-1">
               Resolución: <strong class="text-slate-600">{{ area.resolucion_homologacion }}</strong>
             </p>
           </div>
 
           <!-- Máxima Autoridad del Área -->
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60 text-xs">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60 text-sm">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[10px] font-bold uppercase text-slate-400">Máxima Autoridad TI</span>
+              <span class="text-xs font-bold uppercase text-slate-500">Máxima Autoridad TI</span>
               <button
                 v-if="authStore.isEditor"
                 @click="openModalAutoridad(area)"
-                class="text-[10px] font-bold text-sky-600 hover:text-sky-800 hover:underline"
+                class="text-xs font-bold text-sky-600 hover:text-sky-800 hover:underline"
               >
                 Cambiar / Designar
               </button>
@@ -175,18 +175,18 @@
                 <p class="font-bold text-slate-800 truncate">
                   {{ area.maxima_autoridad_vigente.persona?.apellido }}, {{ area.maxima_autoridad_vigente.persona?.nombre }}
                 </p>
-                <p class="text-[11px] text-sky-700 truncate">
+                <p class="text-xs text-sky-700 truncate">
                   {{ area.maxima_autoridad_vigente.tipo_rol?.nombre }}
                 </p>
               </div>
             </div>
-            <div v-else class="text-slate-400 italic text-[11px]">
+            <div v-else class="text-slate-500 italic text-xs">
               Sin máxima autoridad asignada
             </div>
           </div>
 
           <!-- Datos de Contacto y Métricas -->
-          <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
             <span>👥 {{ area.asignaciones_vigentes_count || 0 }} agentes</span>
             <span>⚡ {{ area.servicios_count || 0 }} servicios provistos</span>
             <span>📄 {{ area.documentos_count || 0 }} actas/anexos</span>
@@ -194,7 +194,7 @@
         </div>
 
         <!-- Footer con Acciones -->
-        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
+        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-sm">
           <NuxtLink
             :to="`/areas-ti/${area.id}`"
             class="font-bold text-sky-600 hover:text-sky-800 transition"
@@ -205,7 +205,7 @@
           <div v-if="authStore.isEditor" class="flex items-center gap-2">
             <button
               @click="openModalAsociarServicio(area)"
-              class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg font-bold text-[11px] transition flex items-center gap-1"
+              class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg font-bold text-xs transition flex items-center gap-1"
               title="Asociar Servicio Tecnológico a este Organismo"
             >
               <span>⚡</span> Asociar Servicio
@@ -220,7 +220,7 @@
             <button
               v-if="authStore.isAdmin"
               @click="confirmDelete(area)"
-              class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+              class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
               title="Eliminar Área TI"
             >
               🗑️
@@ -234,7 +234,7 @@
     <!-- MODAL: CREAR / EDITAR ÁREA TI                                         -->
     <!-- ===================================================================== -->
     <div v-if="showModalForm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalForm = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalForm = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">
             {{ isEditing ? 'Editar Área TI Homologada' : 'Registrar Nueva Área TI' }}
@@ -242,7 +242,7 @@
           <button type="button" aria-label="Cerrar" @click="showModalForm = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveArea" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveArea" class="p-6 space-y-4 text-sm">
           <div>
             <label for="areas-formarea-ministerio-id" class="block font-bold text-slate-700 mb-1">Ministerio Perteneciente *</label>
             <select id="areas-formarea-ministerio-id"
@@ -359,17 +359,17 @@
     <!-- MODAL: DESIGNAR MÁXIMA AUTORIDAD                                      -->
     <!-- ===================================================================== -->
     <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
-            <span class="text-[10px] font-bold uppercase text-amber-400">Gobernanza TI</span>
+            <span class="text-xs font-bold uppercase text-amber-400">Gobernanza TI</span>
             <h2 class="text-base font-bold">Designar Máxima Autoridad</h2>
-            <p class="text-xs text-slate-400">{{ selectedArea?.nombre }}</p>
+            <p class="text-sm text-slate-400">{{ selectedArea?.nombre }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-sm">
           <div>
             <label for="areas-formautoridad-persona-id" class="block font-bold text-slate-700 mb-1">Persona a Designar *</label>
             <select id="areas-formautoridad-persona-id"
@@ -453,16 +453,16 @@
     <!-- MODAL: ASOCIAR SERVICIO TECNOLÓGICO DESDE EL LISTADO                  -->
     <!-- ===================================================================== -->
     <div v-if="showModalServicio" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalServicio = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalServicio = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Asociar Servicio Tecnológico</h2>
-            <p class="text-xs text-emerald-300">{{ selectedAreaParaServicio?.nombre }} ({{ selectedAreaParaServicio?.codigo }})</p>
+            <p class="text-sm text-emerald-300">{{ selectedAreaParaServicio?.nombre }} ({{ selectedAreaParaServicio?.codigo }})</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalServicio = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveServicioAsociacion" class="p-6 space-y-4 text-sm">
           <div>
             <label for="areas-formservicio-catalogo-servicio-id" class="block font-bold text-slate-700 mb-1">Tipo de Servicio del Catálogo *</label>
             <select id="areas-formservicio-catalogo-servicio-id"

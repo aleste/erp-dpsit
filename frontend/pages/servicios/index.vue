@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Administración de Servicios Tecnológicos</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Gestión rectora del catálogo de servicios provinciales y aprovisionamiento a organismos del Estado.
         </p>
       </div>
@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor && activeTab === 'catalogo'"
           @click="openModalCreateCatalogo"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
         >
           <span>+</span> Nuevo Tipo de Servicio
         </button>
@@ -21,7 +21,7 @@
         <button
           v-if="authStore.isEditor && activeTab === 'instancias'"
           @click="openModalAprovisionar"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-600/20 transition"
         >
           <span>⚡+</span> Aprovisionar Servicio a Organismo
         </button>
@@ -32,7 +32,7 @@
     <div class="flex border-b border-slate-200 space-x-6">
       <button
         @click="activeTab = 'catalogo'"
-        class="pb-3 text-xs font-extrabold border-b-2 transition flex items-center gap-2"
+        class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
         :class="activeTab === 'catalogo' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
       >
         <span>📚</span> Catálogo de Tipos de Servicio ({{ catalogo.length }})
@@ -40,7 +40,7 @@
 
       <button
         @click="activeTab = 'instancias'"
-        class="pb-3 text-xs font-extrabold border-b-2 transition flex items-center gap-2"
+        class="pb-3 text-sm font-extrabold border-b-2 transition flex items-center gap-2"
         :class="activeTab === 'instancias' ? 'border-sky-600 text-sky-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
       >
         <span>⚡</span> Instancias Provistas a Áreas TI ({{ totalInstancias }})
@@ -55,7 +55,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
-            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Tipos en Catálogo</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Tipos en Catálogo</p>
             <h3 class="text-2xl font-extrabold text-slate-800 mt-0.5">{{ catalogo.length }}</h3>
           </div>
           <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-base">
@@ -65,7 +65,7 @@
 
         <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
-            <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Servicios Activos</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Servicios Activos</p>
             <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">
               {{ catalogo.filter(c => c.activo).length }}
             </h3>
@@ -77,7 +77,7 @@
 
         <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
-            <p class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Áreas TI Usuarias</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-indigo-600">Áreas TI Usuarias</p>
             <h3 class="text-2xl font-extrabold text-indigo-600 mt-0.5">{{ totalAreasConServicios }}</h3>
           </div>
           <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-base">
@@ -90,21 +90,21 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="sm:col-span-2">
-            <label for="servicios-filterscatalogo-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Tipo de Servicio</label>
+            <label for="servicios-filterscatalogo-q" class="block text-sm font-bold text-slate-500 mb-1">Buscar Tipo de Servicio</label>
             <input id="servicios-filterscatalogo-q"
               v-model="filtersCatalogo.q"
               type="text"
               placeholder="Buscar por código, nombre o descripción (ej. Cloud, SSO, API)..."
-              class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+              class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
             />
           </div>
 
           <div>
-            <label for="servicios-filterscatalogo-categoria" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Categoría Tecnológica</label>
+            <label for="servicios-filterscatalogo-categoria" class="block text-sm font-bold text-slate-500 mb-1">Categoría Tecnológica</label>
             <select id="servicios-filterscatalogo-categoria"
               v-model="filtersCatalogo.categoria"
               @change="fetchCatalogo"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             >
               <option value="">Todas las Categorías</option>
               <option value="INFRAESTRUCTURA">Infraestructura y Cómputo</option>
@@ -119,11 +119,11 @@
       </div>
 
       <!-- Grilla de Tarjetas del Catálogo -->
-      <div v-if="loadingCatalogo" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+      <div v-if="loadingCatalogo" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
         Cargando catálogo de servicios tecnológicos...
       </div>
 
-      <div v-else-if="filteredCatalogo.length === 0" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+      <div v-else-if="filteredCatalogo.length === 0" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
         No se encontraron tipos de servicio que coincidan con la búsqueda.
       </div>
 
@@ -135,12 +135,12 @@
         >
           <div class="p-5 space-y-3">
             <div class="flex items-start justify-between gap-2">
-              <span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+              <span class="font-mono text-xs font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
                 {{ item.codigo }}
               </span>
 
               <span
-                class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider"
+                class="px-2 py-0.5 rounded text-xs font-extrabold uppercase tracking-wider"
                 :class="{
                   'bg-sky-100 text-sky-800': item.categoria === 'INFRAESTRUCTURA',
                   'bg-emerald-100 text-emerald-800': item.categoria === 'IDENTIDAD',
@@ -158,16 +158,16 @@
               <h3 class="text-base font-bold text-slate-900 group-hover:text-sky-600 transition">
                 {{ item.nombre }}
               </h3>
-              <p class="text-xs text-slate-500 mt-1 line-clamp-3 leading-relaxed">
+              <p class="text-sm text-slate-500 mt-1 line-clamp-3 leading-relaxed">
                 {{ item.descripcion || 'Sin descripción detallada.' }}
               </p>
             </div>
 
             <!-- Contador de áreas asociadas -->
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-sm text-slate-500">
               <span>⚡ {{ item.servicios_areas_count || 0 }} organismos provistos</span>
               <span
-                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
+                class="px-2 py-0.5 rounded text-xs font-bold uppercase"
                 :class="item.activo ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'"
               >
                 {{ item.activo ? 'Activo' : 'Inactivo' }}
@@ -176,7 +176,7 @@
           </div>
 
           <!-- Footer con Acciones -->
-          <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-sm">
             <button
               @click="openModalAprovisionarConTipo(item)"
               class="font-bold text-sky-600 hover:text-sky-800 transition"
@@ -195,7 +195,7 @@
               <button
                 v-if="authStore.isAdmin"
                 @click="handleDeleteCatalogo(item)"
-                class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                 title="Eliminar del catálogo"
               >
                 🗑️
@@ -213,11 +213,11 @@
       <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label for="servicios-filtersinstancias-ministerio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Filtrar por Organismo</label>
+            <label for="servicios-filtersinstancias-ministerio-id" class="block text-sm font-bold text-slate-500 mb-1">Filtrar por Organismo</label>
             <select id="servicios-filtersinstancias-ministerio-id"
               v-model="filtersInstancias.ministerio_id"
               @change="fetchInstancias"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             >
               <option value="">Todos los Ministerios</option>
               <option v-for="m in ministerios" :key="m.id" :value="m.id">{{ m.sigla }} - {{ m.nombre }}</option>
@@ -225,11 +225,11 @@
           </div>
 
           <div>
-            <label for="servicios-filtersinstancias-catalogo-servicio-id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo de Servicio</label>
+            <label for="servicios-filtersinstancias-catalogo-servicio-id" class="block text-sm font-bold text-slate-500 mb-1">Tipo de Servicio</label>
             <select id="servicios-filtersinstancias-catalogo-servicio-id"
               v-model="filtersInstancias.catalogo_servicio_id"
               @change="fetchInstancias"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             >
               <option value="">Todos los Tipos</option>
               <option v-for="c in catalogo" :key="c.id" :value="c.id">{{ c.nombre }} ({{ c.codigo }})</option>
@@ -237,11 +237,11 @@
           </div>
 
           <div>
-            <label for="servicios-filtersinstancias-estado-servicio" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado de Servicio</label>
+            <label for="servicios-filtersinstancias-estado-servicio" class="block text-sm font-bold text-slate-500 mb-1">Estado de Servicio</label>
             <select id="servicios-filtersinstancias-estado-servicio"
               v-model="filtersInstancias.estado_servicio"
               @change="fetchInstancias"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             >
               <option value="">Todos los Estados</option>
               <option value="ACTIVO">Activo</option>
@@ -255,11 +255,11 @@
       </div>
 
       <!-- Listado de Instancias -->
-      <div v-if="loadingInstancias" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+      <div v-if="loadingInstancias" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
         Cargando instancias de servicios provistos...
       </div>
 
-      <div v-else-if="instancias.length === 0" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+      <div v-else-if="instancias.length === 0" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
         No se registran instancias de servicios provistos con los filtros seleccionados.
       </div>
 
@@ -272,7 +272,7 @@
           <div class="space-y-3">
             <div class="flex items-start justify-between gap-2">
               <span
-                class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wide"
+                class="px-2.5 py-1 rounded-lg text-xs font-extrabold uppercase tracking-wide"
                 :class="{
                   'bg-emerald-100 text-emerald-800': srv.estado_servicio === 'ACTIVO',
                   'bg-amber-100 text-amber-800': srv.estado_servicio === 'EN_PROCESO' || srv.estado_servicio === 'SOLICITADO',
@@ -283,37 +283,37 @@
                 {{ srv.estado_servicio }}
               </span>
 
-              <span class="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+              <span class="font-mono text-sm font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
                 {{ srv.codigo_instancia }}
               </span>
             </div>
 
             <div>
-              <span class="text-[11px] font-bold uppercase text-sky-600 tracking-wider">
+              <span class="text-xs font-bold uppercase text-sky-600 tracking-wider">
                 {{ srv.area_ti?.ministerio?.sigla }} - {{ srv.area_ti?.nombre }}
               </span>
               <h3 class="text-base font-bold text-slate-900 mt-0.5">{{ srv.catalogo_servicio?.nombre }}</h3>
-              <p class="text-xs text-slate-400 mt-0.5">SLA: <strong>{{ srv.sla_nivel }}</strong> | Alta: {{ srv.fecha_alta }}</p>
-              <p v-if="srv.observaciones" class="text-xs text-slate-600 mt-1 italic">{{ srv.observaciones }}</p>
+              <p class="text-sm text-slate-500 mt-0.5">SLA: <strong>{{ srv.sla_nivel }}</strong> | Alta: {{ srv.fecha_alta }}</p>
+              <p v-if="srv.observaciones" class="text-sm text-slate-600 mt-1 italic">{{ srv.observaciones }}</p>
             </div>
 
             <!-- Referentes Asignados con Opción de Quitar Directamente -->
-            <div class="text-xs pt-1">
-              <p class="text-[10px] font-bold uppercase text-slate-400 mb-1.5">Referentes del Servicio</p>
-              <div v-if="!srv.referentes || srv.referentes.length === 0" class="text-slate-400 italic text-[11px]">
+            <div class="text-sm pt-1">
+              <p class="text-xs font-bold uppercase text-slate-500 mb-1.5">Referentes del Servicio</p>
+              <div v-if="!srv.referentes || srv.referentes.length === 0" class="text-slate-500 italic text-xs">
                 Sin referentes asignados.
               </div>
               <div v-else class="flex flex-wrap gap-1.5">
                 <span
                   v-for="ref in srv.referentes"
                   :key="ref.id"
-                  class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-lg text-[11px] text-slate-700"
+                  class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs text-slate-700"
                 >
                   <span><strong>{{ ref.persona?.apellido }}, {{ ref.persona?.nombre }}</strong> ({{ ref.tipo_referente }})</span>
                   <button
                     v-if="authStore.isEditor"
                     @click="handleRemoveReferente(srv, ref)"
-                    class="ml-1 text-slate-400 hover:text-rose-600 font-bold p-0.5 hover:bg-rose-50 rounded transition"
+                    class="ml-1 text-slate-500 hover:text-rose-600 font-bold p-0.5 hover:bg-rose-50 rounded transition"
                     title="Desvincular referente"
                   >
                     ✕
@@ -323,7 +323,7 @@
             </div>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
             <NuxtLink
               :to="`/areas-ti/${srv.area_ti_id}`"
               class="font-bold text-sky-600 hover:text-sky-800 transition"
@@ -334,7 +334,7 @@
             <button
               v-if="authStore.isAdmin"
               @click="handleDeleteInstancia(srv)"
-              class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+              class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
               title="Eliminar instancia de servicio"
             >
               🗑️
@@ -348,18 +348,18 @@
     <!-- MODAL: CREAR / EDITAR TIPO DE SERVICIO (CATÁLOGO)                     -->
     <!-- ===================================================================== -->
     <div v-if="showModalCatalogo" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalCatalogo = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalCatalogo = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
               {{ isEditingCatalogo ? 'Editar Tipo de Servicio' : 'Nuevo Tipo de Servicio Tecnológico' }}
             </h2>
-            <p class="text-xs text-slate-400">Catálogo Rector de Tecnologías</p>
+            <p class="text-sm text-slate-400">Catálogo Rector de Tecnologías</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalCatalogo = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveCatalogo" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveCatalogo" class="p-6 space-y-4 text-sm">
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label for="servicios-formcatalogo-codigo" class="block font-bold text-slate-700 mb-1">Código Único *</label>
@@ -445,16 +445,16 @@
     <!-- MODAL: APROVISIONAR SERVICIO A UN ÁREA TI                             -->
     <!-- ===================================================================== -->
     <div v-if="showModalAprovisionar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAprovisionar = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAprovisionar = false)" class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-emerald-950 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">Aprovisionar Servicio Tecnológico</h2>
-            <p class="text-xs text-emerald-300">Asignación formal a un Organismo / Área TI</p>
+            <p class="text-sm text-emerald-300">Asignación formal a un Organismo / Área TI</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalAprovisionar = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveAprovisionamiento" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveAprovisionamiento" class="p-6 space-y-4 text-sm">
           <!-- Selector de Área TI -->
           <div>
             <label for="servicios-formaprovisionar-area-ti-id" class="block font-bold text-slate-700 mb-1">Área TI Destinataria *</label>

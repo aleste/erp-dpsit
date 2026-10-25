@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Gestión de Ministerios y Organismos</h1>
-        <p class="text-sm text-slate-500 mt-0.5">
+        <p class="text-sm text-slate-600 mt-0.5">
           Estructura del Poder Ejecutivo Provincial y entidades rectoras de gobierno.
         </p>
       </div>
@@ -13,7 +13,7 @@
         <button
           v-if="authStore.isEditor"
           @click="openModalCreate"
-          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sky-600/20 transition"
+          class="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-bold shadow-md shadow-sky-600/20 transition"
         >
           <span>+</span> Nuevo Ministerio / Organismo
         </button>
@@ -24,7 +24,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total de Ministerios</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Total de Ministerios</p>
           <h3 class="text-2xl font-extrabold text-slate-800 mt-0.5">{{ ministerios.length }}</h3>
         </div>
         <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-base">
@@ -34,7 +34,7 @@
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-sky-600">Total Áreas TI Dependientes</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-sky-600">Total Áreas TI Dependientes</p>
           <h3 class="text-2xl font-extrabold text-sky-600 mt-0.5">{{ totalAreasTi }}</h3>
         </div>
         <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-base">
@@ -44,7 +44,7 @@
 
       <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Organismos Activos</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-600">Organismos Activos</p>
           <h3 class="text-2xl font-extrabold text-emerald-600 mt-0.5">
             {{ ministerios.filter(m => m.activo).length }}
           </h3>
@@ -59,22 +59,22 @@
     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="lg:col-span-3">
-          <label for="ministerios-filters-q" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar Ministerio u Organismo</label>
+          <label for="ministerios-filters-q" class="block text-sm font-bold text-slate-500 mb-1">Buscar Ministerio u Organismo</label>
           <input id="ministerios-filters-q"
             v-model="filters.q"
             @input="debounceSearch"
             type="text"
             placeholder="Buscar por nombre, código o sigla (ej. Salud, MSAL, HTC)..."
-            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition"
           />
         </div>
 
         <div>
-          <label for="ministerios-filters-activo" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Estado</label>
+          <label for="ministerios-filters-activo" class="block text-sm font-bold text-slate-500 mb-1">Estado</label>
           <select id="ministerios-filters-activo"
             v-model="filters.activo"
             @change="fetchMinisterios"
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           >
             <option value="">Todos los Estados</option>
             <option value="true">Solo Activos</option>
@@ -85,11 +85,11 @@
     </div>
 
     <!-- Lista de Ministerios -->
-    <div v-if="loading" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+    <div v-if="loading" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
       Cargando ministerios y organismos...
     </div>
 
-    <div v-else-if="ministerios.length === 0" class="p-12 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+    <div v-else-if="ministerios.length === 0" class="p-12 text-center text-sm text-slate-500 bg-white rounded-2xl border border-slate-200">
       No se encontraron ministerios registrados.
     </div>
 
@@ -102,33 +102,33 @@
         <!-- Cabecera del Ministerio -->
         <div class="p-6 bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div class="flex items-center gap-3">
-            <span class="px-3 py-1 bg-sky-600 text-white rounded-xl text-xs font-extrabold tracking-wider">
+            <span class="px-3 py-1 bg-sky-600 text-white rounded-xl text-sm font-extrabold tracking-wider">
               {{ m.sigla || m.codigo }}
             </span>
             <div>
               <div class="flex items-center gap-2">
                 <h2 class="text-lg font-bold">{{ m.nombre }}</h2>
                 <span
-                  class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide"
+                  class="px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide"
                   :class="m.activo ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-700 text-slate-400'"
                 >
                   {{ m.activo ? 'Activo' : 'Inactivo' }}
                 </span>
               </div>
-              <p class="text-xs text-slate-400">Código Oficial: <strong class="font-mono text-slate-300">{{ m.codigo }}</strong> | Prioridad: {{ m.orden_prioridad }}</p>
+              <p class="text-sm text-slate-400">Código Oficial: <strong class="font-mono text-slate-300">{{ m.codigo }}</strong> | Prioridad: {{ m.orden_prioridad }}</p>
             </div>
           </div>
 
           <!-- Acciones de Ministerio -->
           <div class="flex items-center gap-2">
-            <span class="text-xs text-slate-400 mr-2 hidden sm:inline">
+            <span class="text-sm text-slate-400 mr-2 hidden sm:inline">
               {{ m.areas_ti_count || (m.areas_ti ? m.areas_ti.length : 0) }} Áreas TI
             </span>
 
             <button
               v-if="authStore.isEditor"
               @click="openModalEdit(m)"
-              class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 transition"
+              class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-semibold border border-slate-700 transition"
               title="Editar Ministerio"
             >
               ✏️ Editar
@@ -137,7 +137,7 @@
             <button
               v-if="authStore.isAdmin"
               @click="confirmDelete(m)"
-              class="px-3 py-1.5 bg-rose-950 hover:bg-rose-900 text-rose-300 rounded-lg text-xs font-semibold border border-rose-800 transition"
+              class="px-3 py-1.5 bg-rose-950 hover:bg-rose-900 text-rose-300 rounded-lg text-sm font-semibold border border-rose-800 transition"
               title="Eliminar Ministerio"
             >
               🗑️ Eliminar
@@ -146,50 +146,50 @@
         </div>
 
         <!-- Máxima autoridad del organismo -->
-        <div class="px-6 py-3 bg-amber-50/60 border-b border-amber-100 text-xs space-y-2">
+        <div class="px-6 py-3 bg-amber-50/60 border-b border-amber-100 text-sm space-y-2">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div v-if="m.autoridad_vigente" class="text-slate-700">
               <span class="text-amber-500 font-bold">⭐</span>
-              <span class="font-bold uppercase tracking-wider text-[10px] text-amber-700 mr-1">Máxima autoridad:</span>
+              <span class="font-bold uppercase tracking-wider text-xs text-amber-700 mr-1">Máxima autoridad:</span>
               <strong>{{ m.autoridad_vigente.persona?.apellido }}, {{ m.autoridad_vigente.persona?.nombre }}</strong>
               <span v-if="m.autoridad_vigente.cargo" class="text-slate-500"> ({{ m.autoridad_vigente.cargo }})</span>
-              <span v-if="m.autoridad_vigente.fecha_inicio" class="text-slate-400"> · desde {{ formatFecha(m.autoridad_vigente.fecha_inicio) }}</span>
+              <span v-if="m.autoridad_vigente.fecha_inicio" class="text-slate-500"> · desde {{ formatFecha(m.autoridad_vigente.fecha_inicio) }}</span>
             </div>
-            <div v-else class="text-slate-400 italic">Sin máxima autoridad designada.</div>
+            <div v-else class="text-slate-500 italic">Sin máxima autoridad designada.</div>
 
             <div class="flex items-center gap-2">
               <button
                 v-if="(m.autoridades?.length || 0) > 1"
                 @click="historialAbierto[m.id] = !historialAbierto[m.id]"
-                class="text-[11px] font-bold text-slate-500 hover:text-slate-800"
+                class="text-xs font-bold text-slate-500 hover:text-slate-800"
               >
                 {{ historialAbierto[m.id] ? 'Ocultar historial' : `Historial (${m.autoridades.length})` }}
               </button>
               <button
                 v-if="authStore.isEditor && m.autoridad_vigente"
                 @click="openModalAutoridad(m, m.autoridad_vigente)"
-                class="px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200"
+                class="px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold border border-slate-200"
               >
                 ✏️ Editar datos
               </button>
               <button
                 v-if="authStore.isEditor"
                 @click="openModalAutoridad(m)"
-                class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-white rounded-lg text-[11px] font-bold"
+                class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-white rounded-lg text-xs font-bold"
               >
                 {{ m.autoridad_vigente ? 'Designar reemplazo' : 'Designar autoridad' }}
               </button>
             </div>
           </div>
 
-          <ul v-if="historialAbierto[m.id]" class="pl-5 space-y-1 text-[11px] text-slate-600">
+          <ul v-if="historialAbierto[m.id]" class="pl-5 space-y-1 text-xs text-slate-600">
             <li v-for="a in m.autoridades" :key="a.id">
               <strong>{{ a.persona?.apellido }}, {{ a.persona?.nombre }}</strong>
               <span v-if="a.cargo"> ({{ a.cargo }})</span>
-              <span class="text-slate-400">
+              <span class="text-slate-500">
                 · {{ a.fecha_inicio ? formatFecha(a.fecha_inicio) : 's/f' }} → {{ a.fecha_fin ? formatFecha(a.fecha_fin) : 'vigente' }}
               </span>
-              <span v-if="a.acto_administrativo" class="text-slate-400"> · {{ a.acto_administrativo }}</span>
+              <span v-if="a.acto_administrativo" class="text-slate-500"> · {{ a.acto_administrativo }}</span>
             </li>
           </ul>
         </div>
@@ -197,18 +197,18 @@
         <!-- Áreas TI dependientes del Ministerio -->
         <div class="p-6">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">
               Áreas y Direcciones TI Dependientes
             </h3>
             <NuxtLink
               to="/areas-ti"
-              class="text-xs font-bold text-sky-600 hover:text-sky-800 transition"
+              class="text-sm font-bold text-sky-600 hover:text-sky-800 transition"
             >
               Gestionar Áreas TI →
             </NuxtLink>
           </div>
 
-          <div v-if="!m.areas_ti || m.areas_ti.length === 0" class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-400 italic">
+          <div v-if="!m.areas_ti || m.areas_ti.length === 0" class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm text-slate-500 italic">
             Este ministerio no tiene áreas de tecnología asignadas actualmente.
           </div>
 
@@ -219,26 +219,26 @@
               class="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-sky-300 hover:shadow-md transition space-y-2"
             >
               <div class="flex items-start justify-between gap-2">
-                <span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-200/80 px-1.5 py-0.5 rounded">
+                <span class="font-mono text-xs font-bold text-slate-600 bg-slate-200/80 px-1.5 py-0.5 rounded">
                   {{ area.codigo }}
                 </span>
                 <span
-                  class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
+                  class="px-2 py-0.5 rounded text-xs font-bold uppercase"
                   :class="area.es_homologada ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'"
                 >
                   {{ area.es_homologada ? 'Homologada' : 'En Trámite' }}
                 </span>
               </div>
 
-              <h4 class="font-bold text-slate-900 text-xs">
+              <h4 class="font-bold text-slate-900 text-sm">
                 <NuxtLink :to="`/areas-ti/${area.id}`" class="hover:text-sky-600 transition">{{ area.nombre }}</NuxtLink>
               </h4>
 
               <!-- Máxima autoridad del área -->
-              <div v-if="area.maxima_autoridad_vigente" class="text-[11px] text-slate-600 pt-1 border-t border-slate-200/60">
+              <div v-if="area.maxima_autoridad_vigente" class="text-xs text-slate-600 pt-1 border-t border-slate-200/60">
                 <span class="text-amber-500 font-bold">⭐</span>
                 <strong>{{ area.maxima_autoridad_vigente.persona?.apellido }}, {{ area.maxima_autoridad_vigente.persona?.nombre }}</strong>
-                <span class="text-slate-400"> ({{ area.maxima_autoridad_vigente.tipo_rol?.nombre }})</span>
+                <span class="text-slate-500"> ({{ area.maxima_autoridad_vigente.tipo_rol?.nombre }})</span>
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@
     <!-- MODAL: CREAR / EDITAR MINISTERIO                                      -->
     <!-- ===================================================================== -->
     <div v-if="showModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModal = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModal = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <h2 class="text-base font-bold">
             {{ isEditing ? 'Editar Ministerio u Organismo' : 'Nuevo Ministerio u Organismo' }}
@@ -258,7 +258,7 @@
           <button type="button" aria-label="Cerrar" @click="showModal = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveMinisterio" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveMinisterio" class="p-6 space-y-4 text-sm">
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label for="ministerios-form-codigo" class="block font-bold text-slate-700 mb-1">Código Único *</label>
@@ -339,25 +339,25 @@
     <!-- MODAL: DESIGNAR / EDITAR MÁXIMA AUTORIDAD                             -->
     <!-- ===================================================================== -->
     <div v-if="showModalAutoridad" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div v-dialogo="() => (showModalAutoridad = false)" class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto">
         <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div>
             <h2 class="text-base font-bold">
               {{ formAutoridad.id ? 'Editar datos de la máxima autoridad' : 'Designar máxima autoridad' }}
             </h2>
-            <p class="text-xs text-slate-400">{{ formAutoridad.organismo }}</p>
+            <p class="text-sm text-slate-400">{{ formAutoridad.organismo }}</p>
           </div>
           <button type="button" aria-label="Cerrar" @click="showModalAutoridad = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
 
-        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-xs">
+        <form @submit.prevent="saveAutoridad" class="p-6 space-y-4 text-sm">
           <div v-if="!formAutoridad.id">
             <label for="ministerios-formautoridad-persona-id" class="block font-bold text-slate-700 mb-1">Persona *</label>
             <PersonaSearchSelect input-id="ministerios-formautoridad-persona-id"
               v-model="formAutoridad.persona_id"
               placeholder="Buscar por apellido, nombre o CUIL..."
             />
-            <p class="text-[11px] text-slate-400 mt-1">
+            <p class="text-xs text-slate-500 mt-1">
               Si no está en el padrón, cargala antes en <NuxtLink to="/personas" class="text-sky-600 font-bold">Personas</NuxtLink>.
               La autoridad vigente cesa el día anterior a la fecha de inicio.
             </p>

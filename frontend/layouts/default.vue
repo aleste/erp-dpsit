@@ -18,7 +18,7 @@
             </div>
             <div v-show="!isCollapsed" class="truncate transition-opacity duration-300">
               <h1 class="font-extrabold text-sm tracking-wider uppercase text-white truncate">ERP {{ agency.shortName }}</h1>
-              <p class="text-[11px] text-slate-400 font-medium truncate">{{ agency.tagline }}</p>
+              <p class="text-xs text-slate-400 font-medium truncate">{{ agency.tagline }}</p>
             </div>
           </NuxtLink>
 
@@ -49,7 +49,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Panel de Control' : undefined"
               to="/"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path === '/' ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -63,7 +63,7 @@
           </div>
 
           <!-- SECCIÓN: Estructura y Personas -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
             Estructura y Personas
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -73,7 +73,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Ministerios' : undefined"
               to="/ministerios"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path === '/ministerios' ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -91,7 +91,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Áreas TI Homologadas' : undefined"
               to="/areas-ti"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/areas-ti') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -109,7 +109,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Directorio de Personas' : undefined"
               to="/personas"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/personas') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -127,7 +127,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Búsqueda por Roles' : undefined"
               to="/roles"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/roles') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -141,7 +141,7 @@
           </div>
 
           <!-- SECCIÓN: Servicios y Documentos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
             Servicios y Documentos
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -151,7 +151,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Servicios Tecnológicos' : undefined"
               to="/servicios"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/servicios') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -169,7 +169,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Firma Digital (Tokens)' : undefined"
               to="/firma-digital"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/firma-digital') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -184,7 +184,7 @@
 
           <!-- SECCIÓN: Gestión Administrativa (permiso por módulo) -->
           <template v-if="authStore.puedeModulo('EXPEDIENTES', 'CONSULTA')">
-            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
               Gestión Administrativa
             </div>
             <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -193,7 +193,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Seguimiento de Expedientes' : undefined"
               to="/expedientes"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/expedientes') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -208,7 +208,7 @@
           </template>
 
           <!-- SECCIÓN: Comunicaciones y Datos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
             Comunicaciones y Datos
           </div>
           <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -218,7 +218,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Exportador de Contactos' : undefined"
               to="/exportador"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/exportador') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -233,7 +233,7 @@
 
           <!-- SECCIÓN: Administración (solo ADMINISTRADOR) -->
           <template v-if="authStore.isAdmin">
-            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
               Administración
             </div>
             <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
@@ -242,7 +242,7 @@
             <NuxtLink
               :aria-label="isCollapsed ? 'Usuarios y Permisos' : undefined"
               to="/usuarios"
-              class="flex items-center rounded-xl text-xs font-semibold transition-all"
+              class="flex items-center rounded-xl text-sm font-semibold transition-all"
               :class="[
                 route.path.startsWith('/usuarios') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white',
                 isCollapsed ? 'justify-center p-3' : 'gap-3 px-3.5 py-2.5'
@@ -266,13 +266,13 @@
         <!-- Vista Expandida del Usuario -->
         <div v-show="!isCollapsed" class="flex items-center justify-between">
           <div class="flex items-center gap-3 overflow-hidden">
-            <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-sm">
+            <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-sm">
               {{ authStore.user?.name ? authStore.user.name.charAt(0) : 'U' }}
             </div>
             <div class="truncate">
-              <p class="text-xs font-semibold text-white truncate">{{ authStore.user?.name || 'Usuario' }}</p>
+              <p class="text-sm font-semibold text-white truncate">{{ authStore.user?.name || 'Usuario' }}</p>
               <span 
-                class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase mt-0.5"
+                class="inline-block px-1.5 py-0.5 rounded text-xs font-bold tracking-wide uppercase mt-0.5"
                 :class="{
                   'bg-rose-950 text-rose-300 border border-rose-800': authStore.user?.perfil_acceso === 'ADMINISTRADOR',
                   'bg-amber-950 text-amber-300 border border-amber-800': authStore.user?.perfil_acceso === 'EDITOR',
@@ -296,7 +296,7 @@
 
         <!-- Vista Plegada del Usuario -->
         <div v-show="isCollapsed" class="flex flex-col items-center gap-2 relative group/user">
-          <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 cursor-pointer shadow-sm">
+          <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 cursor-pointer shadow-sm">
             {{ authStore.user?.name ? authStore.user.name.charAt(0) : 'U' }}
           </div>
 
@@ -312,10 +312,10 @@
 
           <!-- Tooltip Perfil -->
           <div
-            class="absolute left-full bottom-0 ml-3 px-3 py-2 bg-slate-950 text-white text-xs rounded-xl shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/user:opacity-100 group-focus-within/user:opacity-100 pointer-events-none transition-all duration-150 z-50"
+            class="absolute left-full bottom-0 ml-3 px-3 py-2 bg-slate-950 text-white text-sm rounded-xl shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/user:opacity-100 group-focus-within/user:opacity-100 pointer-events-none transition-all duration-150 z-50"
           >
             <p class="font-bold">{{ authStore.user?.name || 'Usuario' }}</p>
-            <p class="text-[10px] text-slate-400 uppercase tracking-wider">{{ authStore.user?.perfil_acceso || 'LECTOR' }}</p>
+            <p class="text-xs text-slate-400 uppercase tracking-wider">{{ authStore.user?.perfil_acceso || 'LECTOR' }}</p>
           </div>
         </div>
       </div>
@@ -325,7 +325,7 @@
     <div
       v-if="isCollapsed && tooltip.visible"
       aria-hidden="true"
-      class="fixed left-20 ml-3 -translate-y-1/2 px-3 py-1.5 bg-slate-950 text-white text-xs font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap pointer-events-none z-50"
+      class="fixed left-20 ml-3 -translate-y-1/2 px-3 py-1.5 bg-slate-950 text-white text-sm font-bold rounded-lg shadow-xl border border-slate-700 whitespace-nowrap pointer-events-none z-50"
       :style="{ top: `${tooltip.top}px` }"
     >
       {{ tooltip.texto }}
@@ -357,11 +357,11 @@
 
         <div class="flex items-center gap-4">
           <div class="text-right hidden md:block">
-            <p class="text-xs font-semibold text-slate-700">{{ agency.government }}</p>
-            <p class="text-[11px] text-slate-400">Sistema Homologado de TI</p>
+            <p class="text-sm font-semibold text-slate-700">{{ agency.government }}</p>
+            <p class="text-xs text-slate-500">Sistema Homologado de TI</p>
           </div>
           <div class="h-6 w-px bg-slate-200 hidden md:block"></div>
-          <div class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+          <div class="text-sm font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
             v1.0.0
           </div>
         </div>

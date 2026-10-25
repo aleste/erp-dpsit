@@ -86,7 +86,7 @@
                 <h3 class="text-base font-extrabold text-slate-900 leading-tight">
                   {{ modal.title }}
                 </h3>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                <p class="text-sm text-slate-600 mt-1.5 leading-relaxed">
                   {{ modal.message }}
                 </p>
               </div>
@@ -98,7 +98,7 @@
                 type="button"
                 autofocus
                 @click="handleCancel"
-                class="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 transition focus:outline-none focus:ring-2 focus:ring-slate-400"
+                class="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 text-sm font-bold rounded-xl border border-slate-200 transition focus:outline-none focus:ring-2 focus:ring-slate-400"
               >
                 {{ modal.cancelText || 'Cancelar' }}
               </button>
@@ -106,7 +106,7 @@
               <button
                 type="button"
                 @click="handleConfirm"
-                class="px-5 py-2.5 text-white text-xs font-bold rounded-xl shadow-md transition focus:outline-none focus:ring-2"
+                class="px-5 py-2.5 text-white text-sm font-bold rounded-xl shadow-md transition focus:outline-none focus:ring-2"
                 :class="confirmBtnClass"
               >
                 {{ modal.confirmText || 'Confirmar' }}

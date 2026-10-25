@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-6 max-w-6xl mx-auto">
-    <NuxtLink to="/expedientes" class="text-xs font-bold text-sky-600 hover:underline">← Volver al seguimiento</NuxtLink>
+    <NuxtLink to="/expedientes" class="text-sm font-bold text-sky-600 hover:underline">← Volver al seguimiento</NuxtLink>
 
-    <div v-if="cargando && !expediente" class="p-12 text-center text-xs text-slate-400">Cargando expediente...</div>
+    <div v-if="cargando && !expediente" class="p-12 text-center text-sm text-slate-500">Cargando expediente...</div>
 
     <template v-else-if="expediente">
       <!-- Encabezado del expediente -->
@@ -10,14 +10,14 @@
         <div class="space-y-1">
           <div class="flex flex-wrap items-center gap-2">
             <h1 class="text-xl font-extrabold text-slate-900 font-mono">{{ expediente.numero }}</h1>
-            <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-[10px] font-bold uppercase text-slate-600">{{ expediente.formato }}</span>
-            <span v-if="actual" class="px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase" :class="actual.en_area ? 'bg-sky-100 text-sky-700' : 'bg-emerald-100 text-emerald-700'">
+            <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-xs font-bold uppercase text-slate-600">{{ expediente.formato }}</span>
+            <span v-if="actual" class="px-2 py-0.5 rounded-lg text-xs font-bold uppercase" :class="actual.en_area ? 'bg-sky-100 text-sky-700' : 'bg-emerald-100 text-emerald-700'">
               {{ actual.en_area ? 'En el área' : 'Egresado' }}
             </span>
           </div>
-          <p class="text-xs text-slate-500">{{ expediente.ministerio?.nombre || 'Sin organismo' }}<span v-if="expediente.reparticion"> · Repartición {{ expediente.reparticion }}</span></p>
+          <p class="text-sm text-slate-500">{{ expediente.ministerio?.nombre || 'Sin organismo' }}<span v-if="expediente.reparticion"> · Repartición {{ expediente.reparticion }}</span></p>
           <p class="text-sm text-slate-800">{{ expediente.caratula || 'Sin carátula' }}</p>
-          <p class="text-[11px] text-slate-400">{{ expediente.intervenciones.length }} intervención(es) registradas</p>
+          <p class="text-xs text-slate-500">{{ expediente.intervenciones.length }} intervención(es) registradas</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <button v-if="puedeOperar() && actual" @click="abrirEdicion" class="btn-sec">✏️ Editar datos</button>
@@ -32,14 +32,14 @@
           <ExpedientesEstadoChip :estado="actual.estado" />
         </div>
 
-        <dl class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+        <dl class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
           <div v-for="d in datosActuales" :key="d.label" class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <dt class="text-[10px] font-bold uppercase text-slate-400">{{ d.label }}</dt>
+            <dt class="text-xs font-bold uppercase text-slate-500">{{ d.label }}</dt>
             <dd class="font-semibold text-slate-800 mt-0.5 break-words" :class="d.clase">{{ d.valor }}</dd>
           </div>
         </dl>
-        <p v-if="actual.descripcion" class="text-xs text-slate-600"><span class="font-bold">Motivo:</span> {{ actual.descripcion }}</p>
-        <p v-if="actual.observaciones" class="text-xs text-slate-500 whitespace-pre-line"><span class="font-bold">Observaciones:</span> {{ actual.observaciones }}</p>
+        <p v-if="actual.descripcion" class="text-sm text-slate-600"><span class="font-bold">Motivo:</span> {{ actual.descripcion }}</p>
+        <p v-if="actual.observaciones" class="text-sm text-slate-500 whitespace-pre-line"><span class="font-bold">Observaciones:</span> {{ actual.observaciones }}</p>
 
         <!-- Acciones del circuito -->
         <div v-if="puedeOperar()" class="flex flex-wrap gap-2 pt-2 border-t border-slate-100">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Panel de la acción elegida -->
-        <form v-if="panel" @submit.prevent="ejecutar" class="p-4 rounded-xl border border-sky-200 bg-sky-50/40 space-y-3 text-xs">
+        <form v-if="panel" @submit.prevent="ejecutar" class="p-4 rounded-xl border border-sky-200 bg-sky-50/40 space-y-3 text-sm">
           <p class="font-bold text-slate-700">{{ TITULOS_PANEL[panel] }}</p>
 
           <template v-if="panel === 'estado'">
@@ -84,7 +84,7 @@
                 </select>
               </div>
             </div>
-            <p v-if="actual.responsable_id && !esSupervisor()" class="text-[11px] text-amber-700">Reasignar a otra persona requiere rol Supervisor.</p>
+            <p v-if="actual.responsable_id && !esSupervisor()" class="text-xs text-amber-700">Reasignar a otra persona requiere rol Supervisor.</p>
           </template>
 
           <template v-if="panel === 'revision'">
@@ -132,7 +132,7 @@
               <input v-model="accion.referencia_documento" type="text" placeholder="Documento relacionado (opcional)" class="campo font-mono" />
               <input v-model="accion.fecha_proximo_paso" type="date" title="Fecha del próximo paso (opcional)" class="campo" />
             </div>
-            <p class="text-[10px] text-slate-500">Si indica la fecha del próximo paso, la nota pasa a ser la próxima acción del expediente.</p>
+            <p class="text-xs text-slate-500">Si indica la fecha del próximo paso, la nota pasa a ser la próxima acción del expediente.</p>
           </template>
 
           <template v-if="panel === 'fechas'">
@@ -149,7 +149,7 @@
               <option value="">Estado al reabrir...</option>
               <option v-for="e in estadosTrabajo" :key="e.id" :value="e.id">{{ e.nombre }}</option>
             </select>
-            <p class="text-[11px] text-slate-500">Solo para corregir un egreso registrado por error. Si el expediente volvió al área, use «Registrar reingreso».</p>
+            <p class="text-xs text-slate-500">Solo para corregir un egreso registrado por error. Si el expediente volvió al área, use «Registrar reingreso».</p>
           </template>
 
           <textarea
@@ -173,18 +173,18 @@
       <div class="space-y-3">
         <h2 class="text-sm font-extrabold text-slate-900">Historial del expediente</h2>
         <div v-for="i in expediente.intervenciones" :key="i.id" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-          <button @click="toggle(i.id)" class="w-full p-4 flex flex-wrap items-center gap-3 text-left text-xs hover:bg-slate-50">
+          <button @click="toggle(i.id)" class="w-full p-4 flex flex-wrap items-center gap-3 text-left text-sm hover:bg-slate-50">
             <span class="font-extrabold text-slate-900">{{ i.numero_intervencion }}ª intervención</span>
             <ExpedientesEstadoChip :estado="i.estado" />
             <span class="text-slate-500">{{ formatFecha(i.fecha_ingreso) }} → {{ i.en_area ? 'en el área' : (i.fecha_egreso ? formatFecha(i.fecha_egreso) : 'egreso sin fecha') }}</span>
             <span v-if="i.responsable" class="text-slate-500">· {{ i.responsable.name }}</span>
             <span v-if="i.documento_respuesta" class="font-mono text-slate-500">· {{ i.documento_respuesta }}</span>
-            <span v-if="i.origen === 'PLANILLA'" class="px-1.5 rounded bg-slate-100 text-[10px] font-bold text-slate-500">Importado ({{ i.origen_referencia }})</span>
-            <span class="ml-auto text-slate-400">{{ abiertas[i.id] ? '▲' : '▼' }} {{ i.movimientos.length }} movimientos</span>
+            <span v-if="i.origen === 'PLANILLA'" class="px-1.5 rounded bg-slate-100 text-xs font-bold text-slate-500">Importado ({{ i.origen_referencia }})</span>
+            <span class="ml-auto text-slate-500">{{ abiertas[i.id] ? '▲' : '▼' }} {{ i.movimientos.length }} movimientos</span>
           </button>
           <ol v-if="abiertas[i.id]" class="border-t border-slate-100 divide-y divide-slate-50">
-            <li v-for="m in i.movimientos" :key="m.id" class="px-4 py-3 text-xs flex flex-col sm:flex-row gap-1 sm:gap-4">
-              <span class="text-slate-400 whitespace-nowrap sm:w-24">{{ formatFecha(m.fecha) }}</span>
+            <li v-for="m in i.movimientos" :key="m.id" class="px-4 py-3 text-sm flex flex-col sm:flex-row gap-1 sm:gap-4">
+              <span class="text-slate-500 whitespace-nowrap sm:w-24">{{ formatFecha(m.fecha) }}</span>
               <span class="font-bold text-slate-700 sm:w-40">{{ TIPOS_MOVIMIENTO[m.tipo] || m.tipo }}</span>
               <span class="flex-1 text-slate-600 whitespace-pre-line">
                 <template v-if="m.estado_anterior || m.estado_nuevo">
@@ -194,7 +194,7 @@
                 <span v-if="m.referencia_documento" class="font-mono text-slate-500"> [{{ m.referencia_documento }}]</span>
                 <span v-if="m.fecha_proximo_paso" class="text-sky-700"> · Próximo paso: {{ formatFecha(m.fecha_proximo_paso) }}</span>
               </span>
-              <span class="text-slate-400 whitespace-nowrap">{{ m.usuario?.name || (m.importado ? 'Planilla' : '—') }} · {{ formatFechaHora(m.created_at) }}</span>
+              <span class="text-slate-500 whitespace-nowrap">{{ m.usuario?.name || (m.importado ? 'Planilla' : '—') }} · {{ formatFechaHora(m.created_at) }}</span>
             </li>
           </ol>
         </div>
@@ -208,7 +208,7 @@
           <h2 class="text-base font-bold">Editar datos del expediente</h2>
           <button type="button" aria-label="Cerrar" @click="edicion.visible = false" class="text-slate-400 hover:text-white">✕</button>
         </div>
-        <form @submit.prevent="guardarEdicion" class="p-6 space-y-3 text-xs overflow-y-auto">
+        <form @submit.prevent="guardarEdicion" class="p-6 space-y-3 text-sm overflow-y-auto">
           <label class="block space-y-1"><span class="font-bold text-slate-700">Carátula</span><textarea v-model="edicion.caratula" rows="2" class="campo"></textarea></label>
           <div class="grid grid-cols-2 gap-3">
             <label class="space-y-1"><span class="font-bold text-slate-700">Organismo</span>
@@ -231,7 +231,7 @@
           </div>
           <label class="block space-y-1"><span class="font-bold text-slate-700">Motivo de la intervención</span><textarea v-model="edicion.descripcion" rows="2" class="campo"></textarea></label>
           <label class="block space-y-1"><span class="font-bold text-slate-700">Observaciones</span><textarea v-model="edicion.observaciones" rows="3" class="campo"></textarea></label>
-          <p class="text-[10px] text-slate-500">Cada cambio queda registrado en el historial como «Actualización de datos».</p>
+          <p class="text-xs text-slate-500">Cada cambio queda registrado en el historial como «Actualización de datos».</p>
           <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
             <button type="button" @click="edicion.visible = false" class="px-4 py-2 bg-slate-100 rounded-xl font-semibold">Cancelar</button>
             <button type="submit" :disabled="procesando" class="px-5 py-2 bg-sky-600 text-white rounded-xl font-bold disabled:opacity-50">Guardar</button>
@@ -441,9 +441,9 @@ onMounted(async () => {
   @apply w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500;
 }
 .btn-sec {
-  @apply px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-[11px] font-bold text-slate-700 transition;
+  @apply px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-bold text-slate-700 transition;
 }
 .btn-pri {
-  @apply px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-[11px] font-bold text-white transition;
+  @apply px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-bold text-white transition;
 }
 </style>

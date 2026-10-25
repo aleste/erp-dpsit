@@ -80,7 +80,10 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
   `confirmDialog`). **Prohibido** `alert()`/`confirm()` nativos. Para elegir personas usar
   `PersonaSearchSelect` (búsqueda remota; el padrón puede superar 2.000 personas). Todo modal lleva
   `v-dialogo="() => cerrar()"` en su panel (`plugins/dialogo.ts`: rol, foco, Esc) y cada `<label>`
-  se vincula a su campo con `for`/`id` (en `PersonaSearchSelect`, prop `input-id`).
+  se vincula a su campo con `for`/`id` (en `PersonaSearchSelect`, prop `input-id`). Tipografía: cuerpo,
+  tablas y controles en `text-sm`; metadatos y badges en `text-xs` (piso de 12 px: no usar `text-[Npx]`);
+  mayúsculas espaciadas solo en encabezados de tabla, badges e indicadores; texto gris sobre fondo claro
+  desde `slate-500` (`slate-600` sobre `slate-100`).
 - Denominación de la institución: nunca hardcodear; usar `config('app.agency.*')` / `useAgency()`.
 - Estilo PHP: Laravel Pint (`vendor/bin/pint`), aplicado solo a los archivos que tocaste.
 - Git: `develop` = desarrollo, `main` = producción. Trabajar en ramas desde `develop`. Commits estilo

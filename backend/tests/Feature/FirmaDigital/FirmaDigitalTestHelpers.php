@@ -9,18 +9,15 @@ use App\Models\Ministerio;
 use App\Models\Persona;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Tests\Concerns\UsuariosDePrueba;
 
 trait FirmaDigitalTestHelpers
 {
+    use UsuariosDePrueba;
+
     protected function actuarComo(string $perfil): User
     {
-        $user = User::create([
-            'name' => "Usuario {$perfil}",
-            'email' => strtolower($perfil).'@test.local',
-            'password' => 'secreto-de-prueba',
-            'perfil_acceso' => $perfil,
-            'activo' => true,
-        ]);
+        $user = $this->crearUsuario($perfil, [], '', strtolower($perfil).'@test.local');
 
         Sanctum::actingAs($user);
 

@@ -13,6 +13,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /** Perfil global (D-34): el administrador accede a todo; el usuario, solo a sus módulos */
+    public const ADMINISTRADOR = 'ADMINISTRADOR';
+
+    public const USUARIO = 'USUARIO';
+
+    public const PERFILES = [self::ADMINISTRADOR, self::USUARIO];
+
     protected $table = 'users';
 
     protected $fillable = [
@@ -73,23 +80,18 @@ class User extends Authenticatable
             ->all();
     }
 
-    public function puedeEnModulo(string $modulo, string $rolMinimo): bool
+    /**
+     * $modulos admite alternativas separadas por «|» (p. ej. 'PADRON|FIRMA_DIGITAL'): basta con alcanzar el
+     * rol mínimo en una de ellas.
+     */
+    public function puedeEnModulo(string $modulos, string $rolMinimo): bool
     {
-        return $this->activo && UserModulo::alcanza($modulo, $this->rolEnModulo($modulo), $rolMinimo);
+        return $this->activo && collect(explode('|', $modulos))
+            ->contains(fn ($m) => UserModulo::alcanza($m, $this->rolEnModulo($m), $rolMinimo));
     }
 
     public function esAdmin(): bool
     {
-        return $this->perfil_acceso === 'ADMINISTRADOR';
-    }
-
-    public function esEditor(): bool
-    {
-        return in_array($this->perfil_acceso, ['ADMINISTRADOR', 'EDITOR']);
-    }
-
-    public function esLector(): bool
-    {
-        return in_array($this->perfil_acceso, ['ADMINISTRADOR', 'EDITOR', 'LECTOR']);
+        return $this->perfil_acceso === self::ADMINISTRADOR;
     }
 }

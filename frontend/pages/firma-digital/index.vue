@@ -9,7 +9,7 @@
         </p>
       </div>
       <button
-        v-if="authStore.isEditor"
+        v-if="authStore.puedeModulo('FIRMA_DIGITAL', 'OPERADOR')"
         @click="abrirAlta()"
         class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
       >

@@ -36,20 +36,23 @@
           </div>
 
           <!-- Acciones de Cabecera -->
-          <div v-if="authStore.isEditor" class="flex flex-wrap gap-2">
+          <div v-if="authStore.puedeModulo('ORGANISMOS|SERVICIOS', 'OPERADOR')" class="flex flex-wrap gap-2">
             <button
+              v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
               @click="openModalAsociarServicio"
               class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-700/20 transition flex items-center gap-1.5"
             >
               <span>⚡+</span> Asociar Servicio Tecnológico
             </button>
             <button
+              v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
               @click="openModalAsociar"
               class="px-3.5 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition flex items-center gap-1.5"
             >
               <span>👤+</span> Asociar Agente
             </button>
             <button
+              v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
               @click="openModalDoc"
               class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-1.5"
             >
@@ -102,7 +105,7 @@
         </div>
 
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
           @click="openModalAsociarAutoridad"
           class="px-4 py-2 bg-amber-500/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/40 rounded-xl text-sm font-bold transition flex items-center gap-1.5 self-start md:self-auto"
         >
@@ -145,7 +148,7 @@
           </p>
 
           <button
-            v-if="authStore.isEditor"
+            v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
             @click="openModalAsociar"
             class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
@@ -218,7 +221,7 @@
                 <td class="py-3.5 px-4 text-right">
                   <div class="flex items-center justify-end gap-1.5">
                     <button
-                      v-if="authStore.isEditor"
+                      v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
                       @click="openModalEditAsignacion(asig)"
                       class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition"
                       title="Editar Asignación"
@@ -228,7 +231,7 @@
 
                     <!-- Botón de Desasociar / Finalizar Vigencia -->
                     <button
-                      v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'"
+                      v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR') && asig.estado_vigencia === 'VIGENTE'"
                       @click="openModalFinalizar(asig)"
                       class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition flex items-center gap-1"
                       title="Finalizar vigencia del agente en esta área"
@@ -261,7 +264,7 @@
           </p>
 
           <button
-            v-if="authStore.isEditor"
+            v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
             @click="openModalAsociarServicio"
             class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-sm font-bold shadow-sm transition"
           >
@@ -309,7 +312,7 @@
                 <div class="flex items-center justify-between mb-1.5">
                   <p class="text-xs font-bold uppercase text-slate-500">Referentes Técnicos / Administrativos</p>
                   <button
-                    v-if="authStore.isEditor"
+                    v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
                     @click="openModalReferente(srv)"
                     class="text-xs font-bold text-primary-700 hover:text-primary-800"
                   >
@@ -328,7 +331,7 @@
                   >
                     <span><strong>{{ ref.persona?.apellido }}, {{ ref.persona?.nombre }}</strong> ({{ ref.tipo_referente }})</span>
                     <button
-                      v-if="authStore.isEditor"
+                      v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
                       @click="handleRemoveReferente(srv, ref)"
                       class="ml-1 text-slate-500 hover:text-rose-700 font-bold p-0.5 hover:bg-rose-50 rounded transition"
                       title="Desvincular y quitar referente"
@@ -344,14 +347,14 @@
             <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
               <div class="flex items-center gap-1.5">
                 <button
-                  v-if="authStore.isEditor"
+                  v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
                   @click="openModalEditServicio(srv)"
                   class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-xs transition"
                 >
                   ✏️ Editar Datos
                 </button>
                 <button
-                  v-if="authStore.isEditor"
+                  v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
                   @click="openModalReferente(srv)"
                   class="px-2.5 py-1 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-lg font-bold text-xs transition"
                 >
@@ -405,13 +408,13 @@
                   {{ doc.sha256 || '-' }}
                 </td>
                 <td class="py-3.5 px-4 text-right">
-                  <a
-                    :href="`${config.public.apiBase}/documentos/${doc.id}/descargar`"
-                    target="_blank"
+                  <button
+                    type="button"
+                    @click="descargarDocumento(doc)"
                     class="px-3 py-1.5 bg-primary-50 text-primary-700 hover:bg-primary-100 rounded-lg font-bold text-sm inline-block transition"
                   >
                     ⬇ Descargar
-                  </a>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -848,7 +851,7 @@ import { useToast } from '~/composables/useToast'
 import { hoyISO } from '~/composables/useFechas'
 
 const route = useRoute()
-const { get, post, put, delete: del } = useApi()
+const { get, post, put, delete: del, descargar } = useApi()
 const authStore = useAuthStore()
 const agency = useAgency()
 const config = useRuntimeConfig()
@@ -1220,6 +1223,15 @@ const handleDeleteAsignacion = async (asig) => {
 // -------------------------------------------------------------
 // DOCUMENTOS DIGITALES
 // -------------------------------------------------------------
+// Descarga con el token de la sesión: la ruta exige permiso del módulo del documento
+const descargarDocumento = async (doc) => {
+  try {
+    await descargar(`/documentos/${doc.id}/descargar`, doc.archivo_nombre_original || `documento-${doc.id}`)
+  } catch (err) {
+    toast.error(err, { title: 'Error al descargar' })
+  }
+}
+
 const openModalDoc = () => {
   formDoc.titulo = ''
   formDoc.tipo_documento = 'RESOLUCION_HOMOLOGACION'

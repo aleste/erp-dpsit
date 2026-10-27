@@ -11,7 +11,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          v-if="authStore.isEditor && activeTab === 'catalogo'"
+          v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR') && activeTab === 'catalogo'"
           @click="openModalCreateCatalogo"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
@@ -19,7 +19,7 @@
         </button>
 
         <button
-          v-if="authStore.isEditor && activeTab === 'instancias'"
+          v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR') && activeTab === 'instancias'"
           @click="openModalAprovisionar"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-sm font-bold shadow-md shadow-emerald-700/20 transition"
         >
@@ -184,7 +184,7 @@
               + Aprovisionar a Área →
             </button>
 
-            <div v-if="authStore.isEditor" class="flex items-center gap-1.5">
+            <div v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')" class="flex items-center gap-1.5">
               <button
                 @click="openModalEditCatalogo(item)"
                 class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-slate-200/60 rounded-lg transition"
@@ -311,7 +311,7 @@
                 >
                   <span><strong>{{ ref.persona?.apellido }}, {{ ref.persona?.nombre }}</strong> ({{ ref.tipo_referente }})</span>
                   <button
-                    v-if="authStore.isEditor"
+                    v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
                     @click="handleRemoveReferente(srv, ref)"
                     class="ml-1 text-slate-500 hover:text-rose-700 font-bold p-0.5 hover:bg-rose-50 rounded transition"
                     title="Desvincular referente"

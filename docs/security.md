@@ -8,7 +8,7 @@ análisis dinámico exhaustivo. No se reproducen valores secretos: se indica dó
 
 | ID | Severidad | Hallazgo | Evidencia | Recomendación |
 | :--- | :--- | :--- | :--- | :--- |
-| SEC-01 | **Alta** | `GET /api/documentos/{id}/descargar` y `GET /api/export/download` están fuera de `auth:sanctum` y los controladores no verifican identidad. Cualquiera que alcance el puerto 8000 puede descargar cualquier adjunto (IDs secuenciales) y exportar en CSV el padrón con CUIL, emails y teléfonos | `routes/api.php` (bloque «Rutas Públicas»). **Comprobado:** sin token, la descarga de un ID inexistente devuelve 404 en lugar de 401. La exportación no se invocó para no generar escrituras en la auditoría | Moverlas dentro de `auth:sanctum` (exportación: cualquier perfil autenticado; documentos: según política) y cambiar el frontend para descargar con `fetch` + `Authorization` y un `Blob` (o URLs firmadas temporales). **Pospuesto por el responsable (D-17, 2026-10-23)**: riesgo aceptado solo para desarrollo local |
+| ~~SEC-01~~ | **Resuelto 2026-10-27** (D-36) | `GET /api/documentos/{id}/descargar` y `GET /api/export/download` están fuera de `auth:sanctum` y los controladores no verifican identidad. Cualquiera que alcance el puerto 8000 puede descargar cualquier adjunto (IDs secuenciales) y exportar en CSV el padrón con CUIL, emails y teléfonos | `routes/api.php` (bloque «Rutas Públicas»). **Comprobado:** sin token, la descarga de un ID inexistente devuelve 404 en lugar de 401. La exportación no se invocó para no generar escrituras en la auditoría | Moverlas dentro de `auth:sanctum` (exportación: cualquier perfil autenticado; documentos: según política) y cambiar el frontend para descargar con `fetch` + `Authorization` y un `Blob` (o URLs firmadas temporales). **Resuelto el 2026-10-27 (D-36):** ambas rutas dentro de `auth:sanctum` con permiso de módulo (EXPORTADOR; el del documento según su entidad) y descarga con token desde el frontend. Comprobado: sin token, 401; con un usuario sin el módulo, 403 (`CoberturaRutasTest`, `AccesoPorModuloTest` y sondeos HTTP) |
 | SEC-02 | Media (crítica si llega a producción) | `APP_KEY` fija y versionada: el mismo valor está en `.env.example`, como valor por defecto en `docker-compose.yml` y en `wslc-setup.sh`. El `.env` local es idéntico a `.env.example`, así que la clave en uso es pública | comparación de valores sin imprimirlos | Quitarla de los archivos versionados; generar una por entorno (`php artisan key:generate`) |
 | SEC-03 | Media (desarrollo) | Contraseña de PostgreSQL en texto plano en `wslc-setup.ps1`, `wslc-setup.sh`, el valor por defecto de `docker-compose.yml` y `README.md` | — | Leerla de `.env`; no documentarla |
 | SEC-04 | Media | Login sin límite de intentos; tokens Sanctum sin expiración (`config/sanctum.php` `expiration: null`); el token se guarda en `localStorage` (expuesto ante cualquier XSS) | `AuthController`, `stores/auth.ts` | Aplicar `throttle` a `/auth/login`, fijar una expiración y evaluar cookies `HttpOnly` (modo SPA de Sanctum) |
@@ -36,8 +36,8 @@ Aspectos revisados sin hallazgos relevantes:
 
 ## Controles obligatorios para cualquier cambio
 
-1. Toda ruta nueva va dentro de `auth:sanctum` y con el `perfil:` que corresponda. No agregar rutas
-   públicas.
+1. Toda ruta nueva va dentro de `auth:sanctum` y con el `modulo:` o `perfil:` que corresponda (D-34); el
+   test `CoberturaRutasTest` lo verifica. No agregar rutas públicas.
 2. Validar todas las entradas en el controlador (tipos, `exists:`, enumerados con `in:`, tamaños).
 3. Registrar las escrituras con `AuditService::log` sin incluir contraseñas ni tokens.
 4. No exponer datos personales en logs, mensajes de error, ejemplos ni documentación.
@@ -47,7 +47,7 @@ Aspectos revisados sin hallazgos relevantes:
 
 ## Antes de cualquier despliegue productivo (pendiente)
 
-Resolver SEC-01 a SEC-07. Además hace falta:
+Resolver SEC-02 a SEC-07. Además hace falta:
 
 - `APP_ENV=production` y `APP_DEBUG=false`;
 - HTTPS;

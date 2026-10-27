@@ -11,7 +11,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
           @click="openNewAsignacionModal"
           class="inline-flex items-center gap-2 px-4 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-semibold shadow-md shadow-primary-700/20 transition"
         >
@@ -157,7 +157,7 @@
                 </a>
 
                 <button
-                  v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'"
+                  v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR') && asig.estado_vigencia === 'VIGENTE'"
                   @click="finalizarVigenciaModal(asig)"
                   class="p-1.5 inline-block text-amber-700 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition text-sm font-semibold"
                   title="Finalizar vigencia / Dar de baja"

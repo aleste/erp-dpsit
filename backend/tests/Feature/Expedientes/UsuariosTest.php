@@ -27,7 +27,7 @@ class UsuariosTest extends TestCase
         $this->postJson('/api/usuarios', [
             'name' => 'Integrante del área',
             'email' => 'integrante@test.local',
-            'perfil_acceso' => 'LECTOR',
+            'perfil_acceso' => 'USUARIO',
             'password' => 'clave-segura-1',
             'modulos' => [['modulo' => 'EXPEDIENTES', 'rol' => 'OPERADOR']],
         ])->assertCreated()->assertJsonMissingPath('data.password');
@@ -42,7 +42,7 @@ class UsuariosTest extends TestCase
         $this->actuarComo($this->usuario('ADMINISTRADOR'));
 
         $this->postJson('/api/usuarios', [
-            'name' => 'X', 'email' => 'x@test.local', 'perfil_acceso' => 'LECTOR', 'password' => 'clave-segura-1',
+            'name' => 'X', 'email' => 'x@test.local', 'perfil_acceso' => 'USUARIO', 'password' => 'clave-segura-1',
             'modulos' => [['modulo' => 'EXPEDIENTES', 'rol' => 'EDITOR']],
         ])->assertStatus(422)->assertJsonValidationErrors('modulos.0.rol');
     }
@@ -58,7 +58,7 @@ class UsuariosTest extends TestCase
         $otro = $this->usuario('LECTOR', 'OPERADOR');
         $otro->createToken('sesion');
         $this->putJson("/api/usuarios/{$otro->id}", [
-            'name' => $otro->name, 'email' => $otro->email, 'perfil_acceso' => 'LECTOR', 'activo' => false,
+            'name' => $otro->name, 'email' => $otro->email, 'perfil_acceso' => 'USUARIO', 'activo' => false,
         ])->assertOk();
 
         $this->assertSame(0, $otro->tokens()->count());

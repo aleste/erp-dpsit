@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Permiso por módulo (D-26). Uso en rutas: middleware('modulo:EXPEDIENTES,OPERADOR').
- * El ADMINISTRADOR global siempre tiene el rol máximo del módulo.
+ * Permiso por módulo (D-26, D-34). Uso en rutas: middleware('modulo:EXPEDIENTES,OPERADOR').
+ * Varios módulos alternativos con «|»: middleware('modulo:PADRON|FIRMA_DIGITAL,OPERADOR').
+ * El ADMINISTRADOR global siempre tiene el rol máximo de cada módulo.
  */
 class CheckModuloAcceso
 {
-    public function handle(Request $request, Closure $next, string $modulo, string $rolMinimo): Response
+    public function handle(Request $request, Closure $next, string $modulos, string $rolMinimo): Response
     {
         $user = $request->user();
 
@@ -23,12 +24,11 @@ class CheckModuloAcceso
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        if (! $user->puedeEnModulo($modulo, $rolMinimo)) {
+        if (! $user->puedeEnModulo($modulos, $rolMinimo)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Acceso denegado: su usuario no tiene el rol requerido en este módulo.',
-                'modulo' => $modulo,
-                'rol_actual' => $user->rolEnModulo($modulo),
+                'modulo' => $modulos,
                 'rol_requerido' => $rolMinimo,
             ], Response::HTTP_FORBIDDEN);
         }

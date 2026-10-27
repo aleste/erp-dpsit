@@ -14,6 +14,7 @@
 | [`agents/compatibility.md`](agents/compatibility.md) | Claude Code y Codex: mecanismos, skills, inventario de MCP y configuración encontrada |
 | [`proposals/modulo-expedientes.md`](proposals/modulo-expedientes.md) | Relevamiento de la planilla y propuesta (sin implementar) del módulo de expedientes |
 | [`proposals/modulo-firma-digital.md`](proposals/modulo-firma-digital.md) | Propuesta (sin implementar) del módulo de tokens de firma digital |
+| [`proposals/permisos-por-modulo.md`](proposals/permisos-por-modulo.md) | Diagnóstico, propuesta e implementación de los permisos de acceso por módulo (D-34) |
 | [`agents/audit-report-2026-10-23.md`](agents/audit-report-2026-10-23.md) | Informe de la auditoría de transferibilidad |
 
 Skills reutilizables: [`../.agents/skills/`](../.agents/skills/). Los adaptadores para Claude Code están

@@ -16,7 +16,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
           @click="openModalCreate"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
@@ -250,7 +250,7 @@
                 >Máxima Autoridad TI</span
               >
               <button
-                v-if="authStore.isEditor"
+                v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
                 @click="openModalAutoridad(area)"
                 class="text-xs font-bold text-primary-700 hover:text-primary-800 hover:underline"
               >
@@ -299,8 +299,9 @@
             Ver Expediente Completo →
           </NuxtLink>
 
-          <div v-if="authStore.isEditor" class="flex items-center gap-2">
+          <div v-if="authStore.puedeModulo('ORGANISMOS|SERVICIOS', 'OPERADOR')" class="flex items-center gap-2">
             <button
+              v-if="authStore.puedeModulo('SERVICIOS', 'OPERADOR')"
               @click="openModalAsociarServicio(area)"
               class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg font-bold text-xs transition flex items-center gap-1"
               title="Asociar Servicio Tecnológico a este Organismo"
@@ -308,6 +309,7 @@
               <span>⚡</span> Asociar Servicio
             </button>
             <button
+              v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
               @click="openModalEdit(area)"
               class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-slate-200/60 rounded-lg transition"
               title="Editar Área TI"
@@ -945,7 +947,7 @@ onMounted(async () => {
   await fetchCatalogos();
 
   if (route.query.nueva === "1") {
-    if (authStore.isEditor) openModalCreate();
+    if (authStore.puedeModulo('ORGANISMOS', 'OPERADOR')) openModalCreate();
     // Se quita de la URL para que recargar o volver atrás no reabra el formulario
     const { nueva, ...query } = route.query;
     router.replace({ query });

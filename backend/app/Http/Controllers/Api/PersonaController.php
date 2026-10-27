@@ -178,9 +178,18 @@ class PersonaController extends Controller
         ]);
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse
     {
         $persona = Persona::findOrFail($id);
+
+        // Un operador solo puede borrar una carga errónea: la persona no debe estar vinculada a nada (D-35)
+        if (! $request->user()->esAdmin() && ($vinculos = $this->vinculos($persona))) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No es posible eliminar la persona porque está vinculada a: '.implode(', ', $vinculos)
+                    .'. Solo un administrador puede darla de baja en ese caso.',
+            ], 422);
+        }
 
         if ($persona->asignacionesVigentes()->count() > 0) {
             return response()->json([
@@ -204,5 +213,20 @@ class PersonaController extends Controller
             'success' => true,
             'message' => 'Persona dada de baja del padrón exitosamente',
         ]);
+    }
+
+    /**
+     * Entidades del sistema que referencian a la persona (vacío = se puede borrar como carga errónea)
+     */
+    private function vinculos(Persona $persona): array
+    {
+        return array_keys(array_filter([
+            'cargos o roles' => $persona->asignaciones()->exists(),
+            'referencias de servicios' => $persona->serviciosComoReferente()->exists(),
+            'autoridades de organismos' => $persona->autoridadesOrganismo()->exists(),
+            'entregas de tokens de firma digital' => $persona->entregasToken()->withTrashed()->exists(),
+            'un usuario del sistema' => $persona->user()->exists(),
+            'documentos adjuntos' => $persona->documentos()->exists(),
+        ]));
     }
 }

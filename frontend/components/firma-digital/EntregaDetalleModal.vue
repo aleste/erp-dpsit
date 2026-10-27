@@ -46,7 +46,7 @@
         <p v-if="entrega.observaciones" class="text-slate-500 italic">{{ entrega.observaciones }}</p>
 
         <!-- Acciones -->
-        <div v-if="authStore.isEditor && esAsignada" class="flex flex-wrap gap-2 pt-1">
+        <div v-if="authStore.puedeModulo('FIRMA_DIGITAL', 'OPERADOR') && esAsignada" class="flex flex-wrap gap-2 pt-1">
           <button @click="$emit('edit', entrega)" class="btn-sec">✏️ Editar entrega</button>
           <button @click="abrirPanel('renovar')" class="btn-sec">🔄 Renovar certificado</button>
           <button @click="abrirPanel('fechas')" class="btn-sec">📅 Corregir fechas</button>
@@ -151,7 +151,7 @@
                   </td>
                   <td class="py-2 px-3 text-right">
                     <button
-                      v-if="i === 0 && authStore.isEditor && esAsignada && c.recordatorio_estado !== 'PENDIENTE'"
+                      v-if="i === 0 && authStore.puedeModulo('FIRMA_DIGITAL', 'OPERADOR') && esAsignada && c.recordatorio_estado !== 'PENDIENTE'"
                       @click="reprogramar(c)"
                       class="text-xs font-bold text-primary-700 hover:underline"
                     >

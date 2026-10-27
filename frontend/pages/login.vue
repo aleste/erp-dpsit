@@ -123,7 +123,7 @@ const handleLogin = async () => {
     })
 
     if (res.success && res.token) {
-      authStore.setAuth(res.user, res.token)
+      authStore.setAuth(res.user, res.token, res.catalogo_modulos)
       toast.success(`Bienvenido/a al Sistema de Gestión, ${res.user?.name || 'Usuario'}.`, { title: 'Sesión Iniciada' })
       navigateTo('/')
     }

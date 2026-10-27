@@ -136,10 +136,14 @@ make migrate        # En Linux
 
 ---
 
-## 🔑 Credenciales de Acceso (Perfiles RBAC)
+## 🔑 Credenciales de Acceso (solo desarrollo; permisos por módulo, D-34)
 
-| Perfil | Email | Contraseña | Permisos |
+| Usuario | Email | Contraseña | Permisos |
 | :--- | :--- | :--- | :--- |
-| **Administrador** | `admin@dpsit.gob.ar` | `admin123` | Control total, gestión de usuarios, auditoría y borrado físico |
-| **Editor** | `editor@dpsit.gob.ar` | `editor123` | Alta, baja y modificación de áreas, servicios, personas, roles y actas |
-| **Lector** | `lector@dpsit.gob.ar` | `lector123` | Solo lectura, consultas cruzadas, vista previa y exportación CSV |
+| **Administrador** | `admin@dpsit.gob.ar` | `admin123` | Todos los módulos, gestión de usuarios y permisos, bajas |
+| **Editor** | `editor@dpsit.gob.ar` | `editor123` | Operador en Organismos, Padrón, Servicios y Firma digital; consulta en el Exportador |
+| **Lector** | `lector@dpsit.gob.ar` | `lector123` | Consulta en Organismos, Padrón, Servicios, Firma digital y Exportador |
+| Firma digital | `firma@dpsit.gob.ar` | `firma123` | Solo Firma digital (operador) |
+| Firma + Expedientes | `firma.expedientes@dpsit.gob.ar` | `firma123` | Firma digital y Expedientes (operador) |
+| Organismos | `organismos@dpsit.gob.ar` | `organismos123` | Solo Organismos (operador) |
+| Sin módulos | `sinmodulos@dpsit.gob.ar` | `sinmodulos123` | Inicia sesión pero no accede a ningún módulo |

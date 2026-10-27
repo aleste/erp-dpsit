@@ -11,14 +11,14 @@ class CheckPerfilAcceso
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      * @param  string  ...$perfilesPermitidos
      */
     public function handle(Request $request, Closure $next, ...$perfilesPermitidos): Response
     {
         $user = $request->user();
 
-        if (!$user || !$user->activo) {
+        if (! $user || ! $user->activo) {
             return response()->json([
                 'success' => false,
                 'message' => 'No autenticado o usuario inactivo.',
@@ -36,12 +36,10 @@ class CheckPerfilAcceso
         }
 
         // Verificar si el perfil del usuario está en la lista de permitidos
-        if (!in_array($user->perfil_acceso, $perfilesPermitidos)) {
+        if (! in_array($user->perfil_acceso, $perfilesPermitidos)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Acceso denegado: Su perfil de usuario no posee los privilegios requeridos.',
-                'perfil_actual' => $user->perfil_acceso,
-                'perfiles_requeridos' => $perfilesPermitidos,
+                'message' => 'Acceso denegado: la operación está reservada al administrador.',
             ], Response::HTTP_FORBIDDEN);
         }
 

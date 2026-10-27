@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserModulo;
 use App\Services\AuditService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -22,21 +22,21 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Las credenciales proporcionadas son incorrectas.'],
             ]);
         }
 
-        if (!$user->activo) {
+        if (! $user->activo) {
             return response()->json([
                 'success' => false,
                 'message' => 'El usuario se encuentra desactivado. Comuníquese con el Administrador.',
             ], 403);
         }
 
-        // Crear token con Sanctum
-        $token = $user->createToken('erp-dpsit-token', [$user->perfil_acceso])->plainTextToken;
+        // Token Sanctum sin abilities: los permisos se leen de la base en cada request (D-34), así un cambio rige al instante
+        $token = $user->createToken('erp-dpsit-token')->plainTextToken;
 
         AuditService::log('LOGIN', 'AUTH', $user->id, null, null, "Inicio de sesión exitoso ({$user->perfil_acceso})", $request);
 
@@ -52,15 +52,18 @@ class AuthController extends Controller
                 'persona_id' => $user->persona_id,
                 'modulos' => $user->modulosAcceso(),
             ],
+            'catalogo_modulos' => UserModulo::catalogo(),
         ]);
     }
 
     public function user(Request $request): JsonResponse
     {
         $user = $request->user()->load('persona');
+
         return response()->json([
             'success' => true,
             'user' => array_merge($user->toArray(), ['modulos' => $user->modulosAcceso()]),
+            'catalogo_modulos' => UserModulo::catalogo(),
         ]);
     }
 
@@ -68,7 +71,7 @@ class AuthController extends Controller
     {
         $user = $request->user();
         if ($user) {
-            AuditService::log('LOGOUT', 'AUTH', $user->id, null, null, "Cierre de sesión", $request);
+            AuditService::log('LOGOUT', 'AUTH', $user->id, null, null, 'Cierre de sesión', $request);
             $user->currentAccessToken()->delete();
         }
 

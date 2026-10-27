@@ -11,7 +11,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('PADRON', 'OPERADOR')"
           @click="openCreateModal"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
@@ -19,7 +19,7 @@
         </button>
 
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
           @click="openNewAsignacionModalDirect"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-700 hover:bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md shadow-indigo-700/20 transition"
         >
@@ -275,7 +275,7 @@
                     </button>
 
                     <button
-                      v-if="authStore.isEditor"
+                      v-if="authStore.puedeModulo('PADRON', 'OPERADOR')"
                       @click="openEditModal(p)"
                       class="p-1.5 text-slate-500 hover:text-primary-700 hover:bg-slate-100 rounded-lg transition"
                       title="Editar datos de la persona"
@@ -284,7 +284,7 @@
                     </button>
 
                     <button
-                      v-if="authStore.isEditor"
+                      v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
                       @click="openAsignarModalParaPersona(p)"
                       class="p-1.5 text-slate-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition"
                       title="Asignar nuevo cargo a esta persona"
@@ -293,7 +293,7 @@
                     </button>
 
                     <button
-                      v-if="authStore.isAdmin"
+                      v-if="authStore.puedeModulo('PADRON', 'OPERADOR')"
                       @click="confirmDeletePersona(p)"
                       class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition"
                       title="Eliminar del padrón"
@@ -576,7 +576,7 @@
                 Trayectoria Institucional y Roles Designados
               </h3>
               <button
-                v-if="authStore.isEditor"
+                v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
                 @click="openAsignarModalParaPersona(selectedPersona)"
                 class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg font-bold text-xs transition"
               >
@@ -624,7 +624,7 @@
                     <span v-if="asig.acto_administrativo" class="font-mono text-slate-600">Acto: {{ asig.acto_administrativo }}</span>
                   </div>
 
-                  <div v-if="authStore.isEditor && asig.estado_vigencia === 'VIGENTE'" class="pt-2 border-t border-slate-200/60 flex justify-end">
+                  <div v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR') && asig.estado_vigencia === 'VIGENTE'" class="pt-2 border-t border-slate-200/60 flex justify-end">
                     <button
                       @click="finalizarVigenciaDesdeFicha(asig)"
                       class="text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline"

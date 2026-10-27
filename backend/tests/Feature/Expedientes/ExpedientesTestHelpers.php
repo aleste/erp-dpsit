@@ -6,9 +6,12 @@ use App\Models\ExpedienteEstado;
 use App\Models\User;
 use Database\Seeders\ExpedientesCatalogoSeeder;
 use Laravel\Sanctum\Sanctum;
+use Tests\Concerns\UsuariosDePrueba;
 
 trait ExpedientesTestHelpers
 {
+    use UsuariosDePrueba;
+
     protected function sembrarCatalogos(): void
     {
         $this->seed(ExpedientesCatalogoSeeder::class);
@@ -19,19 +22,11 @@ trait ExpedientesTestHelpers
      */
     protected function usuario(string $perfil = 'LECTOR', ?string $rolExpedientes = null, string $nombre = ''): User
     {
-        $user = User::create([
-            'name' => $nombre ?: "Usuario {$perfil} {$rolExpedientes}",
-            'email' => uniqid('u').'@test.local',
-            'password' => 'secreto-de-prueba',
-            'perfil_acceso' => $perfil,
-            'activo' => true,
-        ]);
-
-        if ($rolExpedientes) {
-            $user->modulos()->create(['modulo' => 'EXPEDIENTES', 'rol' => $rolExpedientes]);
-        }
-
-        return $user->load('modulos');
+        return $this->crearUsuario(
+            $perfil,
+            $rolExpedientes ? ['EXPEDIENTES' => $rolExpedientes] : [],
+            $nombre ?: "Usuario {$perfil} {$rolExpedientes}",
+        );
     }
 
     protected function actuarComo(User $user): User

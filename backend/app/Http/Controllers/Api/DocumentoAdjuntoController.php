@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DocumentoAdjunto;
+use App\Models\UserModulo;
 use App\Services\AuditService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,14 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentoAdjuntoController extends Controller
 {
+    /** Módulo que gobierna los adjuntos de cada tipo de entidad (D-34) */
+    private const MODULO_POR_TIPO = [
+        'area_ti' => UserModulo::ORGANISMOS,
+        'asignacion_rol' => UserModulo::ORGANISMOS,
+        'servicio_area' => UserModulo::SERVICIOS,
+        'persona' => UserModulo::PADRON,
+    ];
+
     public function upload(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -24,11 +33,15 @@ class DocumentoAdjuntoController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
+        if ($denegado = $this->sinPermiso($request, $validated['documentable_type'], 'OPERADOR')) {
+            return $denegado;
+        }
+
         $file = $request->file('archivo');
         $sha256 = hash_file('sha256', $file->getRealPath());
 
         // Guardar archivo en disco privado
-        $path = $file->store('documents/' . $validated['documentable_type'], 'local');
+        $path = $file->store('documents/'.$validated['documentable_type'], 'local');
 
         $documento = DocumentoAdjunto::create([
             'documentable_type' => $validated['documentable_type'],
@@ -57,11 +70,15 @@ class DocumentoAdjuntoController extends Controller
         ], 201);
     }
 
-    public function download(int $id): BinaryFileResponse|JsonResponse
+    public function download(Request $request, int $id): BinaryFileResponse|JsonResponse
     {
         $documento = DocumentoAdjunto::findOrFail($id);
 
-        if (!Storage::disk('local')->exists($documento->archivo_path)) {
+        if ($denegado = $this->sinPermiso($request, $documento->getRawOriginal('documentable_type'), 'CONSULTA')) {
+            return $denegado;
+        }
+
+        if (! Storage::disk('local')->exists($documento->archivo_path)) {
             return response()->json([
                 'success' => false,
                 'message' => 'El archivo físico no se encuentra en el almacenamiento.',
@@ -80,7 +97,7 @@ class DocumentoAdjuntoController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $documento = DocumentoAdjunto::findOrFail($id);
-        
+
         // Soft delete del registro
         $documento->delete();
 
@@ -90,5 +107,21 @@ class DocumentoAdjuntoController extends Controller
             'success' => true,
             'message' => 'Documento adjunto eliminado correctamente',
         ]);
+    }
+
+    private function sinPermiso(Request $request, string $tipo, string $rolMinimo): ?JsonResponse
+    {
+        $modulo = self::MODULO_POR_TIPO[$tipo] ?? null;
+
+        if ($modulo && $request->user()->puedeEnModulo($modulo, $rolMinimo)) {
+            return null;
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Acceso denegado: su usuario no tiene el rol requerido en este módulo.',
+            'modulo' => $modulo,
+            'rol_requerido' => $rolMinimo,
+        ], 403);
     }
 }

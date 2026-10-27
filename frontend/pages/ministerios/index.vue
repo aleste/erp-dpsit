@@ -11,7 +11,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          v-if="authStore.isEditor"
+          v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
           @click="openModalCreate"
           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-700 hover:bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md shadow-primary-700/20 transition"
         >
@@ -126,7 +126,7 @@
             </span>
 
             <button
-              v-if="authStore.isEditor"
+              v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
               @click="openModalEdit(m)"
               class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-semibold border border-slate-700 transition"
               title="Editar Ministerio"
@@ -166,14 +166,14 @@
                 {{ historialAbierto[m.id] ? 'Ocultar historial' : `Historial (${m.autoridades.length})` }}
               </button>
               <button
-                v-if="authStore.isEditor && m.autoridad_vigente"
+                v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR') && m.autoridad_vigente"
                 @click="openModalAutoridad(m, m.autoridad_vigente)"
                 class="px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold border border-slate-200"
               >
                 ✏️ Editar datos
               </button>
               <button
-                v-if="authStore.isEditor"
+                v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR')"
                 @click="openModalAutoridad(m)"
                 class="px-2.5 py-1 bg-amber-700 hover:bg-amber-600 text-white rounded-lg text-xs font-bold"
               >
@@ -215,7 +215,7 @@
             <span class="italic">Este ministerio no tiene áreas de tecnología asignadas actualmente.</span>
             <!-- Alta con el ministerio ya elegido: abre el formulario en Áreas TI (solo organismos activos) -->
             <NuxtLink
-              v-if="authStore.isEditor && m.activo"
+              v-if="authStore.puedeModulo('ORGANISMOS', 'OPERADOR') && m.activo"
               :to="{ path: '/areas-ti', query: { ministerio_id: m.id, nueva: '1' } }"
               class="w-full sm:w-auto text-center px-3 py-1.5 bg-primary-700 hover:bg-primary-600 text-white rounded-lg text-sm font-bold transition"
             >

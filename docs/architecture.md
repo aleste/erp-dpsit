@@ -20,7 +20,7 @@ flowchart LR
 | :--- | :--- | :--- |
 | SPA | UI, estado de sesión (Pinia + `localStorage`), llamadas a la API | `frontend/` |
 | Nginx | Proxy FastCGI hacia PHP-FPM, `client_max_body_size 50M` | `docker/nginx/default.conf` |
-| Laravel API | Rutas, autenticación por token, autorización por perfil, validación, persistencia, auditoría, exportación | `backend/` |
+| Laravel API | Rutas, autenticación por token, autorización por módulo, validación, persistencia, auditoría, exportación | `backend/` |
 | PostgreSQL | Persistencia relacional (usa `ILIKE` y `jsonb`, por lo tanto **acoplado a PostgreSQL**) | volumen `postgres_data` |
 | Almacenamiento | Archivos adjuntos en disco `local` (`storage/app/documents/<tipo>/`), no públicos | `backend/storage/` |
 
@@ -38,7 +38,7 @@ desde Google Fonts.
 ## Backend (Laravel 11)
 
 - Arranque: `backend/bootstrap/app.php` registra rutas `web`, `api`, `console`, health check `/up`, el
-  alias de middleware `perfil` → `App\Http\Middleware\CheckPerfilAcceso` y `HandleCors` en el grupo `api`.
+  alias de middleware `perfil` → `App\Http\Middleware\CheckPerfilAcceso`, `modulo` → `CheckModuloAcceso` y `HandleCors` en el grupo `api`.
   El manejo de excepciones es el predeterminado (sin personalizar).
 - Capas: **controladores** (`app/Http/Controllers/Api/*`) con validación inline y lógica de negocio;
   **servicios** solo para auditoría y exportación; **modelos** Eloquent con relaciones y *scopes*.
@@ -58,24 +58,29 @@ sequenceDiagram
   participant DB as users / personal_access_tokens
   UI->>API: email + password
   API->>DB: busca usuario, Hash::check, verifica activo
-  API->>DB: createToken('erp-dpsit-token', [perfil])
-  API-->>UI: { token, user }
+  API->>DB: createToken('erp-dpsit-token')
+  API-->>UI: { token, user (con modulos), catalogo_modulos }
   UI->>UI: guarda token y user en localStorage (dpsit_token, dpsit_user)
   UI->>API: siguientes llamadas con Authorization: Bearer
   Note over UI,API: 401 → useApi() ejecuta authStore.logout() y redirige a /login
 ```
 
 - Guard `auth:sanctum` con tokens personales; `expiration: null` (los tokens **no expiran**).
-- Autorización por perfil en `routes/api.php`:
-  - lectura: cualquier usuario autenticado;
-  - alta y modificación: `perfil:ADMINISTRADOR,EDITOR`;
-  - borrado y tipos de rol: `perfil:ADMINISTRADOR`.
-  `CheckPerfilAcceso` deja pasar siempre al ADMINISTRADOR y rechaza a usuarios inactivos.
-- Las *abilities* del token (`[perfil]`) no se consultan en ningún lugar.
-- En el frontend, el control es cosmético (`v-if`). La redirección a `/login` ocurre en
-  `layouts/default.vue` (`onMounted`); no hay middleware de rutas.
-- **Excepción:** `GET /api/documentos/{id}/descargar` y `GET /api/export/download` están fuera de
-  `auth:sanctum` (ver `docs/security.md` SEC-01).
+- Autorización por módulo (D-26, D-34; [propuesta](proposals/permisos-por-modulo.md)) en `routes/api.php`:
+  - `modulo:MODULO[|OTRO],ROL` (`CheckModuloAcceso`): rol mínimo en la escala CONSULTA < OPERADOR < SUPERVISOR
+    en al menos uno de los módulos. Los catálogos de referencia (ministerios, personas, áreas, tipos de rol)
+    se leen desde los módulos que los usan;
+  - `perfil:ADMINISTRADOR` (`CheckPerfilAcceso`): bajas, tipos de rol, catálogos de expedientes y usuarios.
+  Ambos rechazan a usuarios inactivos. El ADMINISTRADOR tiene el rol máximo de cada módulo sin filas en
+  `user_modulos` (`User::rolEnModulo`). Catálogo de módulos y roles: `UserModulo::ROLES` y `NOMBRES`.
+- Los permisos se leen de la base en cada request: quitar un módulo rige desde la solicitud siguiente, sin
+  invalidar tokens (test en `AccesoPorModuloTest`). Desactivar un usuario borra sus tokens.
+- `tests/Feature/Permisos/CoberturaRutasTest` falla si una ruta de la API no tiene `auth:sanctum` y permiso.
+  Excepciones: el login (pública), `/auth/*` y `/dashboard/stats` (solo sesión; el panel filtra por módulo).
+- Frontend (cosmético): `composables/useModulos.ts` asocia prefijos de ruta a módulos; lo usan el menú y
+  `middleware/permisos.global.ts`, que manda a `/login` sin sesión y a `/` sin el módulo, y refresca los
+  permisos como mucho una vez por minuto. `useApi` también los refresca ante un 403. Las descargas usan
+  `useApi().descargar` con el token: desde D-36 no hay rutas públicas salvo el login.
 
 ### Persistencia y transacciones
 
@@ -129,10 +134,10 @@ erDiagram
 | `servicios_areas` | `codigo_instancia` único, `estado_servicio` ∈ SOLICITADO/EN_PROCESO/ACTIVO/SUSPENDIDO/DADO_DE_BAJA | sí |
 | `servicio_referentes` | único (`servicio_area_id`, `persona_id`, `tipo_referente`); tipo ∈ TECNICO_PRINCIPAL/TECNICO_ALTERNO/ADMINISTRATIVO/SEGURIDAD | no |
 | `documentos_adjuntos` | polimórfica (`documentable_type` ∈ morphMap), `sha256`, `archivo_path` privado | sí |
-| `users` | `perfil_acceso` ∈ ADMINISTRADOR/EDITOR/LECTOR, `activo`, `persona_id` opcional | no |
+| `users` | `perfil_acceso` ∈ ADMINISTRADOR/USUARIO (default USUARIO, D-34), `activo`, `persona_id` opcional | no |
 | `dispositivos_firma` | token físico: `tipo_dispositivo`, `marca`, `modelo`, `numero_serie` (único si existe), `estado` ∈ DISPONIBLE/ASIGNADO/DEVUELTO/EXTRAVIADO/DADO_DE_BAJA | sí |
 | `entregas_token` | persona + dispositivo; organismo **opcional**: `ministerio_id` **o** `organismo_externo` (D-20); `cargo_funcion`; `fecha_entrega`, `fecha_fin`; `estado` ∈ ASIGNADA/DEVUELTA/REEMPLAZADA/EXTRAVIADA/REVOCADA. Índice parcial único: un dispositivo con a lo sumo una entrega ASIGNADA | sí |
-| `user_modulos` | rol de un usuario por módulo (único por usuario y módulo). EXPEDIENTES: CONSULTA < OPERADOR < SUPERVISOR (D-26) | no |
+| `user_modulos` | rol de un usuario por módulo (único por usuario y módulo); módulos y roles en `UserModulo::ROLES` (D-26, D-34). El ADMINISTRADOR no tiene filas | no |
 | `expedientes` | `numero` normalizado (único), `numero_busqueda` (solo letras y dígitos), `formato` GDE/OTRO, `anio`, `reparticion`, `ministerio_id` (organismo, D-28), `caratula` | sí |
 | `expediente_intervenciones` | un pase por el área: `numero_intervencion`, `fecha_ingreso`, `fecha_egreso` (puede faltar en datos importados), **`en_area`** (lo mantiene el servicio), estado, requerimiento, responsable, revisor, fechas de revisión y firma, destino, `documento_respuesta` (GEDO), prioridad, próxima acción, vencimiento opcional, `origen` SISTEMA/PLANILLA. Índice parcial único: una intervención abierta por expediente | sí |
 | `expediente_intervencion_colaboradores` | intervención ↔ usuario | no |

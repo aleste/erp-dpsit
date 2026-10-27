@@ -9,7 +9,7 @@
         </p>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div v-if="puede('EXPORTADOR')" class="flex items-center gap-3">
         <NuxtLink
           to="/exportador"
           class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-sm font-semibold shadow-md shadow-emerald-700/20 transition"
@@ -22,10 +22,29 @@
       </div>
     </div>
 
+    <!-- Accesos a los módulos habilitados (D-34) -->
+    <div v-if="misModulos.length" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+      <h2 class="text-base font-bold text-slate-900 mb-3">Sus módulos</h2>
+      <div class="flex flex-wrap gap-2">
+        <NuxtLink
+          v-for="m in misModulos"
+          :key="m.clave"
+          :to="m.ruta"
+          class="inline-flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-primary-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:text-primary-700 transition"
+        >
+          {{ m.nombre }}
+          <span class="text-xs font-bold uppercase text-slate-500">{{ m.rol }}</span>
+        </NuxtLink>
+      </div>
+    </div>
+    <div v-else class="p-6 bg-white rounded-2xl border border-slate-200 text-sm text-slate-600">
+      Su usuario no tiene módulos asignados. Consulte al administrador del sistema.
+    </div>
+
     <!-- Indicadores Clave (KPIs) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div v-if="puede('ORGANISMOS') || puede('SERVICIOS')" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <!-- Ministerios -->
-      <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+      <div v-if="puede('ORGANISMOS')" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Ministerios</p>
           <h3 class="text-2xl font-extrabold text-slate-800 mt-1">{{ stats.totales?.ministerios ?? '...' }}</h3>
@@ -37,7 +56,7 @@
       </div>
 
       <!-- Áreas Homologadas -->
-      <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+      <div v-if="puede('ORGANISMOS')" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Áreas TI Homologadas</p>
           <h3 class="text-2xl font-extrabold text-primary-700 mt-1">
@@ -51,13 +70,13 @@
       </div>
 
       <!-- Personas y Autoridades -->
-      <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+      <div v-if="puede('ORGANISMOS')" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Máximas Autoridades TI</p>
           <h3 class="text-2xl font-extrabold text-slate-800 mt-1">
             {{ stats.totales?.maximas_autoridades ?? '...' }}
           </h3>
-          <p class="text-xs text-slate-500 mt-0.5">{{ stats.totales?.personas ?? '...' }} personas en padrón</p>
+          <p v-if="puede('PADRON')" class="text-xs text-slate-500 mt-0.5">{{ stats.totales?.personas ?? '...' }} personas en padrón</p>
         </div>
         <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-lg">
           👤
@@ -65,7 +84,7 @@
       </div>
 
       <!-- Servicios Activos -->
-      <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+      <div v-if="puede('SERVICIOS')" class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Servicios Aprovisionados</p>
           <h3 class="text-2xl font-extrabold text-emerald-700 mt-1">
@@ -80,9 +99,9 @@
     </div>
 
     <!-- Sección de Catálogo de Servicios y Asignaciones Recientes -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div v-if="puede('ORGANISMOS') || puede('SERVICIOS')" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Provisión por Tipo de Servicio -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm lg:col-span-1">
+      <div v-if="puede('SERVICIOS')" class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm lg:col-span-1">
         <h2 class="text-base font-bold text-slate-900 mb-4">Catálogo de Servicios Gobernados</h2>
         <div class="space-y-4">
           <div
@@ -105,7 +124,7 @@
       </div>
 
       <!-- Últimas Designaciones y Asignaciones -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm lg:col-span-2">
+      <div v-if="puede('ORGANISMOS')" class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm" :class="puede('SERVICIOS') ? 'lg:col-span-2' : 'lg:col-span-3'">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-base font-bold text-slate-900">Últimas Asignaciones de Roles</h2>
           <NuxtLink to="/roles" class="text-sm font-semibold text-primary-700 hover:text-primary-800">Ver todas →</NuxtLink>
@@ -156,12 +175,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useApi } from '~/composables/useApi'
 import { useAgency } from '~/composables/useAgency'
+import { useModulos } from '~/composables/useModulos'
+import { useAuthStore } from '~/stores/auth'
 
 const { get } = useApi()
 const agency = useAgency()
+const authStore = useAuthStore()
+const { rutaDeModulo } = useModulos()
+const puede = (modulo) => authStore.puedeModulo(modulo, 'CONSULTA')
+
+const misModulos = computed(() => authStore.catalogo
+  .filter(m => puede(m.clave) && rutaDeModulo(m.clave))
+  .map(m => ({ ...m, rol: authStore.rolModulo(m.clave), ruta: rutaDeModulo(m.clave) })))
 const stats = ref({
   totales: null,
   servicios_por_tipo: [],

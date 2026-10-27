@@ -202,10 +202,9 @@ import { useAuthStore } from '~/stores/auth'
 import { useAgency } from '~/composables/useAgency'
 import { useToast } from '~/composables/useToast'
 
-const { get, post } = useApi()
+const { get, post, descargar } = useApi()
 const authStore = useAuthStore()
 const agency = useAgency()
-const config = useRuntimeConfig()
 const { toast } = useToast()
 
 const tiposRol = ref([])
@@ -261,7 +260,7 @@ const copyToClipboard = () => {
   }
 }
 
-const downloadCsv = () => {
+const downloadCsv = async () => {
   if (!previewData.value.total_registros || previewData.value.total_registros === 0) {
     toast.warning('No hay registros para exportar con los filtros seleccionados.', { title: 'Exportación Vacía' })
     return
@@ -269,14 +268,19 @@ const downloadCsv = () => {
 
   toast.info('Generando y descargando archivo CSV...', { title: 'Exportación Iniciada' })
 
-  const queryParams = new URLSearchParams()
-  if (filters.tipo_rol_ids.length > 0) queryParams.append('tipo_rol_ids', filters.tipo_rol_ids.join(','))
-  if (filters.ministerio_ids.length > 0) queryParams.append('ministerio_ids', filters.ministerio_ids.join(','))
-  if (filters.solo_maximas_autoridades) queryParams.append('solo_maximas_autoridades', '1')
-  if (filters.solo_vigentes) queryParams.append('solo_vigentes', '1')
-  if (filters.solo_homologadas) queryParams.append('solo_homologadas', '1')
+  const params = {
+    tipo_rol_ids: filters.tipo_rol_ids.join(','),
+    ministerio_ids: filters.ministerio_ids.join(','),
+    solo_maximas_autoridades: filters.solo_maximas_autoridades ? '1' : '',
+    solo_vigentes: filters.solo_vigentes ? '1' : '',
+    solo_homologadas: filters.solo_homologadas ? '1' : '',
+  }
 
-  window.open(`${config.public.apiBase}/export/download?${queryParams.toString()}`, '_blank')
+  try {
+    await descargar('/export/download', `contactos_autoridades_${new Date().toISOString().slice(0, 10)}.csv`, params)
+  } catch (err) {
+    toast.error(err, { title: 'Error al exportar' })
+  }
 }
 
 onMounted(async () => {

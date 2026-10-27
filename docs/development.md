@@ -159,8 +159,10 @@ wslc exec erp_backend php artisan test
 | Dependencias PHP | `wslc exec erp_backend composer audit` | avisos en 4 paquetes (ver `docs/security.md`) |
 | Dependencias JS | `wslc exec erp_frontend npm audit --omit=dev` | 25 avisos (3 críticos, 20 altos) |
 
-Prueba funcional manual: ingresar con los usuarios demo de cada perfil (ver `UserSeeder`) y recorrer el
-módulo modificado. Indicar siempre en el reporte qué perfil y qué flujo se probaron.
+Prueba funcional manual: ingresar con los usuarios demo (ver `UserSeeder`: administrador y combinaciones de
+módulos) y recorrer el módulo modificado, también con un usuario **sin** ese módulo. Indicar siempre en el
+reporte qué usuario y qué flujo se probaron. Para restablecer los usuarios demo:
+`wslc exec erp_backend php artisan db:seed --class=UserSeeder` (solo toca esos 7 emails).
 
 `nuxi typecheck` no está disponible: requiere `vue-tsc`, que no está instalado.
 

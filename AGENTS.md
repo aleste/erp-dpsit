@@ -10,9 +10,9 @@ ERP de gobernanza TI para una Dirección Provincial rectora de tecnología: mini
 homologadas, padrón de personas con roles y vigencias, catálogo de servicios tecnológicos asignados a
 áreas (con referentes y documentación adjunta), exportador de contactos, entrega de tokens de firma
 digital con recordatorios de vencimiento por email y seguimiento de expedientes administrativos de un
-área interna. Perfiles: ADMINISTRADOR, EDITOR, LECTOR. Etapa:
-desarrollo local, **sin producción**; hay tests automatizados **solo** para firma digital, expedientes y
-usuarios.
+área interna. Acceso por módulo (D-34): ADMINISTRADOR (todo) o USUARIO con un rol por módulo. Etapa:
+desarrollo local, **sin producción**; hay tests automatizados **solo** para firma digital, expedientes,
+usuarios y permisos por módulo.
 
 ## Mapa del repositorio
 
@@ -62,7 +62,8 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
 - Entorno Linux: `docker compose exec backend php artisan <cmd>` (ver advertencias en `docs/development.md`).
 - Frontend: http://localhost:3000 · API: http://localhost:8000/api.
 - Tests: `wslc exec erp_backend php artisan test` (corren contra `erp_dpsit_test`, nunca contra la base de
-  desarrollo). Solo cubren firma digital; el resto del sistema no tiene tests: no afirmes que algo está
+  desarrollo). Cubren firma digital, expedientes, usuarios y el acceso por módulo de todas las rutas; la
+  lógica del resto del sistema no tiene tests: no afirmes que algo está
   "probado" si solo compiló. Validación mínima tras un cambio: skill `validar-cambios`.
 
 ## Convenciones
@@ -70,11 +71,13 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
 - Idioma del dominio, código, mensajes y UI: **español** (tablas, modelos, campos y textos). Mantenelo.
 - Backend: respuestas JSON `{ success, message?, data, stats? }`; errores de negocio con 422 y `message`.
   Toda escritura registra `AuditService::log(ACCION, MODULO, id, anterior, nuevo)`.
-- Bajas: modelos con `SoftDeletes`; el borrado está reservado a ADMINISTRADOR y verifica dependencias.
-- Permisos: se aplican en `routes/api.php`: el middleware `perfil:` controla el perfil global y `modulo:`
-  (p. ej. `modulo:EXPEDIENTES,OPERADOR`) controla el rol por módulo (D-26). Un módulo de un área interna
-  usa `modulo:`, no `perfil:`. En el frontend, los `v-if` con `authStore.isEditor/isAdmin/puedeModulo`
-  son solo cosméticos.
+- Bajas: modelos con `SoftDeletes`; el borrado está reservado a ADMINISTRADOR y verifica dependencias
+  (excepción D-35: un operador de PADRON o FIRMA_DIGITAL borra personas sin ningún vínculo).
+- Permisos (D-26, D-34): toda ruta usa en `routes/api.php` `modulo:MODULO[|OTRO],ROL` (escala CONSULTA <
+  OPERADOR < SUPERVISOR) o `perfil:ADMINISTRADOR`; `tests/Feature/Permisos/CoberturaRutasTest` falla si una
+  ruta queda sin permiso. Módulo nuevo: `UserModulo::ROLES`/`NOMBRES`, sus rutas con `modulo:` y su prefijo en
+  `frontend/composables/useModulos.ts`. En el frontend, `puedeModulo`/`isAdmin` y el middleware de rutas son
+  solo cosméticos.
 - Correo: siempre vía `Mail` de Laravel; en desarrollo `MAIL_HOST=mailpit` (nunca un SMTP real).
 - Frontend: llamadas HTTP solo vía `useApi()`; notificaciones solo con `useToast()` (`toast.*`,
   `confirmDialog`). **Prohibido** `alert()`/`confirm()` nativos. Para elegir personas usar
@@ -103,10 +106,9 @@ Si la documentación contradice al código, **el código es la verdad**: correg�
 ## Seguridad obligatoria
 
 - No copiar valores de `.env`, contraseñas, `APP_KEY` ni tokens en documentos, commits ni prompts.
-- Todo endpoint nuevo va dentro de `auth:sanctum` y con el `perfil:` correcto. Hay dos rutas públicas
-  heredadas que son un defecto conocido (ver `docs/security.md` SEC-01); no agregues más. Por decisión
-  del responsable (`docs/decisions.md` D-17) **no se corrigen por ahora**: no modifiques backend ni
-  frontend para resolverlas sin una nueva autorización.
+- Todo endpoint nuevo va dentro de `auth:sanctum` y con el `modulo:` o `perfil:` correcto. La única ruta
+  pública es el login (SEC-01 resuelto el 2026-10-27, D-36): no agregues rutas públicas; las descargas se
+  hacen con `useApi().descargar` (token en la cabecera).
 - Validar toda entrada en el controlador; no concatenar SQL con datos del usuario.
 - Datos personales (CUIL, emails, teléfonos, nombres en carátulas de expedientes): no volcarlos en logs
   ni en ejemplos de documentación. Los archivos de importación con datos reales van en

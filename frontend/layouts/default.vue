@@ -63,13 +63,15 @@
           </div>
 
           <!-- SECCIÓN: Estructura y Personas -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
-            Estructura y Personas
-          </div>
-          <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          <template v-if="ver('/ministerios') || ver('/areas-ti') || ver('/personas') || ver('/roles')">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+              Estructura y Personas
+            </div>
+            <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          </template>
 
           <!-- 2. Ministerios -->
-          <div class="relative group/item">
+          <div v-if="ver('/ministerios')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Ministerios' : undefined"
               to="/ministerios"
@@ -87,7 +89,7 @@
           </div>
 
           <!-- 3. Áreas TI -->
-          <div class="relative group/item">
+          <div v-if="ver('/areas-ti')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Áreas TI' : undefined"
               to="/areas-ti"
@@ -105,7 +107,7 @@
           </div>
 
           <!-- 4. Directorio de Personas -->
-          <div class="relative group/item">
+          <div v-if="ver('/personas')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Directorio de Personas' : undefined"
               to="/personas"
@@ -123,7 +125,7 @@
           </div>
 
           <!-- 5. Búsqueda por Roles -->
-          <div class="relative group/item">
+          <div v-if="ver('/roles')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Búsqueda por Roles' : undefined"
               to="/roles"
@@ -141,13 +143,15 @@
           </div>
 
           <!-- SECCIÓN: Servicios y Documentos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
-            Servicios y Documentos
-          </div>
-          <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          <template v-if="ver('/servicios') || ver('/firma-digital')">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+              Servicios y Documentos
+            </div>
+            <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          </template>
 
           <!-- 6. Servicios Tecnológicos -->
-          <div class="relative group/item">
+          <div v-if="ver('/servicios')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Servicios Tecnológicos' : undefined"
               to="/servicios"
@@ -165,7 +169,7 @@
           </div>
 
           <!-- 6b. Firma Digital (Tokens) -->
-          <div class="relative group/item">
+          <div v-if="ver('/firma-digital')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Firma Digital (Tokens)' : undefined"
               to="/firma-digital"
@@ -183,7 +187,7 @@
           </div>
 
           <!-- SECCIÓN: Gestión Administrativa (permiso por módulo) -->
-          <template v-if="authStore.puedeModulo('EXPEDIENTES', 'CONSULTA')">
+          <template v-if="ver('/expedientes')">
             <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
               Gestión Administrativa
             </div>
@@ -208,13 +212,15 @@
           </template>
 
           <!-- SECCIÓN: Comunicaciones y Datos -->
-          <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
-            Comunicaciones y Datos
-          </div>
-          <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          <template v-if="ver('/exportador')">
+            <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+              Comunicaciones y Datos
+            </div>
+            <div v-show="isCollapsed" class="my-2 border-t border-slate-800/80"></div>
+          </template>
 
           <!-- 7. Exportador de Contactos -->
-          <div class="relative group/item">
+          <div v-if="ver('/exportador')" class="relative group/item">
             <NuxtLink
               :aria-label="isCollapsed ? 'Exportador de Contactos' : undefined"
               to="/exportador"
@@ -232,7 +238,7 @@
           </div>
 
           <!-- SECCIÓN: Administración (solo ADMINISTRADOR) -->
-          <template v-if="authStore.isAdmin">
+          <template v-if="ver('/usuarios')">
             <div v-show="!isCollapsed" class="pt-4 pb-1 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">
               Administración
             </div>
@@ -274,12 +280,11 @@
               <span 
                 class="inline-block px-1.5 py-0.5 rounded text-xs font-bold tracking-wide uppercase mt-0.5"
                 :class="{
-                  'bg-rose-950 text-rose-300 border border-rose-800': authStore.user?.perfil_acceso === 'ADMINISTRADOR',
-                  'bg-amber-950 text-amber-300 border border-amber-800': authStore.user?.perfil_acceso === 'EDITOR',
-                  'bg-slate-800 text-slate-300 border border-slate-700': authStore.user?.perfil_acceso === 'LECTOR'
+                  'bg-rose-950 text-rose-300 border border-rose-800': authStore.isAdmin,
+                  'bg-slate-800 text-slate-300 border border-slate-700': !authStore.isAdmin
                 }"
               >
-                {{ authStore.user?.perfil_acceso || 'LECTOR' }}
+                {{ authStore.userProfileLabel }}
               </span>
             </div>
           </div>
@@ -315,7 +320,7 @@
             class="absolute left-full bottom-0 ml-3 px-3 py-2 bg-slate-950 text-white text-sm rounded-xl shadow-xl border border-slate-700 whitespace-nowrap opacity-0 group-hover/user:opacity-100 group-focus-within/user:opacity-100 pointer-events-none transition-all duration-150 z-50"
           >
             <p class="font-bold">{{ authStore.user?.name || 'Usuario' }}</p>
-            <p class="text-xs text-slate-400 uppercase tracking-wider">{{ authStore.user?.perfil_acceso || 'LECTOR' }}</p>
+            <p class="text-xs text-slate-400 uppercase tracking-wider">{{ authStore.userProfileLabel }}</p>
           </div>
         </div>
       </div>
@@ -384,10 +389,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 import { useAgency } from '~/composables/useAgency'
+import { useModulos } from '~/composables/useModulos'
 
 const route = useRoute()
 const authStore = useAuthStore()
 const agency = useAgency()
+const { puedeVerRuta: ver } = useModulos()
 
 const isCollapsed = ref(false)
 

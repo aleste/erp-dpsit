@@ -20,7 +20,8 @@ de las conversaciones locales de esa herramienta; **no** estaba en el repositori
 6. **Exportación** de contactos/correos filtrados (p. ej. máximas autoridades o referentes de seguridad)
    para campañas de notificación.
 7. **Perfiles**: Administrador (control total, usuarios y tablas de referencia), Editor (ABM de áreas,
-   servicios, personas, roles y documentos), Lector (solo lectura y consultas).
+   servicios, personas, roles y documentos), Lector (solo lectura y consultas). **Reemplazado por D-34**
+   (2026-10-27): Administrador o Usuario con un rol por módulo.
 8. Stack: PostgreSQL, Laravel (API REST, migraciones, seeds, Eloquent), Nuxt/Vue 3 `<script setup>`,
    entorno dockerizado sobre **WSLC** en Windows; luego también Linux (Ubuntu).
 
@@ -73,10 +74,10 @@ Por eso ningún módulo alcanza «IV».
 | Tipos de rol (tabla de referencia) | `TipoRolController` | PARCIAL | API completa (solo Admin); **sin pantalla de ABM**; los datos vienen del seeder | ¿se requiere UI? |
 | Catálogo de servicios | `CatalogoServicioController`, `pages/servicios/index.vue` (pestaña catálogo) | INV | código | la parametrización JSON se eliminó a pedido (D-05) |
 | Servicios por área y referentes | `ServicioAreaController`, `pages/servicios/index.vue`, `pages/areas-ti/[id].vue` | INV | código | — |
-| Documentos adjuntos | `DocumentoAdjuntoController`, `pages/areas-ti/[id].vue` | PARCIAL | subida/descarga solo desde el expediente de **área TI**; la API admite persona, servicio y asignación sin UI; borrado sin UI | descarga pública (SEC-01) |
-| Exportador de contactos | `ExportController`, `ExportService`, `pages/exportador/index.vue` | PARCIAL | código: exporta solo personas con asignación de rol; **no** incluye referentes de servicios (requisito 6) | descarga CSV pública (SEC-01); CSV distinto de la vista previa (DEF-15, DEF-16) |
+| Documentos adjuntos | `DocumentoAdjuntoController`, `pages/areas-ti/[id].vue` | PARCIAL | subida/descarga solo desde el expediente de **área TI**; la API admite persona, servicio y asignación sin UI; borrado sin UI | — (SEC-01 resuelto: descarga con token y permiso del módulo, D-36) |
+| Exportador de contactos | `ExportController`, `ExportService`, `pages/exportador/index.vue` | PARCIAL | código: exporta solo personas con asignación de rol; **no** incluye referentes de servicios (requisito 6) | CSV distinto de la vista previa (DEF-15, DEF-16) |
 | Auditoría | `AuditService`, tabla `audit_logs` | PARCIAL | se registra; **no hay consulta ni UI** | — |
-| Gestión de usuarios y permisos por módulo | `UsuarioController`, `pages/usuarios/index.vue`, `CheckModuloAcceso` | **IV** (API) / INV (UI) | 4 tests de API + 6 de permisos; pantalla no recorrida en el navegador | sin recuperación de contraseña |
+| Gestión de usuarios y permisos por módulo (D-34) | `UsuarioController`, `pages/usuarios/index.vue`, `CheckModuloAcceso`, `middleware/permisos.global.ts` | **IV** | 4 + 6 tests previos y 23 de `tests/Feature/Permisos` (matriz de acceso, cobertura de rutas, último administrador, auditoría, migración); recorrido en el navegador con firma-solo y administrador el 2026-10-27 | sin recuperación de contraseña; sin pantalla de bitácora |
 | **Seguimiento de expedientes** | `ExpedienteController`, `ExpedienteIntervencionController`, `ExpedienteService`, `pages/expedientes/*`, `components/expedientes/` | **IV** (API) / INV (UI) | 12 tests del circuito (ingreso, reingreso, estados, asignación, egreso, reapertura, corrección, filtros, tablero, exportación, baja); tablero y ficha vistos en el navegador; acciones de la ficha no recorridas en la UI | sin avisos por correo (D-31); preguntas P5–P13 de la propuesta |
 | Importación de la planilla de expedientes | `ImportarExpedientesPlanilla` | **IV** (con datos de prueba) | 4 tests; simulación con la hoja 2026 real: 1.079 intervenciones, 97 abiertas, 221 → 173 destinos | **importación real pendiente**: requiere usuarios del área y archivo de equivalencias |
 | Recuperación/cambio de contraseña | tabla `password_reset_tokens` | PLAN | sin rutas | — |
@@ -97,7 +98,7 @@ Por eso ningún módulo alcanza «IV».
   ejecutar sobre una base con datos con `db:seed --class=MinisterioSeeder`), 6 áreas TI demo, 8 tipos de
   rol y 8 personas demo;
 - 8 asignaciones, 4 servicios de catálogo y 3 instancias con referentes;
-- 3 usuarios demo (uno por perfil);
+- 7 usuarios demo con combinaciones de módulos (D-34, `UserSeeder`): administrador, editor y lector equivalentes, solo firma, firma + expedientes, solo organismos y sin módulos;
 - `FirmaDigitalSeeder`: 1 persona externa sin email, 5 dispositivos y 5 entregas en todos los estados
   (vigente, próximo a vencer, vencido, reemplazada). Las fechas son relativas al día de ejecución y el
   seeder no duplica datos si ya existen entregas.
